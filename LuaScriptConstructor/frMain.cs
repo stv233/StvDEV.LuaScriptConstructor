@@ -14,7 +14,7 @@ namespace LuaScriptConstructor
     {
         public frMain()
         {
-            InitializeComponent();
+           
         }
     }
 }
