@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultComponents\FunctionComponents.cs" />
     <Compile Include="Forms\ConstructorDiagram.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -66,6 +67,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shapes\ConstructorConnector.cs" />
     <Compile Include="Shapes\ConstructorTable.cs" />
+    <Compile Include="Types\Constant.cs" />
+    <Compile Include="Types\DefaultFunction.cs" />
+    <Compile Include="Types\Function.cs" />
+    <Compile Include="Types\Variable.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

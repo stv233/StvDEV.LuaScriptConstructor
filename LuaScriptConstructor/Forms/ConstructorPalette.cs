@@ -32,8 +32,8 @@ namespace LuaScriptConstructor.Forms
                 }
                 set
                 {
-                    CurrentTabChanged(this, new TabEventArgs(value));
                     base.CurrentTab = value;
+                    CurrentTabChanged(this, new TabEventArgs(value));
                 }
             }
 
@@ -179,7 +179,10 @@ namespace LuaScriptConstructor.Forms
             newTable.StencilItem = stencil;
             stencil.CopyTo(newTable);
 
-            newTable.Label = new Crainiate.Diagramming.Label(table.Label.Text);
+            if (table.Label != null)
+            {
+                newTable.Label = new Crainiate.Diagramming.Label(table.Label.Text);
+            }
             //Add and return the new shape
             Controller.Model.Shapes.Add(key, newTable);
             return newTable;
@@ -218,7 +221,10 @@ namespace LuaScriptConstructor.Forms
             stencil.CopyTo(newTable);
 
             //Add and return the new shape
-            newTable.Label = new Crainiate.Diagramming.Label(table.Label.Text);
+            if (table.Label != null)
+            {
+                newTable.Label = new Crainiate.Diagramming.Label(table.Label.Text);
+            }
             Controller.Model.Shapes.Add(key, newTable);
             return newTable;
         }

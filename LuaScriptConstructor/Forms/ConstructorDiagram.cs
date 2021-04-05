@@ -19,7 +19,9 @@ namespace LuaScriptConstructor.Forms
 
         private Mouse mouse;
 
-        public Dictionary<string, Crainiate.Diagramming.Connector> Connectors { get; set; }
+        public Dictionary<string, Shapes.ConstructorConnector> Connectors { get; protected set; }
+
+        public Dictionary<string, Shapes.ConstructorTable> Tables { get; protected set; }
 
         public ConstructorDiagram() : base()
         {
@@ -27,7 +29,8 @@ namespace LuaScriptConstructor.Forms
 
             #region /// Properties
 
-            Connectors = new Dictionary<string, Crainiate.Diagramming.Connector>();
+            Connectors = new Dictionary<string, Shapes.ConstructorConnector>();
+            Tables = new Dictionary<string, Shapes.ConstructorTable>();
 
             #endregion
 
@@ -83,21 +86,24 @@ namespace LuaScriptConstructor.Forms
                         foreach (var element in this.Model.SelectedElements().Values)
                         {
 
-                            if (element is Crainiate.Diagramming.Line)
+                            if (element is Shapes.ConstructorConnector)
                             {
                                 try
                                 {
-
-                                    if (element is Crainiate.Diagramming.Connector)
-                                    {
-                                        Connectors.Remove(element.Key);
-                                    }
-
+                                    Connectors.Remove(element.Key);
                                     this.Model.Lines.Remove(element.Key);
                                 }
                                 catch { }
                             }
-                            
+                            else if (element is Shapes.ConstructorTable)
+                            {
+                                try
+                                {
+                                    Tables.Remove(element.Key);
+                                    this.Model.Shapes.Remove(element.Key);
+                                }
+                                catch { }
+                            }
                             
                         }
                         this.Refresh();
@@ -107,6 +113,25 @@ namespace LuaScriptConstructor.Forms
 
 
             #endregion
+        }
+
+        //protected override void OnDragDrop(DragEventArgs drgevent)
+        //{
+
+        //    if (DragElement is Shapes.ConstructorTable)
+        //    {
+        //        Tables.Add(DragElement.Key, ((Shapes.ConstructorTable)DragElement));
+        //    }
+        //    base.OnDragDrop(drgevent);
+        //}
+
+        protected override void OnElementInserted(Crainiate.Diagramming.Element element)
+        {
+            if (element is Shapes.ConstructorTable)
+            {
+                Tables.Add(element.Key, (Shapes.ConstructorTable)element);
+            }
+            base.OnElementInserted(element);
         }
     }
 }

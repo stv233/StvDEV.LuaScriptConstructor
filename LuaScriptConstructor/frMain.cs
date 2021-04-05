@@ -48,6 +48,24 @@ namespace LuaScriptConstructor
             cplMain.Tabs = new ConstructorPalette.ConstructorPaleteTabs(cplMain.Model);
             cplMain.Model.Layers = cplMain.Tabs;
             cplMain.Tabs[0].Name = "Basic";
+            cplMain.Tabs.Add(new Crainiate.Diagramming.Forms.Tab());
+            cplMain.Tabs[1].Name = "Function components";
+
+            ((ConstructorPalette.ConstructorPaleteTabs)(cplMain.Tabs)).CurrentTabChanged += (s, e) =>
+            {
+                cplMain.Clear();
+
+                if (cplMain.Tabs.CurrentTab.Name == "Function components")
+                {
+                    
+                    foreach (Types.Variable variable in DefaultComponents.FunctionComponents.Variables)
+                    {
+                        cplMain.AddTable(variable.Table);
+                    }
+                }
+            };
+
+            //cplMain.AddTable(new Shapes.ConstructorTable());
 
             #endregion
 
