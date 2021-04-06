@@ -7,7 +7,7 @@ using Crainiate.Diagramming.Forms;
 namespace LuaScriptConstructor.Forms
 {
     /// <summary>
-    /// Constructor diagram
+    /// Constructor diagram.
     /// </summary>
     class ConstructorDiagram : Diagram
     {
@@ -19,10 +19,67 @@ namespace LuaScriptConstructor.Forms
 
         private Mouse mouse;
 
+        /// <summary>
+        /// Types of constructor diagrams.
+        /// </summary>
+        public enum ConstructorDiagramTypes
+        {
+            Regular,
+            Main
+        }
+
+        /// <summary>
+        /// Occurs when the type is changed.
+        /// </summary>
+        public EventHandler DiagramTypeChanged;
+
+        private ConstructorDiagramTypes type = ConstructorDiagramTypes.Regular;
+
+        /// <summary>
+        /// Diagram type.
+        /// </summary>
+        public ConstructorDiagramTypes Type
+        {
+            get
+            {
+                return type;
+            }
+            set
+            {
+                if (value != type)
+                {
+                    this.Clear();
+                    Connectors.Clear();
+                    Tables.Clear();
+                    type = value;
+
+                    if (type == ConstructorDiagramTypes.Main)
+                    {
+                        var mainTable = new Shapes.ConstructorTable(Components.ScriptСomponents.Functions[0].Table);
+                        Model.Shapes.Add(mainTable);
+                        Tables[mainTable.Key].Location = new PointF(this.Width / 2 + 100, 10);
+
+                        var initTable = new Shapes.ConstructorTable(Components.ScriptСomponents.Functions[1].Table);
+                        Model.Shapes.Add(initTable);
+                        Tables[initTable.Key].Location = new PointF(this.Width / 4, 10);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns a list of connectors in the diagram.
+        /// </summary>
         public Dictionary<string, Shapes.ConstructorConnector> Connectors { get; protected set; }
 
+        /// <summary>
+        /// Returns a list of tables in the diaram.
+        /// </summary>
         public Dictionary<string, Shapes.ConstructorTable> Tables { get; protected set; }
 
+        /// <summary>
+        /// Constructor diagram.
+        /// </summary>
         public ConstructorDiagram() : base()
         {
             #region /// Initialization
@@ -115,15 +172,14 @@ namespace LuaScriptConstructor.Forms
             #endregion
         }
 
-        //protected override void OnDragDrop(DragEventArgs drgevent)
-        //{
-
-        //    if (DragElement is Shapes.ConstructorTable)
-        //    {
-        //        Tables.Add(DragElement.Key, ((Shapes.ConstructorTable)DragElement));
-        //    }
-        //    base.OnDragDrop(drgevent);
-        //}
+        /// <summary>
+        /// Constructor diagram.
+        /// </summary>
+        /// <param name="type">Diagram type</param>
+        public ConstructorDiagram(ConstructorDiagramTypes type) : this()
+        {
+            Type = type;
+        }
 
         protected override void OnElementInserted(Crainiate.Diagramming.Element element)
         {

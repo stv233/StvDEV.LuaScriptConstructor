@@ -13,6 +13,21 @@ namespace LuaScriptConstructor.Types
     class ProgrammaticallyDefinedFunction : Function
     {
         /// <summary>
+        /// Funtion type.
+        /// </summary>
+        new public FuntionTypes Type
+        {
+            get
+            {
+                return base.Type;
+            }
+            set
+            {
+                base.Type = value;
+            }
+        }
+
+        /// <summary>
         /// Funtion table.
         /// </summary>
         new public ConstructorTable Table

@@ -10,8 +10,8 @@ namespace LuaScriptConstructor.Forms
     class DiagramTabPage : TabPage
     {
        
-
         private ConstructorDiagram diagram;
+
         public ConstructorDiagram Diagram
         {
             get
@@ -23,7 +23,6 @@ namespace LuaScriptConstructor.Forms
                 diagram = value;
             }
         }
-
 
         public DiagramTabPage() : this("") { }
 

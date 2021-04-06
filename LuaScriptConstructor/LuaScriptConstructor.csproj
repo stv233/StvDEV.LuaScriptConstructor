@@ -49,7 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultComponents\FunctionComponents.cs" />
+    <Compile Include="Components\FunctionComponents.cs" />
+    <Compile Include="Components\ScriptСomponents.cs" />
     <Compile Include="Forms\ConstructorDiagram.cs">
       <SubType>UserControl</SubType>
     </Compile>

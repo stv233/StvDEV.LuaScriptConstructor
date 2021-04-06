@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace LuaScriptConstructor.Types
 {
+    /// <summary>
+    /// Lua variable.
+    /// </summary>
     class Variable : Constant
     {
         /// <summary>
@@ -47,33 +50,40 @@ namespace LuaScriptConstructor.Types
         {
             get 
             {
-                var table = new ConstructorTable();
+                var table = new ConstructorTable
+                {
+                    Heading = Name,
+                    SubHeading = "",
+                    Label = new Crainiate.Diagramming.Label(Name),
+                    Type = ConstructorTable.ConstructionTableTypes.Variable,
+                    Variable = this
+                };
                 table.SetKey(Prefix + "_" + Name + DateTime.Now.GetHashCode());
-                table.Heading = Name;
-                table.SubHeading = "";
-                table.Label = new Crainiate.Diagramming.Label(Name);
-                table.Type = ConstructorTable.ConstructionTableTypes.Variable;
-                table.Variable = this;
 
                 if ((AccessType == VariableAccessTypes.Input) || (AccessType == VariableAccessTypes.InputOutput))
                 {
-                    var input = new Crainiate.Diagramming.Port();
+                    var input = new Crainiate.Diagramming.Port
+                    {
+                        Direction = Crainiate.Diagramming.Direction.In,
+                        Orientation = Crainiate.Diagramming.PortOrientation.Left,
+                        Style = Crainiate.Diagramming.PortStyle.Input,
+                        AllowMove = false
+                    };
                     input.SetKey("input_" + Prefix + "_" + Name + DateTime.Now.GetHashCode());
-                    input.Direction = Crainiate.Diagramming.Direction.In;
-                    input.Orientation = Crainiate.Diagramming.PortOrientation.Left;
-                    input.Style = Crainiate.Diagramming.PortStyle.Input;
-                    input.AllowMove = false;
                     table.Ports.Add(input);
+                    
                 }
 
                 if ((AccessType == VariableAccessTypes.Output) || (AccessType == VariableAccessTypes.InputOutput))
                 {
-                    var output = new Crainiate.Diagramming.Port();
+                    var output = new Crainiate.Diagramming.Port
+                    {
+                        Direction = Crainiate.Diagramming.Direction.Out,
+                        Orientation = Crainiate.Diagramming.PortOrientation.Right,
+                        Style = Crainiate.Diagramming.PortStyle.Output,
+                        AllowMove = false
+                    };
                     output.SetKey("output_" + Prefix + "_" + Name + DateTime.Now.GetHashCode());
-                    output.Direction = Crainiate.Diagramming.Direction.Out;
-                    output.Orientation = Crainiate.Diagramming.PortOrientation.Right;
-                    output.Style = Crainiate.Diagramming.PortStyle.Output;
-                    output.AllowMove = false;
                     table.Ports.Add(output);
                 }
 
@@ -91,6 +101,6 @@ namespace LuaScriptConstructor.Types
                 return Name;
             }
         }
-    
+
     }
 }

@@ -159,6 +159,7 @@ namespace LuaScriptConstructor.Types
             Shapes.ConstructorTable table = new Shapes.ConstructorTable();
             table.Type = Shapes.ConstructorTable.ConstructionTableTypes.Function;
             table.Function = this;
+            table.SetKey(Prefix + "_" + Name + DateTime.Now.GetHashCode());
 
             if ((AccessType == VariableAccessTypes.Input) || (AccessType == VariableAccessTypes.InputOutput))
             {

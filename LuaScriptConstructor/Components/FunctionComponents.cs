@@ -1,10 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LuaScriptConstructor.DefaultComponents
+namespace LuaScriptConstructor.Components
 {
+    /// <summary>
+    /// Represents the components for building a function.
+    /// </summary>
     static class FunctionComponents
-    {
+    { 
+        /// <summary>
+        /// Constants.
+        /// </summary>
+        public static List<Types.Constant> Constants { get { return new List<Types.Constant>(); } }
+
+        /// <summary>
+        /// Variables.
+        /// </summary>
         public static List<Types.Variable> Variables
         {
             get
@@ -27,6 +38,9 @@ namespace LuaScriptConstructor.DefaultComponents
             }
         }
 
-
+        /// <summary>
+        /// Functions.
+        /// </summary>
+        public static List<Types.Function> Functions { get { return new List<Types.Function>(); } }
     }
 }

@@ -58,7 +58,7 @@ namespace LuaScriptConstructor
                 if (cplMain.Tabs.CurrentTab.Name == "Function components")
                 {
                     
-                    foreach (Types.Variable variable in DefaultComponents.FunctionComponents.Variables)
+                    foreach (Types.Variable variable in Components.FunctionComponents.Variables)
                     {
                         cplMain.AddTable(variable.Table);
                     }
@@ -80,10 +80,11 @@ namespace LuaScriptConstructor
                 Parent = scMain.Panel2
             };
 
-            var tpMain = new DiagramTabPage
+            var tpMain = new DiagramTabPage()
             {
                 Text = "Main",
             };
+            tpMain.Diagram.Type = ConstructorDiagram.ConstructorDiagramTypes.Main;
             tcMain.TabPages.Add(tpMain);
 
             #endregion
