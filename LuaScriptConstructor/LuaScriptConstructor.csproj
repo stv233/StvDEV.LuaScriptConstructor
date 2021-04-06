@@ -68,7 +68,7 @@
     <Compile Include="Shapes\ConstructorConnector.cs" />
     <Compile Include="Shapes\ConstructorTable.cs" />
     <Compile Include="Types\Constant.cs" />
-    <Compile Include="Types\DefaultFunction.cs" />
+    <Compile Include="Types\ProgrammaticallyDefinedFunction.cs" />
     <Compile Include="Types\Function.cs" />
     <Compile Include="Types\Variable.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

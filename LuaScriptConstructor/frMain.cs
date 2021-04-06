@@ -63,6 +63,8 @@ namespace LuaScriptConstructor
                         cplMain.AddTable(variable.Table);
                     }
                 }
+
+                cplMain.Refresh();
             };
 
             //cplMain.AddTable(new Shapes.ConstructorTable());

@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace LuaScriptConstructor.Types
 {
-    class DefaultFunction : Function
+    /// <summary>
+    /// Lua function for which code and table are set programmatically.
+    /// </summary>
+    class ProgrammaticallyDefinedFunction : Function
     {
         /// <summary>
         /// Funtion table.

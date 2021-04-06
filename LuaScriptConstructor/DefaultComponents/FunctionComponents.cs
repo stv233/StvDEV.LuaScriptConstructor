@@ -12,11 +12,15 @@ namespace LuaScriptConstructor.DefaultComponents
                 var variable = new List<Types.Variable>();
 
                 var input = new Types.Variable();
-                input.Name = "functionargument";
+                input.Name = "Argument";
+                input.Prefix = "functionargument";
+                input.AccessType = Types.Variable.VariableAccessTypes.Output;
                 variable.Add(input);
 
                 var output = new Types.Variable();
-                output.Name = "functionreturns";
+                output.Name = "Return";
+                output.Prefix = "functionreturn";
+                output.AccessType = Types.Variable.VariableAccessTypes.Input;
                 variable.Add(output);
 
                 return variable;

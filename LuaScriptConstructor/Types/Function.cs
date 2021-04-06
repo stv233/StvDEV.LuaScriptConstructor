@@ -3,8 +3,54 @@ using System.Collections.Generic;
 
 namespace LuaScriptConstructor.Types
 {
+    /// <summary>
+    /// Lua function.
+    /// </summary>
     class Function : Variable
     {
+        /// <summary>
+        /// Represents a class containing data for a <see cref="CompileComplite"/> and <see cref="CompileError"/> event.
+        /// </summary>
+        public class FunctionCompileEventArgs : EventArgs
+        {
+            /// <summary>
+            /// Compile warnings.
+            /// </summary>
+            public List<string> Warnings { get; protected set; }
+
+            /// <summary>
+            /// Compile error.
+            /// </summary>
+            public Exception Error { get; protected set; }
+
+            /// <summary>
+            /// Represents a class containing data for a <see cref="CompileComplite"/> and <see cref="CompileError"/> event.
+            /// </summary>
+            /// <param name="error">Compile error</param>
+            public FunctionCompileEventArgs(Exception error) { Error = error; Warnings = new List<string>(); }
+
+            /// <summary>
+            /// Represents a class containing data for a <see cref="CompileComplite"/> and <see cref="CompileError"/> event.
+            /// </summary>
+            /// <param name="warnings">Compile warnings</param>
+            public FunctionCompileEventArgs(List<string> warnings) { Warnings = warnings; Error = null; }
+
+            /// <summary>
+            /// Represents a class containing data for a <see cref="CompileComplite"/> and <see cref="CompileError"/> event.
+            /// </summary>
+            /// <param name="error">Compile error</param>
+            /// <param name="warnings">Compile warnings</param>
+            public FunctionCompileEventArgs(Exception error, List<string> warnings) { Error = error; Warnings = warnings; }
+
+        }
+
+        /// <summary>
+        /// Represents a method that handles <see cref="CompileComplite"/> and <see cref="CompileError"/> events.
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Event arguments</param>
+        public delegate void FunctionCompileEvents(object sender, FunctionCompileEventArgs e);
+
         /// <summary>
         /// Lua function types.
         /// </summary>
@@ -33,7 +79,7 @@ namespace LuaScriptConstructor.Types
         /// <summary>
         /// Funtion table.
         /// </summary>
-        public override Shapes.ConstructorTable Table { get; protected set; }
+        new public virtual Shapes.ConstructorTable Table { get; protected set; }
 
         /// <summary>
         /// Function code.
@@ -54,12 +100,12 @@ namespace LuaScriptConstructor.Types
         /// <summary>
         /// Occurs when the assembly of the function is complete.
         /// </summary>
-        public EventHandler CompileComplite;
+        public FunctionCompileEvents CompileComplite;
 
         /// <summary>
         /// Occurs when the assembly of a function fails.
         /// </summary>
-        public EventHandler CompileError;
+        public FunctionCompileEvents CompileError;
 
         /// <summary>
         /// Lua function.
@@ -81,28 +127,60 @@ namespace LuaScriptConstructor.Types
         {
             Name = name;
             Type = type;
+            CompileComplite += (s, e) => { };
+            CompileError += (s, e) => { };
         }
 
         public void Compile(Forms.ConstructorDiagram diagram)
         {
+            List<string> warnings = new List<string>();
+
             try
             {
-                Table = BuildTable(diagram);
+                Table = BuildTable(diagram, ref warnings);
             }
             catch (Exception e)
             {
-                System.Windows.Forms.MessageBox.Show("Function compile error!\n" + e.Message,
-                    "Function compile error!",
-                    System.Windows.Forms.MessageBoxButtons.OK,
-                    System.Windows.Forms.MessageBoxIcon.Error);
+                CompileError(this, new FunctionCompileEventArgs(e, warnings));
             }
+
+            CompileComplite(this, new FunctionCompileEventArgs(warnings));
         }
 
-        private Shapes.ConstructorTable BuildTable(Forms.ConstructorDiagram diagram)
+        /// <summary>
+        /// Build function table.
+        /// </summary>
+        /// <param name="diagram">Function diagramm</param>
+        /// <param name="warnings">Warnings list</param>
+        /// <returns></returns>
+        private Shapes.ConstructorTable BuildTable(Forms.ConstructorDiagram diagram, ref List<string> warnings)
         {
+          
             Shapes.ConstructorTable table = new Shapes.ConstructorTable();
             table.Type = Shapes.ConstructorTable.ConstructionTableTypes.Function;
             table.Function = this;
+
+            if ((AccessType == VariableAccessTypes.Input) || (AccessType == VariableAccessTypes.InputOutput))
+            {
+                var input = new Crainiate.Diagramming.Port();
+                input.SetKey("input_" + Prefix + "_" + Name + DateTime.Now.GetHashCode());
+                input.Direction = Crainiate.Diagramming.Direction.In;
+                input.Orientation = Crainiate.Diagramming.PortOrientation.Top;
+                input.Style = Crainiate.Diagramming.PortStyle.Simple;
+                input.AllowMove = false;
+                table.Ports.Add(input);
+            }
+
+            if ((AccessType == VariableAccessTypes.Output) || (AccessType == VariableAccessTypes.InputOutput))
+            {
+                var output = new Crainiate.Diagramming.Port();
+                output.SetKey("output_" + Prefix + "_" + Name + DateTime.Now.GetHashCode());
+                output.Direction = Crainiate.Diagramming.Direction.Out;
+                output.Orientation = Crainiate.Diagramming.PortOrientation.Bottom;
+                output.Style = Crainiate.Diagramming.PortStyle.Simple;
+                output.AllowMove = false;
+                table.Ports.Add(output);
+            }
 
             foreach (Shapes.ConstructorConnector connector in diagram.Connectors.Values)
             {
