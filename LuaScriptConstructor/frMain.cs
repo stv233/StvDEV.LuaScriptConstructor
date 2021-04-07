@@ -87,6 +87,10 @@ namespace LuaScriptConstructor
             tpMain.Diagram.Type = ConstructorDiagram.ConstructorDiagramTypes.Main;
             tcMain.TabPages.Add(tpMain);
 
+            var tpFunction = new DiagramTabPage();
+            tpFunction.Diagram.Type = ConstructorDiagram.ConstructorDiagramTypes.Regular;
+            tcMain.TabPages.Add(tpFunction);
+
             #endregion
 
             #endregion

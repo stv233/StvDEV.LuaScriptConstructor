@@ -98,6 +98,36 @@ namespace LuaScriptConstructor.Components
 
                 #endregion
 
+                var start = new Types.ProgrammaticallyDefinedFunction
+                {
+                    Name = "Function start",
+                    Prefix = "functionstart",
+                    Type = Types.Function.FuntionTypes.Init,
+                    AccessType = Types.Variable.VariableAccessTypes.Output
+                };
+
+                var startTable = new Shapes.ConstructorTable
+                {
+                    Type = Shapes.ConstructorTable.ConstructionTableTypes.Function,
+                    Function = start,
+                    Heading = start.Name,
+                    SubHeading = "Function start"
+                };
+                startTable.SetKey(start.Prefix + "_" + start.Name + DateTime.Now.GetHashCode());
+
+                var startPort = new Crainiate.Diagramming.Port
+                {
+                    AllowMove = false,
+                    Direction = Crainiate.Diagramming.Direction.Out,
+                    Orientation = Crainiate.Diagramming.PortOrientation.Bottom
+                };
+                startPort.SetKey("startoutput_" + DateTime.Now.GetHashCode());
+                startTable.Ports.Add(startPort);
+
+                start.Table = startTable;
+
+                functions.Add(start);
+
                 return functions;
 
             }

@@ -25,7 +25,8 @@ namespace LuaScriptConstructor.Forms
         public enum ConstructorDiagramTypes
         {
             Regular,
-            Main
+            Main,
+            None
         }
 
         /// <summary>
@@ -33,7 +34,7 @@ namespace LuaScriptConstructor.Forms
         /// </summary>
         public EventHandler DiagramTypeChanged;
 
-        private ConstructorDiagramTypes type = ConstructorDiagramTypes.Regular;
+        private ConstructorDiagramTypes type = ConstructorDiagramTypes.None;
 
         /// <summary>
         /// Diagram type.
@@ -57,11 +58,17 @@ namespace LuaScriptConstructor.Forms
                     {
                         var mainTable = new Shapes.ConstructorTable(Components.ScriptСomponents.Functions[0].Table);
                         Model.Shapes.Add(mainTable);
-                        Tables[mainTable.Key].Location = new PointF(this.Width / 2 + 100, 10);
+                        Tables[mainTable.Key].Location = new PointF(200, 10);
 
                         var initTable = new Shapes.ConstructorTable(Components.ScriptСomponents.Functions[1].Table);
                         Model.Shapes.Add(initTable);
-                        Tables[initTable.Key].Location = new PointF(this.Width / 4, 10);
+                        Tables[initTable.Key].Location = new PointF(50, 10);
+                    }
+                    else if (type == ConstructorDiagramTypes.Regular)
+                    {
+                        var functionStartTable = new Shapes.ConstructorTable(Components.ScriptСomponents.Functions[2].Table);
+                        Model.Shapes.Add(functionStartTable);
+                        Tables[functionStartTable.Key].Location = new PointF(200, 10);
                     }
                 }
             }
@@ -121,6 +128,12 @@ namespace LuaScriptConstructor.Forms
 
             Render.AddRenderer(typeof(Shapes.ConstructorConnector), new Crainiate.Diagramming.Forms.Rendering.ConnectorRender());
             Render.AddRenderer(typeof(Shapes.ConstructorTable), new Crainiate.Diagramming.Forms.Rendering.TableRender());
+
+            #endregion
+
+            #region /// Events
+
+            DiagramTypeChanged += (s, e) => { };
 
             #endregion
 
