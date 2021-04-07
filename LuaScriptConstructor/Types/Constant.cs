@@ -25,21 +25,25 @@ namespace LuaScriptConstructor.Types
         {
             get
             {
-                var table = new Shapes.ConstructorTable();
+                var table = new Shapes.ConstructorTable
+                {
+                    Heading = "",
+                    SubHeading = "",
+                    Label = new Crainiate.Diagramming.Label("Constant"),
+                    Type = Shapes.ConstructorTable.ConstructionTableTypes.Constant,
+                    Constant = this
+                };
                 table.SetKey(Prefix + "_Constant" + DateTime.Now.GetHashCode());
-                table.Heading = "";
-                table.SubHeading = "";
-                table.Label = new Crainiate.Diagramming.Label("Constant");
-                table.Type = Shapes.ConstructorTable.ConstructionTableTypes.Constant;
-                table.Constant = this;
 
-                var output = new Crainiate.Diagramming.Port();
-                output.SetKey("output_" + Prefix + "_Constant" + DateTime.Now.GetHashCode());
-                output.Direction = Crainiate.Diagramming.Direction.Out;
-                output.Orientation = Crainiate.Diagramming.PortOrientation.Right;
-                output.Style = Crainiate.Diagramming.PortStyle.Output;
-                output.AllowMove = false;
-                table.Ports.Add(output);
+                var @return = new Crainiate.Diagramming.Port
+                {
+                    Direction = Crainiate.Diagramming.Direction.Out,
+                    Orientation = Crainiate.Diagramming.PortOrientation.Right,
+                    Style = Crainiate.Diagramming.PortStyle.Output,
+                    AllowMove = false
+                };
+                @return.SetKey("output_" + Prefix + "_Constant" + DateTime.Now.GetHashCode());
+                table.Ports.Add(@return);
 
                 return table;
 

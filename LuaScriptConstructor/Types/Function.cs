@@ -98,6 +98,17 @@ namespace LuaScriptConstructor.Types
         }
 
         /// <summary>
+        /// Function value interaction type.
+        /// </summary>
+        public override ValueInteractionTypes InteractionType
+        {
+            get
+            {
+                return ValueInteractionTypes.GetSet;
+            }
+        }
+
+        /// <summary>
         /// Occurs when the assembly of the function is complete.
         /// </summary>
         public FunctionCompileEvents CompileComplite;
@@ -163,23 +174,27 @@ namespace LuaScriptConstructor.Types
 
             if ((AccessType == VariableAccessTypes.Input) || (AccessType == VariableAccessTypes.InputOutput))
             {
-                var input = new Crainiate.Diagramming.Port();
+                var input = new Crainiate.Diagramming.Port
+                {
+                    Direction = Crainiate.Diagramming.Direction.In,
+                    Orientation = Crainiate.Diagramming.PortOrientation.Top,
+                    Style = Crainiate.Diagramming.PortStyle.Simple,
+                    AllowMove = false
+                };
                 input.SetKey("input_" + Prefix + "_" + Name + DateTime.Now.GetHashCode());
-                input.Direction = Crainiate.Diagramming.Direction.In;
-                input.Orientation = Crainiate.Diagramming.PortOrientation.Top;
-                input.Style = Crainiate.Diagramming.PortStyle.Simple;
-                input.AllowMove = false;
                 table.Ports.Add(input);
             }
 
             if ((AccessType == VariableAccessTypes.Output) || (AccessType == VariableAccessTypes.InputOutput))
             {
-                var output = new Crainiate.Diagramming.Port();
+                var output = new Crainiate.Diagramming.Port
+                {
+                    Direction = Crainiate.Diagramming.Direction.Out,
+                    Orientation = Crainiate.Diagramming.PortOrientation.Bottom,
+                    Style = Crainiate.Diagramming.PortStyle.Simple,
+                    AllowMove = false
+                };
                 output.SetKey("output_" + Prefix + "_" + Name + DateTime.Now.GetHashCode());
-                output.Direction = Crainiate.Diagramming.Direction.Out;
-                output.Orientation = Crainiate.Diagramming.PortOrientation.Bottom;
-                output.Style = Crainiate.Diagramming.PortStyle.Simple;
-                output.AllowMove = false;
                 table.Ports.Add(output);
             }
 

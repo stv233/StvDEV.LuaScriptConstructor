@@ -19,7 +19,19 @@ namespace LuaScriptConstructor.Types
         {
             InputOutput,
             Input,
-            Output
+            Output,
+            None
+        }
+
+        /// <summary>
+        /// Value interaction types.
+        /// </summary>
+        public enum ValueInteractionTypes
+        {
+            GetSet,
+            Get,
+            Set,
+            None
         }
 
         /// <summary>
@@ -44,6 +56,11 @@ namespace LuaScriptConstructor.Types
         public virtual VariableAccessTypes AccessType { get; set; }
 
         /// <summary>
+        /// Variable value interaction type.
+        /// </summary>
+        public virtual ValueInteractionTypes InteractionType { get; set; }
+
+        /// <summary>
         /// Variable table.
         /// </summary>
         public override ConstructorTable Table
@@ -60,18 +77,46 @@ namespace LuaScriptConstructor.Types
                 };
                 table.SetKey(Prefix + "_" + Name + DateTime.Now.GetHashCode());
 
-                if ((AccessType == VariableAccessTypes.Input) || (AccessType == VariableAccessTypes.InputOutput))
+                if ((InteractionType == ValueInteractionTypes.Set) || (InteractionType == ValueInteractionTypes.GetSet))
                 {
-                    var input = new Crainiate.Diagramming.Port
+                    var argument = new Crainiate.Diagramming.Port
                     {
                         Direction = Crainiate.Diagramming.Direction.In,
                         Orientation = Crainiate.Diagramming.PortOrientation.Left,
                         Style = Crainiate.Diagramming.PortStyle.Input,
                         AllowMove = false
                     };
+                    argument.SetKey("argument_" + Prefix + "_" + Name + DateTime.Now.GetHashCode());
+                    table.Ports.Add(argument);
+
+
+                    
+                }
+
+                if ((InteractionType == ValueInteractionTypes.Get) || (InteractionType == ValueInteractionTypes.GetSet))
+                {
+                    var @return = new Crainiate.Diagramming.Port
+                    {
+                        Direction = Crainiate.Diagramming.Direction.Out,
+                        Orientation = Crainiate.Diagramming.PortOrientation.Right,
+                        Style = Crainiate.Diagramming.PortStyle.Output,
+                        AllowMove = false
+                    };
+                    @return.SetKey("return_" + Prefix + "_" + Name + DateTime.Now.GetHashCode());
+                    table.Ports.Add(@return);
+                }
+
+                if ((AccessType == VariableAccessTypes.Input) || (AccessType == VariableAccessTypes.InputOutput))
+                {
+                    var input = new Crainiate.Diagramming.Port
+                    {
+                        Direction = Crainiate.Diagramming.Direction.In,
+                        Orientation = Crainiate.Diagramming.PortOrientation.Top,
+                        Style = Crainiate.Diagramming.PortStyle.Simple,
+                        AllowMove = false
+                    };
                     input.SetKey("input_" + Prefix + "_" + Name + DateTime.Now.GetHashCode());
                     table.Ports.Add(input);
-                    
                 }
 
                 if ((AccessType == VariableAccessTypes.Output) || (AccessType == VariableAccessTypes.InputOutput))
@@ -79,8 +124,8 @@ namespace LuaScriptConstructor.Types
                     var output = new Crainiate.Diagramming.Port
                     {
                         Direction = Crainiate.Diagramming.Direction.Out,
-                        Orientation = Crainiate.Diagramming.PortOrientation.Right,
-                        Style = Crainiate.Diagramming.PortStyle.Output,
+                        Orientation = Crainiate.Diagramming.PortOrientation.Bottom,
+                        Style = Crainiate.Diagramming.PortStyle.Simple,
                         AllowMove = false
                     };
                     output.SetKey("output_" + Prefix + "_" + Name + DateTime.Now.GetHashCode());

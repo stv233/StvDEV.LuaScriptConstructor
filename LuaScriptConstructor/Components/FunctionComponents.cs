@@ -22,16 +22,22 @@ namespace LuaScriptConstructor.Components
             {
                 var variable = new List<Types.Variable>();
 
-                var input = new Types.Variable();
-                input.Name = "Argument";
-                input.Prefix = "functionargument";
-                input.AccessType = Types.Variable.VariableAccessTypes.Output;
+                var input = new Types.Variable
+                {
+                    Name = "Argument",
+                    Prefix = "functionargument",
+                    AccessType = Types.Variable.VariableAccessTypes.None,
+                    InteractionType = Types.Variable.ValueInteractionTypes.Get
+                };
                 variable.Add(input);
 
-                var output = new Types.Variable();
-                output.Name = "Return";
-                output.Prefix = "functionreturn";
-                output.AccessType = Types.Variable.VariableAccessTypes.Input;
+                var output = new Types.Variable
+                {
+                    Name = "Return",
+                    Prefix = "functionreturn",
+                    AccessType = Types.Variable.VariableAccessTypes.None,
+                    InteractionType = Types.Variable.ValueInteractionTypes.Set
+                };
                 variable.Add(output);
 
                 return variable;
