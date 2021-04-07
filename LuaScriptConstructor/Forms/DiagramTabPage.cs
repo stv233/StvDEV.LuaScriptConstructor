@@ -28,18 +28,32 @@ namespace LuaScriptConstructor.Forms
 
         public DiagramTabPage(string name) : base(name)
         {
+            this.AutoScroll = true;
+
             diagram = new ConstructorDiagram
             {
-                Width = this.ClientSize.Width,
-                Height = this.ClientSize.Height,
+                AutoScroll = true,
+                Dock = DockStyle.Fill,
                 Parent = this
             };
 
-            this.Resize += (s, e) =>
+            var margin = new Crainiate.Diagramming.Forms.Margin
             {
-                diagram.Width = this.ClientSize.Width;
-                diagram.Height = this.ClientSize.Height;
+                Bottom = 0F,
+                Left = 0F,
+                Right = 0F,
+                Top = 0F
             };
+
+            var paging = new Crainiate.Diagramming.Forms.Paging
+            {
+                Enabled = true,
+                Margin = margin,
+                Padding = new System.Drawing.SizeF(0, 0),
+                Page = 1, 
+                WorkspaceColor = System.Drawing.SystemColors.AppWorkspace
+            };
+            diagram.Paging = paging;
         }
     }
 }
