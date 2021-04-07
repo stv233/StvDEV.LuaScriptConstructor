@@ -66,12 +66,25 @@ namespace LuaScriptConstructor.Shapes
         /// <summary>
         /// Values of connected return;
         /// </summary>
-        public List<string> RerurnsValues { get; set; }
+        public List<string> RetrurnsValues { get; set; }
 
-        public ConstructorTable() : base() { }
+        /// <summary>
+        /// Can edit table Heading.
+        /// </summary>
+        public bool CanEditHeading { get; set; }
 
-        public ConstructorTable(ConstructorTable prototype) : base(prototype) { }
+        public ConstructorTable() : base() {}
 
+        public ConstructorTable(ConstructorTable prototype) : base(prototype)
+        {
+            Type = prototype.Type;
+            Function = prototype.Function;
+            Variable = prototype.Variable;
+            Constant = prototype.Constant;
+            ArgumentsValues = prototype.ArgumentsValues;
+            RetrurnsValues = prototype.RetrurnsValues;
+            CanEditHeading = prototype.CanEditHeading;
+        }
 
     }
 }

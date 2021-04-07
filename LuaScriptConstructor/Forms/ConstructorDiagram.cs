@@ -120,7 +120,29 @@ namespace LuaScriptConstructor.Forms
                 this.Refresh();
             };
             cmsMenu.Items.Add(tsmiConnector);
+            var tsmiEdit = new ToolStripMenuItem("Edit") { Visible = false};
+            tsmiEdit.Click += (se, ev) =>
+            {
+                if (Model.SelectedShapes().Count == 1)
+                {
+                    foreach (var shape in Model.SelectedShapes().Values)
+                    {
+                        if (shape is Shapes.ConstructorTable)
+                        {
+                            var table = shape as Shapes.ConstructorTable;
+
+                            if (table.CanEditHeading)
+                            {
+                                BeginEditHeading(table);
+                                return;
+                            }
+                        }
+                    }
+                }
+            };
+            cmsMenu.Items.Add(tsmiEdit);
             this.ContextMenuStrip = cmsMenu;
+
 
             #endregion
 
@@ -181,6 +203,32 @@ namespace LuaScriptConstructor.Forms
                 }
             };
 
+            this.MouseDown += (s, e) =>
+            {
+                if (e.Button == MouseButtons.Right)
+                {
+                    
+                    if (Model.SelectedShapes().Count == 1)
+                    {
+                        
+                        foreach (var shape in Model.SelectedShapes().Values)
+                        {
+                            if (shape is Shapes.ConstructorTable)
+                            {
+                                var table = shape as Shapes.ConstructorTable;
+
+                                if ((table.CanEditHeading))
+                                {
+                                    tsmiEdit.Visible = true;
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                tsmiEdit.Visible = false;
+            };
 
             #endregion
         }
@@ -201,6 +249,48 @@ namespace LuaScriptConstructor.Forms
                 Tables.Add(element.Key, (Shapes.ConstructorTable)element);
             }
             base.OnElementInserted(element);
+        }
+
+        /// <summary>
+        /// Begin edit table heding, if table allow it.
+        /// </summary>
+        /// <param name="table"></param>
+        public void BeginEditHeading(Shapes.ConstructorTable table)
+        {
+            if (!table.CanEditHeading)
+            {
+                return;
+            }
+
+            var texbox = new System.Windows.Forms.TextBox
+            {
+                Text = table.Heading,
+                Left = -100,
+                Tag = table.FontName,
+                Parent = this.Parent
+
+            };
+
+            table.FontName = "Consolas";
+            this.Refresh();
+
+            texbox.TextChanged += (s, e) =>
+            {
+                table.Heading = texbox.Text;
+                
+                this.Refresh();
+            };
+            texbox.LostFocus += (s, e) =>
+            {
+                table.FontName = texbox.Tag.ToString();
+                this.Refresh();
+                texbox.Dispose();
+                texbox = null;
+            };
+
+            texbox.Focus();
+            texbox.SelectionStart = texbox.Text.Length;
+            texbox.SelectionLength = 0;
         }
     }
 }

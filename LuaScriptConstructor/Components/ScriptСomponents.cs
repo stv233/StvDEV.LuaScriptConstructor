@@ -98,6 +98,8 @@ namespace LuaScriptConstructor.Components
 
                 #endregion
 
+                #region /// Start
+
                 var start = new Types.ProgrammaticallyDefinedFunction
                 {
                     Name = "Function start",
@@ -130,6 +132,7 @@ namespace LuaScriptConstructor.Components
 
                 return functions;
 
+                #endregion
             }
         }
     }
