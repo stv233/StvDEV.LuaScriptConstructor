@@ -109,7 +109,7 @@ namespace LuaScriptConstructor
 
             #region /// Tab Control
 
-            var tcMain = new TabControl
+            var tcMain = new TradeWright.UI.Forms.TabControlExtra
             {
                 Width = scMain.Panel2.ClientSize.Width,
                 Height = scMain.Panel2.ClientSize.Height,
