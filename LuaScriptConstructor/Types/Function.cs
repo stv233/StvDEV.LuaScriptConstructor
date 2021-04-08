@@ -9,47 +9,47 @@ namespace LuaScriptConstructor.Types
     class Function : Variable
     {
         /// <summary>
-        /// Represents a class containing data for a <see cref="CompileComplite"/> and <see cref="CompileError"/> event.
+        /// Represents a class containing data for a <see cref="BuildComplite"/> and <see cref="BuildError"/> event.
         /// </summary>
-        public class FunctionCompileEventArgs : EventArgs
+        public class FunctionBuildEventArgs : EventArgs
         {
             /// <summary>
-            /// Compile warnings.
+            /// Build warnings.
             /// </summary>
             public List<string> Warnings { get; protected set; }
 
             /// <summary>
-            /// Compile error.
+            /// Build error.
             /// </summary>
             public Exception Error { get; protected set; }
 
             /// <summary>
-            /// Represents a class containing data for a <see cref="CompileComplite"/> and <see cref="CompileError"/> event.
+            /// Represents a class containing data for a <see cref="BuildComplite"/> and <see cref="BuildError"/> event.
             /// </summary>
-            /// <param name="error">Compile error</param>
-            public FunctionCompileEventArgs(Exception error) { Error = error; Warnings = new List<string>(); }
+            /// <param name="error">Build error</param>
+            public FunctionBuildEventArgs(Exception error) { Error = error; Warnings = new List<string>(); }
 
             /// <summary>
-            /// Represents a class containing data for a <see cref="CompileComplite"/> and <see cref="CompileError"/> event.
+            /// Represents a class containing data for a <see cref="BuildComplite"/> and <see cref="BuildError"/> event.
             /// </summary>
-            /// <param name="warnings">Compile warnings</param>
-            public FunctionCompileEventArgs(List<string> warnings) { Warnings = warnings; Error = null; }
+            /// <param name="warnings">Build warnings</param>
+            public FunctionBuildEventArgs(List<string> warnings) { Warnings = warnings; Error = null; }
 
             /// <summary>
-            /// Represents a class containing data for a <see cref="CompileComplite"/> and <see cref="CompileError"/> event.
+            /// Represents a class containing data for a <see cref="BuildComplite"/> and <see cref="BuildError"/> event.
             /// </summary>
-            /// <param name="error">Compile error</param>
-            /// <param name="warnings">Compile warnings</param>
-            public FunctionCompileEventArgs(Exception error, List<string> warnings) { Error = error; Warnings = warnings; }
+            /// <param name="error">Build error</param>
+            /// <param name="warnings">Build warnings</param>
+            public FunctionBuildEventArgs(Exception error, List<string> warnings) { Error = error; Warnings = warnings; }
 
         }
 
         /// <summary>
-        /// Represents a method that handles <see cref="CompileComplite"/> and <see cref="CompileError"/> events.
+        /// Represents a method that handles <see cref="BuildComplite"/> and <see cref="BuildError"/> events.
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="e">Event arguments</param>
-        public delegate void FunctionCompileEvents(object sender, FunctionCompileEventArgs e);
+        public delegate void FunctionBuildEvents(object sender, FunctionBuildEventArgs e);
 
         /// <summary>
         /// Lua function types.
@@ -65,6 +65,11 @@ namespace LuaScriptConstructor.Types
         /// Funtion type.
         /// </summary>
         public FuntionTypes Type { get; protected set; }
+
+        /// <summary>
+        /// Function description.
+        /// </summary>
+        public string Description { get; set; }
 
         /// <summary>
         /// Function argument list.
@@ -111,12 +116,12 @@ namespace LuaScriptConstructor.Types
         /// <summary>
         /// Occurs when the assembly of the function is complete.
         /// </summary>
-        public FunctionCompileEvents CompileComplite;
+        public FunctionBuildEvents BuildComplite;
 
         /// <summary>
         /// Occurs when the assembly of a function fails.
         /// </summary>
-        public FunctionCompileEvents CompileError;
+        public FunctionBuildEvents BuildError;
 
         /// <summary>
         /// Lua function.
@@ -138,11 +143,13 @@ namespace LuaScriptConstructor.Types
         {
             Name = name;
             Type = type;
-            CompileComplite += (s, e) => { };
-            CompileError += (s, e) => { };
+            Arguments = new List<string>();
+            Returns = new List<string>();       
+            BuildComplite += (s, e) => { };
+            BuildError += (s, e) => { };
         }
 
-        public void Compile(Forms.ConstructorDiagram diagram)
+        public void Build(Forms.ConstructorDiagram diagram)
         {
             List<string> warnings = new List<string>();
 
@@ -152,10 +159,11 @@ namespace LuaScriptConstructor.Types
             }
             catch (Exception e)
             {
-                CompileError(this, new FunctionCompileEventArgs(e, warnings));
+                BuildError(this, new FunctionBuildEventArgs(e, warnings));
+                System.Windows.Forms.MessageBox.Show(e.Message);
             }
 
-            CompileComplite(this, new FunctionCompileEventArgs(warnings));
+            BuildComplite(this, new FunctionBuildEventArgs(warnings));
         }
 
         /// <summary>
@@ -168,7 +176,11 @@ namespace LuaScriptConstructor.Types
         {
           
             Shapes.ConstructorTable table = new Shapes.ConstructorTable();
+            table.Heading = Name;
+            table.SubHeading = Description;
+            table.Label = new Crainiate.Diagramming.Label(Name.Replace("_", " "));
             table.Type = Shapes.ConstructorTable.ConstructionTableTypes.Function;
+            table.Size = new System.Drawing.SizeF(100f, 100f);
             table.Function = this;
             table.SetKey(Prefix + "_" + Name + DateTime.Now.GetHashCode());
 
@@ -178,7 +190,7 @@ namespace LuaScriptConstructor.Types
                 {
                     Direction = Crainiate.Diagramming.Direction.In,
                     Orientation = Crainiate.Diagramming.PortOrientation.Top,
-                    Style = Crainiate.Diagramming.PortStyle.Simple,
+                    Style = Crainiate.Diagramming.PortStyle.Default,
                     AllowMove = false
                 };
                 input.SetKey("input_" + Prefix + "_" + Name + DateTime.Now.GetHashCode());
@@ -191,7 +203,7 @@ namespace LuaScriptConstructor.Types
                 {
                     Direction = Crainiate.Diagramming.Direction.Out,
                     Orientation = Crainiate.Diagramming.PortOrientation.Bottom,
-                    Style = Crainiate.Diagramming.PortStyle.Simple,
+                    Style = Crainiate.Diagramming.PortStyle.Default,
                     AllowMove = false
                 };
                 output.SetKey("output_" + Prefix + "_" + Name + DateTime.Now.GetHashCode());
@@ -200,14 +212,40 @@ namespace LuaScriptConstructor.Types
 
             foreach (Shapes.ConstructorConnector connector in diagram.Connectors.Values)
             {
-                if (connector.StartPort.Key.Contains("functionargument"))
+                try
                 {
-                    Arguments.Add("argument_" + (Arguments.Count + 1).ToString());
+                    if (connector.StartPort.Key.Contains("functionargument"))
+                    {
+                        if (connector.Start.DockedElement is Shapes.ConstructorTable)
+                        {
+                            Arguments.Add("argument-"
+                                + ((Shapes.ConstructorTable)connector.Start.DockedElement).Heading
+                                + "_" + (Arguments.Count + 1).ToString());
+                        }
+
+                    }
+                }
+                catch (NullReferenceException)
+                {
+                    warnings.Add("Connector start is not connected to port!");
                 }
 
-                if (connector.EndPort.Key.Contains("functionreturn"))
+                try
                 {
-                    Returns.Add("return_" + (Returns.Count + 1).ToString());
+                    if (connector.EndPort.Key.Contains("functionreturn"))
+                    {
+                        if (connector.End.DockedElement is Shapes.ConstructorTable)
+                        {
+                            Returns.Add("return-"
+                                + ((Shapes.ConstructorTable)connector.End.DockedElement).Heading
+                                + "_ " + (Returns.Count + 1).ToString());
+                        }
+
+                    }
+                }
+                catch (NullReferenceException)
+                {
+                    warnings.Add("Connector start is not connected to port!");
                 }
             }
 
@@ -215,12 +253,12 @@ namespace LuaScriptConstructor.Types
 
             foreach (var argument in Arguments)
             {
-                Crainiate.Diagramming.TableRow row = new Crainiate.Diagramming.TableRow(argument.Replace("a", "A").Replace("_", " "));
+                Crainiate.Diagramming.TableRow row = new Crainiate.Diagramming.TableRow(argument.Replace("argument-", "").Replace("_", " "));
                 Crainiate.Diagramming.TablePort port = new Crainiate.Diagramming.TablePort(row);
-                port.AllowMove = false;
                 port.Orientation = Crainiate.Diagramming.PortOrientation.Left;
                 port.Direction = Crainiate.Diagramming.Direction.In;
                 port.Style = Crainiate.Diagramming.PortStyle.Input;
+                port.SetKey(argument);
                 arguments.Rows.Add(row);
                 table.Ports.Add(port);
             }
@@ -230,12 +268,12 @@ namespace LuaScriptConstructor.Types
 
             foreach (var @return in Returns)
             {
-                Crainiate.Diagramming.TableRow row = new Crainiate.Diagramming.TableRow(@return.Replace("r", "R").Replace("_", " "));
+                Crainiate.Diagramming.TableRow row = new Crainiate.Diagramming.TableRow(@return.Replace("return-", "").Replace("_", " "));
                 Crainiate.Diagramming.TablePort port = new Crainiate.Diagramming.TablePort(row);
-                port.AllowMove = false;
                 port.Orientation = Crainiate.Diagramming.PortOrientation.Right;
                 port.Direction = Crainiate.Diagramming.Direction.Out;
                 port.Style = Crainiate.Diagramming.PortStyle.Output;
+                port.SetKey(@return);
                 returns.Rows.Add(row);
                 table.Ports.Add(port);
             }

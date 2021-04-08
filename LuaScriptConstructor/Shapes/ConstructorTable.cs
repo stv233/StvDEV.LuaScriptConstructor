@@ -84,6 +84,27 @@ namespace LuaScriptConstructor.Shapes
             ArgumentsValues = prototype.ArgumentsValues;
             RetrurnsValues = prototype.RetrurnsValues;
             CanEditHeading = prototype.CanEditHeading;
+            Size = prototype.Size;
+
+            Ports.Clear();
+            foreach (Port port in prototype.Ports.Values)
+            {
+                if (port is TablePort)
+                {
+                    var tablePort = (TablePort)port;
+                    TablePort clone = new TablePort(tablePort.TableItem);
+                    clone.Direction = tablePort.Direction;
+                    clone.Orientation = tablePort.Orientation;
+                    clone.Alignment = tablePort.Alignment;
+                    clone.Style = tablePort.Style;
+                    Ports.Add(port.Key, clone);
+                }
+                else
+                {
+                    Port clone = (Port)port.Clone();
+                    Ports.Add(port.Key, clone);
+                }
+            }
         }
 
     }

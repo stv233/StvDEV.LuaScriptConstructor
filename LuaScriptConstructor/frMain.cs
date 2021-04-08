@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using LuaScriptConstructor.Forms;
 
@@ -6,6 +7,11 @@ namespace LuaScriptConstructor
 {
     public partial class frMain : Form
     {
+        /// <summary>
+        /// Project functions as object.
+        /// </summary>
+        public Dictionary<string, object> ProjectFunctions { get; set; }
+
         public frMain()
         {
             #region /// Initialization
@@ -13,6 +19,12 @@ namespace LuaScriptConstructor
             #region /// Form
 
             this.Size = new System.Drawing.Size(800, 600);
+
+            #endregion
+
+            #region /// Properties
+
+            ProjectFunctions = new Dictionary<string, object>();
 
             #endregion
 
@@ -50,21 +62,35 @@ namespace LuaScriptConstructor
             cplMain.Tabs[0].Name = "Basic";
             cplMain.Tabs.Add(new Crainiate.Diagramming.Forms.Tab());
             cplMain.Tabs[1].Name = "Function components";
+            cplMain.Tabs.Add(new Crainiate.Diagramming.Forms.Tab());
+            cplMain.Tabs[2].Name = "Project functions";
 
             ((ConstructorPalette.ConstructorPaleteTabs)(cplMain.Tabs)).CurrentTabChanged += (s, e) =>
             {
+                cplMain.Suspend();
                 cplMain.Clear();
 
                 if (cplMain.Tabs.CurrentTab.Name == "Function components")
                 {
-                    
                     foreach (Types.Variable variable in Components.FunctionComponents.Variables)
                     {
                         cplMain.AddTable(variable.Table);
                     }
                 }
+                else if (cplMain.Tabs.CurrentTab.Name == "Project functions")
+                {
+                    foreach(var functionObject in ProjectFunctions.Values)
+                    {
+                        if (functionObject is Types.Function)
+                        {
+                            var function = functionObject as Types.Function;
+                            cplMain.AddTable(function.Table);
+                        }
+                    }
+                }
 
-                cplMain.Refresh();
+                cplMain.Resume();
+                //cplMain.Refresh();
             };
 
             //cplMain.AddTable(new Shapes.ConstructorTable());
@@ -123,5 +149,7 @@ namespace LuaScriptConstructor
 
             #endregion
         }
+    
+
     }
 }

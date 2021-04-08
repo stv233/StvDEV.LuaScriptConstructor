@@ -148,6 +148,9 @@ namespace LuaScriptConstructor.Forms
                 }
             };
             cmsMenu.Items.Add(tsmiEdit);
+            var tsmiBuild = new ToolStripMenuItem { Text = "Build" };
+            tsmiBuild.Click += (s, e) => { Build(); };
+            cmsMenu.Items.Add(tsmiBuild);
             this.ContextMenuStrip = cmsMenu;
 
             #endregion
@@ -338,6 +341,18 @@ namespace LuaScriptConstructor.Forms
             texbox.Focus();
             texbox.SelectionStart = texbox.Text.Length;
             texbox.SelectionLength = 0;
+        }
+        
+        /// <summary>
+        /// Build function.
+        /// </summary>
+        protected virtual void Build()
+        {
+            var function = new Types.Function(this.Parent.Text.Replace(" ","_"));
+            function.AccessType = Types.Variable.VariableAccessTypes.InputOutput;
+            function.Build(this);
+            var form = (frMain)frMain.ActiveForm;
+            form.ProjectFunctions[this.Parent.Text.Replace(" ", "_")] = function;
         }
     }
 }
