@@ -37,15 +37,25 @@ namespace LuaScriptConstructor
 
             #endregion
 
+            #region /// ToolStrip
+
+            var tsMenu = new ToolStrip
+            {
+                Parent = this
+            };
+            tsMenu.BringToFront();
+
+            #endregion
+
             #region /// SplitContainer
 
             var scMain = new SplitContainer
             {
                 Width = this.ClientSize.Width,
-                Height = this.ClientSize.Height - msMain.Height,
+                Height = this.ClientSize.Height - msMain.Height - tsMenu.Height,
                 SplitterDistance = this.ClientSize.Width / 10 * 4,
                 Left = 0,
-                Top = msMain.Height,
+                Top = msMain.Height + tsMenu.Height,
                 Parent = this
             };
 
@@ -142,7 +152,7 @@ namespace LuaScriptConstructor
             this.Resize += (s, e) =>
             {
                 scMain.Width = this.ClientSize.Width;
-                scMain.Height = this.ClientSize.Height - msMain.Height;
+                scMain.Height = this.ClientSize.Height - msMain.Height - tsMenu.Height;
             };
 
             #endregion

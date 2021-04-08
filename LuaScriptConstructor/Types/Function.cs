@@ -225,7 +225,7 @@ namespace LuaScriptConstructor.Types
 
                     }
                 }
-                catch (NullReferenceException)
+                catch (System.NullReferenceException)
                 {
                     warnings.Add("Connector start is not connected to port!");
                 }
@@ -243,7 +243,7 @@ namespace LuaScriptConstructor.Types
 
                     }
                 }
-                catch (NullReferenceException)
+                catch (System.NullReferenceException)
                 {
                     warnings.Add("Connector start is not connected to port!");
                 }

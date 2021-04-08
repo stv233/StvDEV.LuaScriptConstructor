@@ -80,6 +80,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -100,6 +101,14 @@
       <Name>Crainiate.Diagramming.Forms</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\BuildSelection_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EditLabel_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Connector_16x.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

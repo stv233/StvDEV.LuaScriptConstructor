@@ -105,7 +105,8 @@ namespace LuaScriptConstructor.Forms
             var cmsMenu = new ContextMenuStrip();
             var tsmiConnector = new ToolStripMenuItem
             {
-                Text = "Add connector"
+                Text = "Add connector",
+                Image = Properties.Resources.Connector_16x
             };
             tsmiConnector.Click += (s, e) =>
             {
@@ -126,7 +127,8 @@ namespace LuaScriptConstructor.Forms
             {
                 ShortcutKeyDisplayString = "F2",
                 ShortcutKeys = Keys.F2,
-                Visible = false
+                Visible = false,
+                Image = Properties.Resources.EditLabel_16x
             };
             tsmiEdit.Click += (se, ev) =>
             {
@@ -148,7 +150,13 @@ namespace LuaScriptConstructor.Forms
                 }
             };
             cmsMenu.Items.Add(tsmiEdit);
-            var tsmiBuild = new ToolStripMenuItem { Text = "Build" };
+            var tsmiBuild = new ToolStripMenuItem 
+            { 
+                Text = "Build function", 
+                Image = Properties.Resources.BuildSelection_16x,
+                ShortcutKeyDisplayString = "Shift+F6",
+                ShortcutKeys = Keys.Shift | Keys.F6
+            };
             tsmiBuild.Click += (s, e) => { Build(); };
             cmsMenu.Items.Add(tsmiBuild);
             this.ContextMenuStrip = cmsMenu;
