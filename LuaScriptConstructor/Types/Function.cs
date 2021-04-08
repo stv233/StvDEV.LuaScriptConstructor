@@ -181,6 +181,7 @@ namespace LuaScriptConstructor.Types
             table.Label = new Crainiate.Diagramming.Label(Name.Replace("_", " "));
             table.Type = Shapes.ConstructorTable.ConstructionTableTypes.Function;
             table.Size = new System.Drawing.SizeF(100f, 100f);
+            table.Icon = Properties.Resources.UserFunction_16x;
             table.Function = this;
             table.SetKey(Prefix + "_" + Name + DateTime.Now.GetHashCode());
 
@@ -270,7 +271,7 @@ namespace LuaScriptConstructor.Types
             {
                 Crainiate.Diagramming.TableRow row = new Crainiate.Diagramming.TableRow(@return.Replace("return-", "").Replace("_", " "));
                 Crainiate.Diagramming.TablePort port = new Crainiate.Diagramming.TablePort(row);
-                port.Orientation = Crainiate.Diagramming.PortOrientation.Right;
+                port.Orientation = Crainiate.Diagramming.PortOrientation.Left;
                 port.Direction = Crainiate.Diagramming.Direction.Out;
                 port.Style = Crainiate.Diagramming.PortStyle.Output;
                 port.SetKey(@return);

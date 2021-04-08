@@ -73,6 +73,22 @@ namespace LuaScriptConstructor.Shapes
         /// </summary>
         public bool CanEditHeading { get; set; }
 
+        private System.Drawing.Image _icon;
+        /// <summary>
+        /// Table icon.
+        /// </summary>
+        public System.Drawing.Image Icon
+        {
+            get
+            {
+                return new System.Drawing.Bitmap(_icon);
+            }
+            set
+            {
+                _icon = value;
+            }
+        }
+
         public ConstructorTable() : base() {}
 
         public ConstructorTable(ConstructorTable prototype) : base(prototype)

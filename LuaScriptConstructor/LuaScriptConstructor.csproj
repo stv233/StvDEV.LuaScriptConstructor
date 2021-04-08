@@ -36,6 +36,9 @@
     <Reference Include="Crainiate.Diagramming">
       <HintPath>..\Crainiate.Diagramming\bin\Crainiate.Diagramming.dll</HintPath>
     </Reference>
+    <Reference Include="Kesoft.Windows.Forms.Win7StyleTreeView, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Kesoft.Windows.Forms.Win7StyleTreeView.1.0.0.1\lib\net20\Kesoft.Windows.Forms.Win7StyleTreeView.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -56,6 +59,10 @@
     <Compile Include="Components\ScriptСomponents.cs" />
     <Compile Include="Forms\ConstructorDiagram.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\ConstructorTreeView\ConstructorTreeNode.cs" />
+    <Compile Include="Forms\ConstructorTreeView\ConstructorTreeView.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Forms\DiagramTabPage.cs">
       <SubType>Component</SubType>
@@ -113,6 +120,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Connector_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LocalVariable_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Constant_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UserFunction_16x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

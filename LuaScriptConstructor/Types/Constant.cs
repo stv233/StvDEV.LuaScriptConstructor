@@ -34,6 +34,7 @@ namespace LuaScriptConstructor.Types
                     CanEditHeading = true,
                     GradientColor = System.Drawing.Color.LightCoral,
                     BackColor = System.Drawing.Color.LightCoral,
+                    Icon = Properties.Resources.Constant_16x,
                     Constant = this
                 };
                 table.GradientColor = table.BackColor;

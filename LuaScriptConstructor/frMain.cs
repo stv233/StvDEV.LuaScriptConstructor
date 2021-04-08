@@ -12,6 +12,9 @@ namespace LuaScriptConstructor
         /// </summary>
         public Dictionary<string, object> ProjectFunctions { get; set; }
 
+        private Forms.ConstructorTreeView.ConstructorTreeView ctvMain;
+        private TradeWright.UI.Forms.TabControlExtra tcMain;
+
         public frMain()
         {
             #region /// Initialization
@@ -59,57 +62,37 @@ namespace LuaScriptConstructor
                 Parent = this
             };
 
-            #region /// Palette
+            #region /// Tree view
 
-            var cplMain = new ConstructorPalette
+            ctvMain = new Forms.ConstructorTreeView.ConstructorTreeView
             {
                 Width = scMain.Panel1.ClientSize.Width,
                 Height = scMain.Panel1.ClientSize.Height,
+                Font = new System.Drawing.Font(Font.FontFamily, 10, System.Drawing.FontStyle.Regular),
+                //ShowNodeToolTips = true,
                 Parent = scMain.Panel1
             };
-            cplMain.Tabs = new ConstructorPalette.ConstructorPaleteTabs(cplMain.Model);
-            cplMain.Model.Layers = cplMain.Tabs;
-            cplMain.Tabs[0].Name = "Basic";
-            cplMain.Tabs.Add(new Crainiate.Diagramming.Forms.Tab());
-            cplMain.Tabs[1].Name = "Function components";
-            cplMain.Tabs.Add(new Crainiate.Diagramming.Forms.Tab());
-            cplMain.Tabs[2].Name = "Project functions";
+            ctvMain.AddCategory("Basic");
 
-            ((ConstructorPalette.ConstructorPaleteTabs)(cplMain.Tabs)).CurrentTabChanged += (s, e) =>
+            foreach (Types.Variable variable in Components.FunctionComponents.Variables)
             {
-                cplMain.Suspend();
-                cplMain.Clear();
+                 ctvMain.Add("Function components", new Forms.ConstructorTreeView.ConstructorTreeNode(variable.Table));
+            }
 
-                if (cplMain.Tabs.CurrentTab.Name == "Function components")
+            foreach (var functionObject in ProjectFunctions.Values)
+            {
+                if (functionObject is Types.Function)
                 {
-                    foreach (Types.Variable variable in Components.FunctionComponents.Variables)
-                    {
-                        cplMain.AddTable(variable.Table);
-                    }
+                    var function = functionObject as Types.Function;
+                    ctvMain.Add("Projects finctions",new Forms.ConstructorTreeView.ConstructorTreeNode(function.Table));
                 }
-                else if (cplMain.Tabs.CurrentTab.Name == "Project functions")
-                {
-                    foreach(var functionObject in ProjectFunctions.Values)
-                    {
-                        if (functionObject is Types.Function)
-                        {
-                            var function = functionObject as Types.Function;
-                            cplMain.AddTable(function.Table);
-                        }
-                    }
-                }
+            }
 
-                cplMain.Resume();
-                //cplMain.Refresh();
-            };
-
-            //cplMain.AddTable(new Shapes.ConstructorTable());
-
-            #endregion
+                #endregion
 
             #region /// Tab Control
 
-            var tcMain = new TradeWright.UI.Forms.TabControlExtra
+             tcMain = new TradeWright.UI.Forms.TabControlExtra
             {
                 Width = scMain.Panel2.ClientSize.Width,
                 Height = scMain.Panel2.ClientSize.Height,
@@ -139,8 +122,8 @@ namespace LuaScriptConstructor
 
             scMain.Panel1.Resize += (s, e) =>
             {
-                cplMain.Width = scMain.Panel1.ClientSize.Width;
-                cplMain.Height = scMain.Panel1.ClientSize.Height;
+                ctvMain.Width = scMain.Panel1.ClientSize.Width;
+                ctvMain.Height = scMain.Panel1.ClientSize.Height;
             };
 
             scMain.Panel2.Resize += (s, e) =>
@@ -159,7 +142,20 @@ namespace LuaScriptConstructor
 
             #endregion
         }
-    
+        
+        public void RefreshProjectFunction()
+        {
+            ctvMain.ClearCategory("Projects finctions");
+
+            foreach (var functionObject in ProjectFunctions.Values)
+            {
+                if (functionObject is Types.Function)
+                {
+                    var function = functionObject as Types.Function;
+                    ctvMain.Add("Projects finctions", new Forms.ConstructorTreeView.ConstructorTreeNode(function.Table));
+                }
+            }
+        }
 
     }
 }

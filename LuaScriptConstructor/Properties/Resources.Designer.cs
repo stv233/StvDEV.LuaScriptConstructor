@@ -83,9 +83,39 @@ namespace LuaScriptConstructor.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Constant_16x {
+            get {
+                object obj = ResourceManager.GetObject("Constant_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap EditLabel_16x {
             get {
                 object obj = ResourceManager.GetObject("EditLabel_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LocalVariable_16x {
+            get {
+                object obj = ResourceManager.GetObject("LocalVariable_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap UserFunction_16x {
+            get {
+                object obj = ResourceManager.GetObject("UserFunction_16x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

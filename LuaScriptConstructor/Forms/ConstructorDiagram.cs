@@ -358,9 +358,11 @@ namespace LuaScriptConstructor.Forms
         {
             var function = new Types.Function(this.Parent.Text.Replace(" ","_"));
             function.AccessType = Types.Variable.VariableAccessTypes.InputOutput;
+            function.Description = "User function";
             function.Build(this);
-            var form = (frMain)frMain.ActiveForm;
+            var form = (frMain)this.ParentForm;
             form.ProjectFunctions[this.Parent.Text.Replace(" ", "_")] = function;
+            form.RefreshProjectFunction();
         }
     }
 }

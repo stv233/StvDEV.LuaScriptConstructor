@@ -76,6 +76,7 @@ namespace LuaScriptConstructor.Types
                     BackColor = System.Drawing.Color.Aquamarine,
                     GradientColor = System.Drawing.Color.Aquamarine,
                     CanEditHeading = true,
+                    Icon = Properties.Resources.LocalVariable_16x,
                     Variable = this
                 };
                 table.SetKey(Prefix + "_" + Name + DateTime.Now.GetHashCode());
