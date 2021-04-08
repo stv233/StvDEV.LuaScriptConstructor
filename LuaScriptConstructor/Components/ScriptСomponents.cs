@@ -45,6 +45,7 @@ namespace LuaScriptConstructor.Components
                     Type = Shapes.ConstructorTable.ConstructionTableTypes.Function,
                     Function = main,
                     Heading = main.Name,
+                    GradientColor = System.Drawing.Color.White,
                     SubHeading = "Main script function"
                 };
                 mainTable.SetKey(main.Prefix + "_" + main.Name + DateTime.Now.GetHashCode());
@@ -79,6 +80,7 @@ namespace LuaScriptConstructor.Components
                     Type = Shapes.ConstructorTable.ConstructionTableTypes.Function,
                     Function = init,
                     Heading = init.Name,
+                    GradientColor = System.Drawing.Color.White,
                     SubHeading = "Init script function"
                 };
                 initTable.SetKey(init.Prefix + "_" + init.Name + DateTime.Now.GetHashCode());
@@ -113,6 +115,8 @@ namespace LuaScriptConstructor.Components
                     Type = Shapes.ConstructorTable.ConstructionTableTypes.Function,
                     Function = start,
                     Heading = start.Name,
+                    CanEditHeading = true,
+                    GradientColor = System.Drawing.Color.White,
                     SubHeading = "Function start"
                 };
                 startTable.SetKey(start.Prefix + "_" + start.Name + DateTime.Now.GetHashCode());

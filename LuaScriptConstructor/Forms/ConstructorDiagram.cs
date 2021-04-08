@@ -59,6 +59,7 @@ namespace LuaScriptConstructor.Forms
                         var mainTable = new Shapes.ConstructorTable(Components.ScriptСomponents.Functions[0].Table);
                         Model.Shapes.Add(mainTable);
                         Tables[mainTable.Key].Location = new PointF(200, 10);
+                        Tables[mainTable.Key].Width = Tables[mainTable.Key].Width + 6;
 
                         var initTable = new Shapes.ConstructorTable(Components.ScriptСomponents.Functions[1].Table);
                         Model.Shapes.Add(initTable);
@@ -67,6 +68,7 @@ namespace LuaScriptConstructor.Forms
                     else if (type == ConstructorDiagramTypes.Regular)
                     {
                         var functionStartTable = new Shapes.ConstructorTable(Components.ScriptСomponents.Functions[2].Table);
+                        functionStartTable.Heading = this.Parent.Text;
                         Model.Shapes.Add(functionStartTable);
                         Tables[functionStartTable.Key].Location = new PointF(200, 10);
                     }
@@ -120,7 +122,12 @@ namespace LuaScriptConstructor.Forms
                 this.Refresh();
             };
             cmsMenu.Items.Add(tsmiConnector);
-            var tsmiEdit = new ToolStripMenuItem("Edit") { Visible = false};
+            var tsmiEdit = new ToolStripMenuItem("Edit")
+            {
+                ShortcutKeyDisplayString = "F2",
+                ShortcutKeys = Keys.F2,
+                Visible = false
+            };
             tsmiEdit.Click += (se, ev) =>
             {
                 if (Model.SelectedShapes().Count == 1)
@@ -142,7 +149,6 @@ namespace LuaScriptConstructor.Forms
             };
             cmsMenu.Items.Add(tsmiEdit);
             this.ContextMenuStrip = cmsMenu;
-
 
             #endregion
 
@@ -191,6 +197,21 @@ namespace LuaScriptConstructor.Forms
                             {
                                 try
                                 {
+                                    var table = (Shapes.ConstructorTable)element;
+
+                                    // If the table is a function.
+                                    if (table.Type == Shapes.ConstructorTable.ConstructionTableTypes.Function)
+                                    {
+                                        // If the table is a table of one of the Script component functions, then it cannot be deleted.
+                                        foreach (Types.Function function in Components.ScriptСomponents.Functions)
+                                        {
+                                            if (table.Function.Prefix == function.Prefix)
+                                            {
+                                                return;
+                                            }
+                                        }
+                                    }
+
                                     Tables.Remove(element.Key);
                                     this.Model.Shapes.Remove(element.Key);
                                 }
@@ -246,7 +267,24 @@ namespace LuaScriptConstructor.Forms
         {
             if (element is Shapes.ConstructorTable)
             {
-                Tables.Add(element.Key, (Shapes.ConstructorTable)element);
+                var table = (Shapes.ConstructorTable)element;
+                Tables.Add(element.Key, table);
+                
+                if (table.Type == Shapes.ConstructorTable.ConstructionTableTypes.Function)
+                {
+                    table.BackColor = ((Types.Function)table.Owner).Table.BackColor;
+                    table.GradientColor = ((Types.Function)table.Owner).Table.GradientColor;
+                }
+                else if (table.Type == Shapes.ConstructorTable.ConstructionTableTypes.Variable)
+                {
+                    table.BackColor = ((Types.Variable)table.Owner).Table.BackColor;
+                    table.GradientColor = ((Types.Variable)table.Owner).Table.GradientColor;
+                }
+                else
+                {
+                    table.BackColor = table.Owner.Table.BackColor;
+                    table.GradientColor = table.Owner.Table.GradientColor;
+                }
             }
             base.OnElementInserted(element);
         }
@@ -277,7 +315,16 @@ namespace LuaScriptConstructor.Forms
             texbox.TextChanged += (s, e) =>
             {
                 table.Heading = texbox.Text;
-                
+
+                // If this is a function start table, then rename the title along with it.
+                if (table.Type == Shapes.ConstructorTable.ConstructionTableTypes.Function)
+                {
+                    if (table.Function.Prefix == Components.ScriptСomponents.Functions[2].Prefix)
+                    {
+                        this.Parent.Text = table.Heading;
+                    }
+                }
+
                 this.Refresh();
             };
             texbox.LostFocus += (s, e) =>

@@ -37,23 +37,23 @@ namespace LuaScriptConstructor.Shapes
         public Types.Constant Constant { get; set; }
 
         /// <summary>
-        /// Table value.
+        /// Table owner.
         /// </summary>
-        public string Value
+        public Types.Constant Owner
         {
             get
             {
                 if (Type == ConstructionTableTypes.Variable)
                 {
-                    return Variable.Value;
+                    return Variable;
                 }
                 else if (Type == ConstructionTableTypes.Function)
                 {
-                    return Function.Value;
+                    return Function;
                 }
                 else
                 {
-                    return Constant.Value;
+                    return Constant;
                 }
             }
         }

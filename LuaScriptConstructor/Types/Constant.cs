@@ -31,8 +31,12 @@ namespace LuaScriptConstructor.Types
                     SubHeading = "",
                     Label = new Crainiate.Diagramming.Label("Constant"),
                     Type = Shapes.ConstructorTable.ConstructionTableTypes.Constant,
+                    CanEditHeading = true,
+                    GradientColor = System.Drawing.Color.LightCoral,
+                    BackColor = System.Drawing.Color.LightCoral,
                     Constant = this
                 };
+                table.GradientColor = table.BackColor;
                 table.SetKey(Prefix + "_Constant" + DateTime.Now.GetHashCode());
 
                 var @return = new Crainiate.Diagramming.Port
@@ -42,7 +46,7 @@ namespace LuaScriptConstructor.Types
                     Style = Crainiate.Diagramming.PortStyle.Output,
                     AllowMove = false
                 };
-                @return.SetKey("output_" + Prefix + "_Constant" + DateTime.Now.GetHashCode());
+                @return.SetKey("return_" + Prefix + "_Constant" + DateTime.Now.GetHashCode());
                 table.Ports.Add(@return);
 
                 return table;
