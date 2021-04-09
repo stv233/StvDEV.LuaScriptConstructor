@@ -130,5 +130,29 @@
   <ItemGroup>
     <None Include="Resources\UserFunction_16x.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewFile_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OpenFile_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SaveAs_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Close_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BuildSolution_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewGraph_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Close_red_16x.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

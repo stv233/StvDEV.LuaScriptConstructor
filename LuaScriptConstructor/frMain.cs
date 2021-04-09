@@ -15,6 +15,8 @@ namespace LuaScriptConstructor
         private Forms.ConstructorTreeView.ConstructorTreeView ctvMain;
         private TradeWright.UI.Forms.TabControlExtra tcMain;
 
+        private int functionsCounter = 0;
+
         public frMain()
         {
             #region /// Initialization
@@ -38,17 +40,225 @@ namespace LuaScriptConstructor
                 Parent = this
             };
 
+            #region /// File
+
+            var tsmiFile = new ToolStripMenuItem
+            {
+                Text = "File"
+            };
+            msMain.Items.Add(tsmiFile);
+
+            var tsmiNew = new ToolStripMenuItem
+            {
+                Text = "New",
+                ShortcutKeyDisplayString = "Ctrl+N",
+                ShortcutKeys = Keys.Control | Keys.N,
+                Image = Properties.Resources.NewFile_16x
+            };
+            tsmiFile.DropDownItems.Add(tsmiNew);
+
+            var tsmiOpen = new ToolStripMenuItem
+            {
+                Text = "Open...",
+                ShortcutKeyDisplayString = "Ctrl+O",
+                ShortcutKeys = Keys.Control | Keys.O,
+                Image = Properties.Resources.OpenFile_16x
+            };
+            tsmiFile.DropDownItems.Add(tsmiOpen);
+
+            var tsmiSave = new ToolStripMenuItem
+            {
+                Text = "Save",
+                ShortcutKeyDisplayString = "Ctrl+S",
+                ShortcutKeys = Keys.Control | Keys.S,
+                Image = Properties.Resources.Save_16x
+            };
+            tsmiFile.DropDownItems.Add(tsmiSave);
+
+            var tsmiSaveAs = new ToolStripMenuItem
+            {
+                Text = "Save as...",
+                Image = Properties.Resources.SaveAs_16x
+            };
+            tsmiFile.DropDownItems.Add(tsmiSaveAs);
+
+            tsmiFile.DropDownItems.Add(new ToolStripSeparator());
+
+            var tsmiClose = new ToolStripMenuItem
+            {
+                Text = "Close",
+                ShortcutKeyDisplayString = "Alt+F4",
+                ShortcutKeys = Keys.Alt | Keys.F4,
+                Image = Properties.Resources.Close_16x
+            };
+            tsmiFile.DropDownItems.Add(tsmiClose);
+
+            #endregion
+
+            #region /// Build
+
+            var tsmiBuild = new ToolStripMenuItem
+            {
+                Text = "Build"
+            };
+            msMain.Items.Add(tsmiBuild);
+
+            var tsmiBuildFunction = new ToolStripMenuItem
+            {
+                Text = "Build function",
+                ShortcutKeyDisplayString = "Shift+F6",
+                Image = Properties.Resources.BuildSelection_16x
+            };
+            tsmiBuild.DropDownItems.Add(tsmiBuildFunction);
+
+            var tsmiBuildAll = new ToolStripMenuItem
+            {
+                Text = "Build all...",
+                ShortcutKeyDisplayString = "F6",
+                ShortcutKeys = Keys.F6,
+                Image = Properties.Resources.BuildSolution_16x
+            };
+            tsmiBuild.DropDownItems.Add(tsmiBuildAll);
+
+            #endregion
+
+            #region /// Functions
+
+            var tsmiFunctions = new ToolStripMenuItem
+            {
+                Text = "Functions"
+            };
+            msMain.Items.Add(tsmiFunctions);
+
+            var tsmiAddFunction = new ToolStripMenuItem
+            {
+                Text = "New function graph",
+                Image = Properties.Resources.NewGraph_16x
+            };
+            tsmiFunctions.DropDownItems.Add(tsmiAddFunction);
+            tsmiAddFunction.Click += (s, e) =>
+            {
+                functionsCounter++;
+                var tabPage = new DiagramTabPage("Function " + functionsCounter.ToString());
+                tabPage.Diagram.Type = ConstructorDiagram.ConstructorDiagramTypes.Regular;
+                tcMain.TabPages.Add(tabPage);
+                tcMain.SelectedTab = tabPage;
+            };
+
+            var tsmiRemoveFunction = new ToolStripMenuItem
+            {
+                Text = "Close function graph",
+                Image = Properties.Resources.Close_red_16x
+            };
+            tsmiFunctions.DropDownItems.Add(tsmiRemoveFunction);
+            tsmiRemoveFunction.Click += (s, e) =>
+            {
+                if (((DiagramTabPage)tcMain.SelectedTab).Diagram.Type != ConstructorDiagram.ConstructorDiagramTypes.Main)
+                {
+                    if (MessageBox.Show("Are you sure you want to close the function graph? This action cannot be undone.",
+                        "Close function graph",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        tcMain.TabPages.Remove(tcMain.SelectedTab);
+                    }
+                }
+            };
+
+            #endregion
+
             #endregion
 
             #region /// ToolStrip
 
             var tsMenu = new ToolStrip
             {
+                LayoutStyle = ToolStripLayoutStyle.StackWithOverflow,
                 Parent = this
             };
             tsMenu.BringToFront();
 
+            #region /// File
+
+            var tsbNew = new ToolStripButton
+            {
+                DisplayStyle = ToolStripItemDisplayStyle.Image,
+                Image = tsmiNew.Image,
+                ToolTipText = tsmiNew.Text
+            };
+            tsbNew.Click += (s, e) => { tsmiNew.PerformClick(); };
+            tsMenu.Items.Add(tsbNew);
+
+            var tsbOpen = new ToolStripButton
+            {
+                DisplayStyle = ToolStripItemDisplayStyle.Image,
+                Image = tsmiOpen.Image,
+                ToolTipText = tsmiOpen.Text
+            };
+            tsbOpen.Click += (s, e) => { tsmiOpen.PerformClick(); };
+            tsMenu.Items.Add(tsbOpen);
+
+            var tsbSave = new ToolStripButton
+            {
+                DisplayStyle = ToolStripItemDisplayStyle.Image,
+                Image = tsmiSave.Image,
+                ToolTipText = tsmiSave.Text
+            };
+            tsbSave.Click += (s, e) => { tsmiSave.PerformClick(); };
+            tsMenu.Items.Add(tsbSave);
+
             #endregion
+
+            #region /// Build
+
+            tsMenu.Items.Add(new ToolStripSeparator());
+
+            var tsbBuildFunction = new ToolStripButton
+            {
+                DisplayStyle = ToolStripItemDisplayStyle.Image,
+                Image = tsmiBuildFunction.Image,
+                ToolTipText = tsmiBuildFunction.Text,
+            };
+            tsbBuildFunction.Click += (s, e) => { tsmiBuildFunction.PerformClick(); };
+            tsMenu.Items.Add(tsbBuildFunction);
+
+            var tsbBuildAll = new ToolStripButton
+            {
+                DisplayStyle = ToolStripItemDisplayStyle.Image,
+                Image = tsmiBuildAll.Image,
+                ToolTipText = tsmiBuildAll.Text
+            };
+            tsbBuildAll.Click += (s, e) => { tsmiBuildAll.PerformClick(); };
+            tsMenu.Items.Add(tsbBuildAll);
+
+
+            #endregion
+
+            #region /// Functions
+
+            tsMenu.Items.Add(new ToolStripSeparator());
+
+            var tsbAddFunction = new ToolStripButton
+            {
+                DisplayStyle = ToolStripItemDisplayStyle.Image,
+                Image = tsmiAddFunction.Image,
+                ToolTipText = tsmiAddFunction.Text,
+            };
+            tsbAddFunction.Click += (s, e) => { tsmiAddFunction.PerformClick(); };
+            tsMenu.Items.Add(tsbAddFunction);
+
+            var tsbRemoveFunction = new ToolStripButton
+            {
+                DisplayStyle = ToolStripItemDisplayStyle.Image,
+                Image = tsmiRemoveFunction.Image,
+                ToolTipText = tsmiRemoveFunction.Text,
+            };
+            tsbRemoveFunction.Click += (s, e) => { tsmiRemoveFunction.PerformClick(); };
+            tsMenu.Items.Add(tsbRemoveFunction);
+
+            #endregion
+
+            #endregion
+
+
 
             #region /// SplitContainer
 
@@ -105,10 +315,6 @@ namespace LuaScriptConstructor
             };
             tpMain.Diagram.Type = ConstructorDiagram.ConstructorDiagramTypes.Main;
             tcMain.TabPages.Add(tpMain);
-
-            var tpFunction = new DiagramTabPage();
-            tpFunction.Diagram.Type = ConstructorDiagram.ConstructorDiagramTypes.Regular;
-            tcMain.TabPages.Add(tpFunction);
 
             #endregion
 
