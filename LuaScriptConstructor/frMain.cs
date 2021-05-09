@@ -8,6 +8,23 @@ namespace LuaScriptConstructor
 {
     public partial class frMain : Form
     {
+        private static string _status = "";
+        /// <summary>
+        /// Programm status.
+        /// </summary>
+        public static string Status
+        {
+            get
+            {
+                return _status;
+            }
+            set
+            {
+                tslStatus.Text = value;
+                _status = value;
+            }
+        }
+
         /// <summary>
         /// Project functions as object.
         /// </summary>
@@ -19,6 +36,8 @@ namespace LuaScriptConstructor
         private int functionsCounter = 0;
         private string projectPath = "";
 
+        private static ToolStripLabel tslStatus;
+
         public frMain()
         {
             #region /// Initialization
@@ -26,6 +45,7 @@ namespace LuaScriptConstructor
             #region /// Form
 
             this.Size = new System.Drawing.Size(800, 600);
+            this.Text = Application.ProductName;
 
             #endregion
 
@@ -180,7 +200,7 @@ namespace LuaScriptConstructor
 
             #endregion
 
-            #region /// ToolStrip
+            #region /// MenuToolStrip
 
             var tsMenu = new ToolStrip
             {
@@ -271,12 +291,38 @@ namespace LuaScriptConstructor
 
             #endregion
 
+            #region /// StatusToolStrup
+
+            var tsStatus = new ToolStrip
+            {
+                Parent = this,
+                AutoSize = false,
+                GripStyle = ToolStripGripStyle.Hidden,
+                Dock = DockStyle.Bottom,
+            };
+
+            tslStatus = new ToolStripLabel
+            {
+                Dock = DockStyle.Left
+            };
+            tsStatus.Items.Add(tslStatus);
+
+            var tslCopyright = new ToolStripLabel
+            {
+                Text = "Copyright © 2021 StvDev.PRO",
+                Alignment = ToolStripItemAlignment.Right,
+                Dock = DockStyle.Right
+            };
+            tsStatus.Items.Add(tslCopyright);
+
+            #endregion
+
             #region /// SplitContainer
 
             var scMain = new SplitContainer
             {
                 Width = this.ClientSize.Width,
-                Height = this.ClientSize.Height - msMain.Height - tsMenu.Height,
+                Height = this.ClientSize.Height - msMain.Height - tsMenu.Height - tslStatus.Height - 3,
                 SplitterDistance = this.ClientSize.Width / 10 * 4,
                 Left = 0,
                 Top = msMain.Height + tsMenu.Height,
@@ -312,7 +358,7 @@ namespace LuaScriptConstructor
 
             #region /// Tab Control
 
-             tcMain = new TradeWright.UI.Forms.TabControlExtra
+            tcMain = new TradeWright.UI.Forms.TabControlExtra
             {
                 Width = scMain.Panel2.ClientSize.Width,
                 Height = scMain.Panel2.ClientSize.Height,
@@ -327,6 +373,13 @@ namespace LuaScriptConstructor
             tcMain.TabPages.Add(tpMain);
 
             #endregion
+
+
+            #endregion
+
+            #region /// Status
+
+            Status = "Ready";
 
             #endregion
 
@@ -351,7 +404,7 @@ namespace LuaScriptConstructor
             this.Resize += (s, e) =>
             {
                 scMain.Width = this.ClientSize.Width;
-                scMain.Height = this.ClientSize.Height - msMain.Height - tsMenu.Height;
+                scMain.Height = this.ClientSize.Height - msMain.Height - tsMenu.Height - tslStatus.Height - 3;
             };
 
             #endregion
@@ -364,6 +417,7 @@ namespace LuaScriptConstructor
                 }
                 else
                 {
+                    this.Text = Application.ProductName + " - " + Path.GetFileName(projectPath);
                     Save(projectPath, tcMain);
                 }
             };
@@ -379,6 +433,7 @@ namespace LuaScriptConstructor
                     if (sfd.ShowDialog() == DialogResult.OK)
                     {
                         projectPath = sfd.FileName;
+                        this.Text = Application.ProductName + " - " + Path.GetFileName(projectPath);
                         Save(projectPath, tcMain);
                     }
                 }
@@ -395,10 +450,29 @@ namespace LuaScriptConstructor
                     if (ofd.ShowDialog() == DialogResult.OK)
                     {
                         projectPath = ofd.FileName;
+                        this.Text = Application.ProductName + " - " + Path.GetFileName(projectPath);
                         Open(projectPath, tcMain);
                     }
                 }
             };
+
+            tcMain.GotFocus += (s, e) =>
+            {
+                if ((!String.IsNullOrEmpty(projectPath)) && (!this.Text.Contains("*")))
+                {
+                    this.Text += "*";
+                }
+            };
+
+            ctvMain.GotFocus += (s, e) =>
+            {
+                if ((!String.IsNullOrEmpty(projectPath)) && (!this.Text.Contains("*")))
+                {
+                    this.Text += "*";
+                }
+            };
+
+            
 
             #endregion
         }
@@ -445,6 +519,7 @@ namespace LuaScriptConstructor
 
         public void Save(string path, TabControl tabControl)
         {
+            Status = "Initializing a save";
             File.Create(path).Close();
             using (var fileStream = new FileStream(path, FileMode.Open))
             {
@@ -458,19 +533,25 @@ namespace LuaScriptConstructor
 
                     string file = "{";
                     file += "Counter=" + functionsCounter + ";";
+                    Status = "Saving functions";
                     file += "Functions=" + SerializeFunctions(functions) + ";";
+                    Status = "Saving graphs";
                     file += "TabPages=" + SerializeTabPages(tcMain.TabPages) + ";";
                     file += "}";
+                    Status = "File recording";
                     streamWriter.Write(file);
                 }
             }
+            Status = "Save completed";
         }
 
         public void Open(string path, TabControl tabControl)
         {
+            Status = "Initializing a open";
             string file = File.ReadAllText(path);
             tabControl.TabPages.Clear();
-            
+
+            Status = "Opening...";
             file = file.Substring(1, file.Length - 2);
             List<Types.Function> functions = new List<Types.Function>();
             while (file.Length > 0)
@@ -502,6 +583,8 @@ namespace LuaScriptConstructor
 
             ReconectFunctions();
             RefreshProjectFunction();
+
+            Status = "Opening completed";
         }
 
         private string SerializeFunctions(List<Types.Function> functions)
@@ -606,7 +689,6 @@ namespace LuaScriptConstructor
             tabPage.Diagram.Refresh();
             return tabPage;
         }
-
 
         private Types.Function FindFunctionByName(string name)
         {
