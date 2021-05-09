@@ -198,7 +198,7 @@ namespace LuaScriptConstructor.Types
             table.Heading = Name;
             table.SubHeading = Description;
             table.Label = new Crainiate.Diagramming.Label(Name.Replace("_", " "));
-            table.Type = Shapes.ConstructorTable.ConstructionTableTypes.Function;
+            table.Type = Shapes.ConstructorTable.ConstructorTableTypes.Function;
             table.Size = new System.Drawing.SizeF(100f, 100f);
             table.Icon = Properties.Resources.UserFunction_16x;
             table.Function = this;

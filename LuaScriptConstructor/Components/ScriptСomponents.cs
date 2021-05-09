@@ -42,7 +42,7 @@ namespace LuaScriptConstructor.Components
 
                 var mainTable = new Shapes.ConstructorTable
                 {
-                    Type = Shapes.ConstructorTable.ConstructionTableTypes.Function,
+                    Type = Shapes.ConstructorTable.ConstructorTableTypes.Function,
                     Function = main,
                     Heading = main.Name,
                     GradientColor = System.Drawing.Color.White,
@@ -77,7 +77,7 @@ namespace LuaScriptConstructor.Components
 
                 var initTable = new Shapes.ConstructorTable
                 {
-                    Type = Shapes.ConstructorTable.ConstructionTableTypes.Function,
+                    Type = Shapes.ConstructorTable.ConstructorTableTypes.Function,
                     Function = init,
                     Heading = init.Name,
                     GradientColor = System.Drawing.Color.White,
@@ -112,7 +112,7 @@ namespace LuaScriptConstructor.Components
 
                 var startTable = new Shapes.ConstructorTable
                 {
-                    Type = Shapes.ConstructorTable.ConstructionTableTypes.Function,
+                    Type = Shapes.ConstructorTable.ConstructorTableTypes.Function,
                     Function = start,
                     Heading = start.Name,
                     CanEditHeading = true,

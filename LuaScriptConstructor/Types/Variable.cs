@@ -72,7 +72,7 @@ namespace LuaScriptConstructor.Types
                     Heading = Name,
                     SubHeading = "",
                     Label = new Crainiate.Diagramming.Label(Name),
-                    Type = ConstructorTable.ConstructionTableTypes.Variable,
+                    Type = ConstructorTable.ConstructorTableTypes.Variable,
                     BackColor = System.Drawing.Color.Aquamarine,
                     GradientColor = System.Drawing.Color.Aquamarine,
                     CanEditHeading = true,

@@ -30,7 +30,7 @@ namespace LuaScriptConstructor.Types
                     Heading = "",
                     SubHeading = "",
                     Label = new Crainiate.Diagramming.Label("Constant"),
-                    Type = Shapes.ConstructorTable.ConstructionTableTypes.Constant,
+                    Type = Shapes.ConstructorTable.ConstructorTableTypes.Constant,
                     CanEditHeading = true,
                     GradientColor = System.Drawing.Color.LightCoral,
                     BackColor = System.Drawing.Color.LightCoral,

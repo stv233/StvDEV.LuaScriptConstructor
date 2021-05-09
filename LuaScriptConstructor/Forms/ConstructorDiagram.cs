@@ -211,7 +211,7 @@ namespace LuaScriptConstructor.Forms
                                     var table = (Shapes.ConstructorTable)element;
 
                                     // If the table is a function.
-                                    if (table.Type == Shapes.ConstructorTable.ConstructionTableTypes.Function)
+                                    if (table.Type == Shapes.ConstructorTable.ConstructorTableTypes.Function)
                                     {
                                         // If the table is a table of one of the Script component functions, then it cannot be deleted.
                                         foreach (Types.Function function in Components.ScriptСomponents.Functions)
@@ -281,7 +281,7 @@ namespace LuaScriptConstructor.Forms
                 var table = element as Shapes.ConstructorTable;
                 Tables.Add(element.Key, table);
                 
-                if (table.Type == Shapes.ConstructorTable.ConstructionTableTypes.Function)
+                if (table.Type == Shapes.ConstructorTable.ConstructorTableTypes.Function)
                 {
                     try
                     {
@@ -295,7 +295,7 @@ namespace LuaScriptConstructor.Forms
                     }
                     table.AllowRenew = true;
                 }
-                else if (table.Type == Shapes.ConstructorTable.ConstructionTableTypes.Variable)
+                else if (table.Type == Shapes.ConstructorTable.ConstructorTableTypes.Variable)
                 {
                     try
                     {
@@ -353,7 +353,7 @@ namespace LuaScriptConstructor.Forms
                 table.Heading = texbox.Text;
 
                 // If this is a function start table, then rename the title along with it.
-                if (table.Type == Shapes.ConstructorTable.ConstructionTableTypes.Function)
+                if (table.Type == Shapes.ConstructorTable.ConstructorTableTypes.Function)
                 {
                     if (table.Function.Prefix == Components.ScriptСomponents.Functions[2].Prefix)
                     {

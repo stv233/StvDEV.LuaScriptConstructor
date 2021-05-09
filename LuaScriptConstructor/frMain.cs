@@ -424,9 +424,17 @@ namespace LuaScriptConstructor
         {
             foreach (DiagramTabPage tabPage in tcMain.TabPages)
             {
+                if (projectFunctions.ContainsKey(tabPage.Text.Replace(" ","_")))
+                {
+                    projectFunctions[tabPage.Text.Replace(" ", "_")].Diagram = tabPage.Diagram;
+                }
+            }
+
+            foreach (DiagramTabPage tabPage in tcMain.TabPages)
+            {
                 foreach(Shapes.ConstructorTable table in tabPage.Diagram.Tables.Values)
                 {
-                    if (table.Type == Shapes.ConstructorTable.ConstructionTableTypes.Function)
+                    if (table.Type == Shapes.ConstructorTable.ConstructorTableTypes.Function)
                     {
                         Types.Function function = FindFunctionByName(table.Function.Name);
                         if (function != null)
@@ -452,6 +460,7 @@ namespace LuaScriptConstructor
                     }
 
                     string file = "{";
+                    file += "Counter=" + functionsCounter + ";";
                     file += "Functions=" + SerializeFunctions(functions) + ";";
                     file += "TabPages=" + SerializeTabPages(tcMain.TabPages) + ";";
                     file += "}";
@@ -474,6 +483,10 @@ namespace LuaScriptConstructor
                 int delimiter = Saves.Saves.FindPropertyDelemiter(file, propertySign);
                 switch (propertyName)
                 {
+                    case "Counter":
+                        functionsCounter = Convert.ToInt32(file.Substring(propertySign + 1, delimiter - (propertySign + 1)));
+                        file = file.Substring(delimiter + 1);
+                        break;
                     case "Functions":
                         functions = DeserializeFunctions(file.Substring(propertySign + 1, delimiter - (propertySign + 1)));
                         projectFunctions = new Dictionary<string, Types.Function>();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Crainiate.Diagramming;
 
 namespace LuaScriptConstructor.Shapes
@@ -9,7 +10,43 @@ namespace LuaScriptConstructor.Shapes
     /// </summary>
     class ConstructorTable : Table, Saves.IConstructorSerializable
     {
-        public enum ConstructionTableTypes
+        /// <summary>
+        /// Represents exceptions when using a <see cref="ConstructorTable"/> with an unsuitable type.
+        /// </summary>
+        class InappropriateTableTypeException : Exception
+        {
+            /// <summary>
+            /// Initializes a new instance of the System.Exception class.
+            /// </summary>
+            public InappropriateTableTypeException() : base() { }
+
+            /// <summary>
+            /// Initializes a new instance of the System.Exception class with message.
+            /// </summary>
+            /// <param name="message">A message describing the error</param>
+            public InappropriateTableTypeException(string message) : base(message) { }
+
+            /// <summary>
+            /// Initializes a new instance of the System.Exception class with message.
+            /// </summary>
+            /// <param name="message">An error message indicating the reason for the exception being thrown</param>
+            /// <param name="innerException">The exception that threw the current exception, or a null reference (Nothing in VisualBasic) if no inner exception is set</param>
+            public InappropriateTableTypeException(string message, Exception innerException) : base(message, innerException) { }
+
+
+            /// <summary>
+            /// Initializes a new instance of the System.Exception class with serialized data.
+            /// </summary>
+            /// <param name="info">The System.Runtime.Serialization.SerializationInfo object containing the serialized object data about the thrown exception</param>
+            /// <param name="context"></param>
+            protected InappropriateTableTypeException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
+        }
+
+        /// <summary>
+        /// Constructor table types.
+        /// </summary>
+        public enum ConstructorTableTypes
         {
             Function,
             Variable,
@@ -19,7 +56,7 @@ namespace LuaScriptConstructor.Shapes
         /// <summary>
         /// Table type.
         /// </summary>
-        public ConstructionTableTypes Type { get; set; }
+        public ConstructorTableTypes Type { get; set; }
 
         private bool _allowRenew = false;
 
@@ -96,11 +133,11 @@ namespace LuaScriptConstructor.Shapes
         {
             get
             {
-                if (Type == ConstructionTableTypes.Variable)
+                if (Type == ConstructorTableTypes.Variable)
                 {
                     return Variable;
                 }
-                else if (Type == ConstructionTableTypes.Function)
+                else if (Type == ConstructorTableTypes.Function)
                 {
                     return Function;
                 }
@@ -186,7 +223,14 @@ namespace LuaScriptConstructor.Shapes
 
         public void RenewTable(object sender, EventArgs e)
         {
+            if (this.Type != ConstructorTableTypes.Function)
+            {
+                throw new InappropriateTableTypeException("Renew is only available for function tables.");
+            }
+
             if (!AllowRenew) { return; };
+
+            Function.Diagram.Suspend();
 
             Dictionary<Port, string> portsItem = new Dictionary<Port, string>();
             foreach (Port port in this.Ports.Values)
@@ -247,6 +291,16 @@ namespace LuaScriptConstructor.Shapes
                     }
                 }
             }
+
+            foreach(Port port in this.Ports.Values)
+            {
+                if (port is TablePort)
+                {
+                    LocatePort(port);
+                }
+            }
+
+            Function.Diagram.Resume();
 
         }
 
@@ -375,13 +429,13 @@ namespace LuaScriptConstructor.Shapes
                         {
                             
                             case "Constant":
-                                this.Type = ConstructionTableTypes.Constant;
+                                this.Type = ConstructorTableTypes.Constant;
                                 break;
                             case "Function":
-                                this.Type = ConstructionTableTypes.Function;
+                                this.Type = ConstructorTableTypes.Function;
                                 break;
                             case "Variable":
-                                this.Type = ConstructionTableTypes.Variable;
+                                this.Type = ConstructorTableTypes.Variable;
                                 break;
                         }
                         serializedTable = serializedTable.Substring(delimiter + 1);
@@ -648,7 +702,22 @@ namespace LuaScriptConstructor.Shapes
             }
             else
             {
-                return port as Port;
+                Port simplePort = new Port();
+                simplePort.SetKey(port.Key);
+                simplePort.Direction = port.Direction;
+                simplePort.Orientation = port.Orientation;
+                simplePort.Style = port.Style;
+                table.Ports.Add(simplePort);
+                simplePort.Location = port.Location;
+                foreach (string key in table.Ports.Keys)
+                {
+                    if (table.Ports[key] == port)
+                    {
+                        table.Ports.Remove(key);
+                        break;
+                    }
+                }
+                return simplePort;
             }
         }
 

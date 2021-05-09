@@ -1706,7 +1706,11 @@ namespace Crainiate.Diagramming.Forms
                             hidden.Add(newElement);
 
                             ports = (IPortContainer)newElement;
-                            line.End.Port = (Port)ports.Ports[actionLine.End.Port.Key];
+                            try
+                            {
+                                line.End.Port = (Port)ports.Ports[actionLine.End.Port.Key];
+                            }
+                            catch { }
                         }
                         else
                         {
