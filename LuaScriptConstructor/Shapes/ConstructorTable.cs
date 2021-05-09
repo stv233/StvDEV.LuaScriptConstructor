@@ -7,7 +7,7 @@ namespace LuaScriptConstructor.Shapes
     /// <summary>
     /// Constructor table.
     /// </summary>
-    class ConstructorTable : Table
+    class ConstructorTable : Table, Saves.IConstructorSerializable
     {
         public enum ConstructionTableTypes
         {
@@ -21,10 +21,63 @@ namespace LuaScriptConstructor.Shapes
         /// </summary>
         public ConstructionTableTypes Type { get; set; }
 
+        private bool _allowRenew = false;
+
+        /// <summary>
+        /// Sets or returns permission to renew a table.
+        /// </summary>
+        public bool AllowRenew
+        {
+            get
+            {
+                return _allowRenew;
+            }
+            set
+            {
+                _allowRenew = value;
+            }
+        }
+
+        public Types.Function _function;
+
         /// <summary>
         /// Table function.
         /// </summary>
-        public Types.Function Function { get; set; }
+        public Types.Function Function
+        {
+            get
+            {
+                return _function;
+            }
+            set
+            {
+                if (_function != null)
+                {
+                    if (_function.Diagram != null)
+                    {
+                        try
+                        {
+                            _function.Diagram.SelectedChanged -= RenewTable;
+                        }
+                        catch { }
+                    }
+                }
+
+                _function = value;
+
+                if (_function != null)
+                {
+                    if (_function.Diagram != null)
+                    {
+                        try
+                        {
+                            _function.Diagram.SelectedChanged += RenewTable;
+                        }
+                        catch { }
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Table variable.
@@ -81,7 +134,14 @@ namespace LuaScriptConstructor.Shapes
         {
             get
             {
-                return new System.Drawing.Bitmap(_icon);
+                try
+                {
+                    return new System.Drawing.Bitmap(_icon);
+                }
+                catch
+                {
+                    return new System.Drawing.Bitmap(Properties.Resources.UserFunction_16x);
+                }
             }
             set
             {
@@ -114,6 +174,7 @@ namespace LuaScriptConstructor.Shapes
                     clone.Alignment = tablePort.Alignment;
                     clone.Style = tablePort.Style;
                     Ports.Add(port.Key, clone);
+                    clone.Location = tablePort.Location;
                 }
                 else
                 {
@@ -123,5 +184,537 @@ namespace LuaScriptConstructor.Shapes
             }
         }
 
+        public void RenewTable(object sender, EventArgs e)
+        {
+            if (!AllowRenew) { return; };
+
+            Dictionary<Port, string> portsItem = new Dictionary<Port, string>();
+            foreach (Port port in this.Ports.Values)
+            {
+                if (port is TablePort)
+                {
+                    portsItem.Add(port, (port as TablePort).TableItem.Text);
+                } 
+            }
+
+            var prototype = this.Function.Table;
+            this.Heading = prototype.Heading;
+            this.SubHeading = prototype.SubHeading;
+            this.Groups = new TableGroups();
+            Table.CopyGroups(prototype.Groups, this.Groups);
+            this.Rows = new TableRows();
+            Table.CopyRows(prototype.Rows, this.Rows);
+
+            List<string> portsToRemove = new List<string>();
+
+            foreach (string portKey in this.Ports.Keys)
+            {
+                Port port = this.Ports[portKey];
+
+                if (port is TablePort)
+                {
+                    if (FindTableItemWithText(portsItem[port], this) != null)
+                    {
+                        (port as TablePort).TableItem = FindTableItemWithText(portsItem[port], this);
+                    }
+                    else
+                    {
+                        portsToRemove.Add(portKey);
+                    }
+                }
+            }
+
+            foreach(string portKey in portsToRemove)
+            {
+                this.Ports.Remove(portKey);
+            }
+
+            foreach(Port port in prototype.Ports.Values)
+            {
+                if (port is TablePort)
+                {
+                    if (!portsItem.ContainsValue((port as TablePort).TableItem.Text))
+                    {
+                        if (FindTableItemWithText((port as TablePort).TableItem.Text, this) != null)
+                        {
+                            var newPort = new TablePort(FindTableItemWithText((port as TablePort).TableItem.Text, this));
+                            newPort.SetKey(port.Key.Substring(0, port.Key.LastIndexOf('_')) + DateTime.Now.GetHashCode());
+                            newPort.Orientation = port.Orientation;
+                            newPort.Direction = port.Direction;
+                            newPort.Style = port.Style;
+                            this.Ports.Add(newPort);
+                        }
+                    }
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Serializes a table to a string.
+        /// </summary>
+        /// <returns>Serialized table</returns>
+        public string SerializeToString()
+        {
+            string result = "{";
+            result += "Key=" + Key + ";";
+            result += "Heading=∴Heading=>" + Heading + "<=Heading∴;";
+            result += "SubHeading=∴SubHeading=>" + SubHeading + "<=SubHeading∴;";
+            result += "Type=" + Type + ";";
+            if (Function != null)
+            {
+                result += "Function=" + Function.Name + ";";
+            }
+            result += "Size=" + Width + "-" + Height + ";";
+            result += "Location=" + Location.X + "-" + Location.Y + ";";
+            result += "Groups=" + SerializeGroups(Groups) + ";";
+            result += "Rows=" + SerializeRows(Rows) + ";";
+            result += "Ports=" + SerializePorts(Ports) + ";";
+            result += "}";
+
+            return result;
+        }
+
+        /// <summary>
+        /// Serializes table groups to string.
+        /// </summary>
+        /// <param name="groups">TableGroups</param>
+        /// <returns>Serialized table groups</returns>
+        private string SerializeGroups(TableGroups groups)
+        {
+            string result = "{";
+            foreach(TableGroup group in groups)
+            {
+                result += "group={";
+                result += "Text=∴Text=>" + group.Text + "<=Text∴;";
+                result += "Groups=" + SerializeGroups(group.Groups) + ";";
+                result += "Rows=" + SerializeRows(group.Rows) + ";";
+                result += "};";
+            }
+            result += "}";
+
+            return result;
+        }
+
+        /// <summary>
+        /// Serializes table rows to string.
+        /// </summary>
+        /// <param name="rows">TableRows</param>
+        /// <returns>Serialized table rows</returns>
+        private string SerializeRows(TableRows rows)
+        {
+            string result = "{";
+            foreach(TableRow row in rows)
+            {
+                result += "row={";
+                result += "Text=∴Text=>" + row.Text + "<=Text∴;";
+                result += "};";
+            }
+            result += "}";
+
+            return result;
+        }
+
+        /// <summary>
+        /// Serializes ports to string.
+        /// </summary>
+        /// <param name="ports">Ports</param>
+        /// <returns>Serialized ports</returns>
+        private string SerializePorts(Ports ports)
+        {
+            string result = "{";
+            foreach(Port port in Ports.Values)
+            {
+                result += "port={";
+                result += "Key=" + port.Key + ";";
+                result += "Direction=" + port.Direction + ";";
+                result += "Orientation=" + port.Orientation + ";";
+                result += "Style=" + port.Style + ";";
+                result += "Location=" + port.Location.X + "-" + port.Location.Y + ";";
+                if (port is TablePort)
+                {
+                    var tablePort = port as TablePort;
+                    result += "TableItem=" + tablePort.TableItem.Text + ";";
+                }
+                result += "};";
+            }
+            result += "}";
+
+            return result;
+        }
+
+        /// <summary>
+        /// Deserializes a table from a string.
+        /// </summary>
+        /// <param name="serializedTable">Serialized table</param>
+        public void DeserializeFromString(string serializedTable)
+        {
+            serializedTable = serializedTable.Substring(1, serializedTable.Length - 2);
+            while (serializedTable.Length > 0)
+            {
+                int propertySign = serializedTable.IndexOf('=');
+                string propertyName = serializedTable.Substring(0, propertySign);
+                int delimiter = Saves.Saves.FindPropertyDelemiter(serializedTable, propertySign);
+                switch (propertyName)
+                {
+                    case "Key":
+                        this.SetKey(serializedTable.Substring(propertySign + 1, delimiter - (propertySign + 1)));
+                        serializedTable = serializedTable.Substring(delimiter + 1);
+                        break;
+                    case "Heading":
+                        this.Heading = (serializedTable.Substring(propertySign + 1, delimiter - (propertySign + 1)).Replace("∴Heading=>","").Replace("<=Heading∴",""));
+                        serializedTable = serializedTable.Substring(delimiter + 1);
+                        break;
+                    case "SubHeading":
+                        this.SubHeading = (serializedTable.Substring(propertySign + 1, delimiter - (propertySign + 1)).Replace("∴SubHeading=>","").Replace("<=SubHeading∴",""));
+                        serializedTable = serializedTable.Substring(delimiter + 1);
+                        break;
+                    case "Type":
+                        string type = (serializedTable.Substring(propertySign + 1, delimiter - (propertySign + 1)));
+                        switch (type)
+                        {
+                            
+                            case "Constant":
+                                this.Type = ConstructionTableTypes.Constant;
+                                break;
+                            case "Function":
+                                this.Type = ConstructionTableTypes.Function;
+                                break;
+                            case "Variable":
+                                this.Type = ConstructionTableTypes.Variable;
+                                break;
+                        }
+                        serializedTable = serializedTable.Substring(delimiter + 1);
+                        break;
+                    case "Function":
+                        this.Function =  new Types.Function(serializedTable.Substring(propertySign + 1, delimiter - (propertySign + 1)));
+                        serializedTable = serializedTable.Substring(delimiter + 1);
+                        break;
+                    case "Size":
+                        string[] size = (serializedTable.Substring(propertySign + 1, delimiter - (propertySign + 1)).Split('-'));
+                        this.Size = new System.Drawing.SizeF(Convert.ToInt32(size[0]), Convert.ToInt32(size[1]));
+                        serializedTable = serializedTable.Substring(delimiter + 1);
+                        break;
+                    case "Location":
+                        string[] location = (serializedTable.Substring(propertySign + 1, delimiter - (propertySign + 1)).Split('-'));
+                        this.Location = new System.Drawing.PointF(Convert.ToInt32(location[0]), Convert.ToInt32(location[1]));
+                        serializedTable = serializedTable.Substring(delimiter + 1);
+                        break;
+                    case "Groups":
+                        this.Groups = DeserializeGroups(serializedTable.Substring(propertySign + 1, delimiter - (propertySign + 1)));
+                        serializedTable = serializedTable.Substring(delimiter + 1);
+                        break;
+                    case "Rows":
+                        this.Rows = DeserializeRows(serializedTable.Substring(propertySign + 1, delimiter - (propertySign + 1)));
+                        serializedTable = serializedTable.Substring(delimiter + 1);
+                        break;
+                    case "Ports":
+                        DeserializePorts(serializedTable.Substring(propertySign + 1, delimiter - (propertySign + 1)), this);
+                        serializedTable = serializedTable.Substring(delimiter + 1);
+                        break;
+
+                }
+            }
+        }
+
+        /// <summary>
+        /// Deserializes table groups from string.
+        /// </summary>
+        /// <param name="serializedGroups">Serialized groups</param>
+        /// <returns>TableGroups</returns>
+        private TableGroups DeserializeGroups(string serializedGroups)
+        {
+            serializedGroups = serializedGroups.Substring(1, serializedGroups.Length - 2);
+            TableGroups tableGroups = new TableGroups();
+
+            while (serializedGroups.Length > 0)
+            {
+                int propertySign = serializedGroups.IndexOf('=');
+                int delimiter = Saves.Saves.FindPropertyDelemiter(serializedGroups,propertySign);
+                tableGroups.Add(DeserializeGroup(serializedGroups.Substring(propertySign + 1, delimiter - (propertySign + 1))));
+                serializedGroups = serializedGroups.Substring(delimiter + 1);
+            }
+
+            return tableGroups;
+        }
+
+        /// <summary>
+        /// Deserializes table group from string.
+        /// </summary>
+        /// <param name="serializedGroup">Serialized group</param>
+        /// <returns>TableGroup</returns>
+        private TableGroup DeserializeGroup(string serializedGroup)
+        {
+            serializedGroup = serializedGroup.Substring(1, serializedGroup.Length - 2);
+            TableGroup group = new TableGroup();
+
+            while (serializedGroup.Length > 0)
+            {
+                int propertySign = serializedGroup.IndexOf('=');
+                string propertyName = serializedGroup.Substring(0, propertySign);
+                int delimiter = Saves.Saves.FindPropertyDelemiter(serializedGroup, propertySign);
+                switch(propertyName)
+                {
+                    case "Text":
+                        group.Text = (serializedGroup.Substring(propertySign + 1, delimiter - (propertySign + 1)).Replace("∴Text=>","").Replace("<=Text∴",""));
+                        serializedGroup = serializedGroup.Substring(delimiter + 1);
+                        break;
+                    case "Groups":
+                        group.Groups = DeserializeGroups(serializedGroup.Substring(propertySign + 1, delimiter - (propertySign + 1)));
+                        serializedGroup = serializedGroup.Substring(delimiter + 1);
+                        break;
+                    case "Rows":
+                        group.Rows = DeserializeRows(serializedGroup.Substring(propertySign + 1, delimiter - (propertySign + 1)));
+                        serializedGroup = serializedGroup.Substring(delimiter + 1);
+                        break;
+                }
+            }
+
+            return group;
+        }
+
+        /// <summary>
+        /// Deserializes table rows from string.
+        /// </summary>
+        /// <param name="serializedRows">Serialized rows</param>
+        /// <returns>TableRows</returns>
+        private TableRows DeserializeRows(string serializedRows)
+        {
+            serializedRows = serializedRows.Substring(1, serializedRows.Length - 2);
+            TableRows tableRows = new TableRows();
+
+            while (serializedRows.Length > 0)
+            {
+                int propertySign = serializedRows.IndexOf('=');
+                int delimiter = Saves.Saves.FindPropertyDelemiter(serializedRows, propertySign);
+                tableRows.Add(DeserializeRow(serializedRows.Substring(propertySign + 1, delimiter - (propertySign + 1))));
+                serializedRows = serializedRows.Substring(delimiter + 1);
+            }
+
+            return tableRows;
+        }
+
+        /// <summary>
+        /// Deserializes table row from string.
+        /// </summary>
+        /// <param name="serializedRow">Serialized row</param>
+        /// <returns>TableRow</returns>
+        private TableRow DeserializeRow(string serializedRow)
+        {
+            serializedRow = serializedRow.Substring(1, serializedRow.Length - 2);
+            TableRow row = new TableRow();
+
+            while (serializedRow.Length > 0)
+            {
+                int propertySign = serializedRow.IndexOf('=');
+                string propertyName = serializedRow.Substring(0, propertySign);
+                int delimiter = Saves.Saves.FindPropertyDelemiter(serializedRow, propertySign);
+                switch (propertyName)
+                {
+                    case "Text":
+                        row.Text = (serializedRow.Substring(propertySign + 1, delimiter - (propertySign + 1)).Replace("∴Text=>","").Replace("<=Text∴",""));
+                        serializedRow = serializedRow.Substring(delimiter + 1);
+                        break;
+                }
+            }
+
+            return row;
+        }
+
+        /// <summary>
+        /// Deserializes ports from string.
+        /// </summary>
+        /// <param name="serializedPorts">Serialized ports</param>
+        /// <param name="table">Ports table</param>
+        /// <returns>Ports</returns>
+        private Ports DeserializePorts(string serializedPorts, ConstructorTable table)
+        {
+            serializedPorts = serializedPorts.Substring(1, serializedPorts.Length - 2);
+            Ports ports = new Ports(table.Model);
+
+            while (serializedPorts.Length > 0)
+            {
+                int propertySign = serializedPorts.IndexOf('=');
+                int delimiter = Saves.Saves.FindPropertyDelemiter(serializedPorts, propertySign);
+                ports.Add(DeserializePort(serializedPorts.Substring(propertySign + 1, delimiter - (propertySign + 1)), table));
+                serializedPorts = serializedPorts.Substring(delimiter + 1);
+            }
+
+            table.Ports = ports;
+            return ports;
+        }
+
+        /// <summary>
+        /// Deserializes port from string.
+        /// </summary>
+        /// <param name="serializedPort">Serialized port</param>
+        /// <param name="table">Port table</param>
+        /// <returns>Port</returns>
+        private Port DeserializePort(string serializedPort, ConstructorTable table)
+        {
+            serializedPort = serializedPort.Substring(1, serializedPort.Length - 2);
+            TablePort port = new TablePort(new TableRow());
+            bool isTablePort = false;
+
+            while (serializedPort.Length > 0)
+            {
+                int propertySign = serializedPort.IndexOf('=');
+                string propertyName = serializedPort.Substring(0, propertySign);
+                int delimiter = Saves.Saves.FindPropertyDelemiter(serializedPort, propertySign);
+                switch (propertyName)
+                {
+                    case "Key":
+                        port.SetKey(serializedPort.Substring(propertySign + 1, delimiter - (propertySign + 1)));
+                        serializedPort = serializedPort.Substring(delimiter + 1);
+                        break;
+                    case "Direction":
+                        string direction = (serializedPort.Substring(propertySign + 1, delimiter - (propertySign + 1)));
+                        switch (direction)
+                        {
+                            case "Both":
+                                port.Direction = Direction.Both;
+                                break;
+                            case "In":
+                                port.Direction = Direction.In;
+                                break;
+                            case "None":
+                                port.Direction = Direction.None;
+                                break;
+                            case "Out":
+                                port.Direction = Direction.Out;
+                                break;
+                        }
+                        serializedPort = serializedPort.Substring(delimiter + 1);
+                        break;
+                    case "Orientation":
+                        string orientation = (serializedPort.Substring(propertySign + 1, delimiter - (propertySign + 1)));
+                        switch (orientation)
+                        {
+                            case "None":
+                                port.Orientation = PortOrientation.None;
+                                break;
+                            case "Right":
+                                port.Orientation = PortOrientation.Right;
+                                break;
+                            case "Top":
+                                port.Orientation = PortOrientation.Top;
+                                break;
+                            case "Bottom":
+                                port.Orientation = PortOrientation.Bottom;
+                                break;
+                            case "Left":
+                                port.Orientation = PortOrientation.Left;
+                                break;
+                        }
+                        serializedPort = serializedPort.Substring(delimiter + 1);
+                        break;
+                    case "Style":
+                        string style = (serializedPort.Substring(propertySign + 1, delimiter - (propertySign + 1)));
+                        switch (style)
+                        {
+                            case "Default":
+                                port.Style = PortStyle.Default;
+                                break;
+                            case "Input":
+                                port.Style = PortStyle.Input;
+                                break;
+                            case "Output":
+                                port.Style = PortStyle.Output;
+                                break;
+                            case "Simple":
+                                port.Style = PortStyle.Simple;
+                                break;
+                        }
+                        serializedPort = serializedPort.Substring(delimiter + 1);
+                        break;
+                    case "Location":
+                        table.Ports.Add(port);
+                        string[] location = (serializedPort.Substring(propertySign + 1, delimiter - (propertySign + 1)).Split('-'));
+                        port.Location = new System.Drawing.PointF((float)Convert.ToDouble(location[0]), (float)Convert.ToDouble(location[1]));
+                        serializedPort = serializedPort.Substring(delimiter + 1);
+                        break;
+                    case "TableItem":
+                        isTablePort = true;
+                        string tableItemText = (serializedPort.Substring(propertySign + 1, delimiter - (propertySign + 1)));
+                        port.TableItem = FindTableItemWithText(tableItemText, table);
+                        serializedPort = serializedPort.Substring(delimiter + 1);
+                        break;
+                }
+            }
+
+            if (isTablePort)
+            {
+                return port;
+            }
+            else
+            {
+                return port as Port;
+            }
+        }
+
+        /// <summary>
+        /// Searches the table for an item with the given text.
+        /// </summary>
+        /// <param name="text">Text</param>
+        /// <returns>TableItem or null</returns>
+        public TableItem FindTableItemWithText(string text)
+        {
+            return FindTableItemWithText(text, this);
+        }
+
+        /// <summary>
+        /// Searches the table for an item with the given text.
+        /// </summary>
+        /// <param name="text">Text</param>
+        /// <param name="table">Table</param>
+        /// <returns>TableItem or null</returns>
+        private TableItem FindTableItemWithText(string text,Table table)
+        {
+            if (table.Groups != null)
+            {
+                return FindTableItemWithText(text, table.Groups);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Searches the table groups for an item with the given text.
+        /// </summary>
+        /// <param name="text">Text</param>
+        /// <param name="groups">Groups</param>
+        /// <returns>TableItem or null</returns>
+        private TableItem FindTableItemWithText(string text, TableGroups groups)
+        {
+            foreach (TableGroup group in groups)
+            {
+                if (group.Text == text)
+                {
+                    return group;
+                }
+
+                if (group.Groups != null)
+                {
+                    TableItem groupsReturn = FindTableItemWithText(text, group.Groups);
+                    if (groupsReturn != null)
+                    {
+                        return groupsReturn;
+                    }
+                }
+
+                if (group.Rows != null)
+                {
+                    foreach (TableRow row in group.Rows)
+                    {
+                        if (row.Text == text)
+                        {
+                            return row;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+        
     }
 }

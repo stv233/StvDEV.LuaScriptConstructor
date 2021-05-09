@@ -6,7 +6,7 @@ namespace LuaScriptConstructor.Types
     /// <summary>
     /// Lua function.
     /// </summary>
-    class Function : Variable
+    class Function : Variable, Saves.IConstructorSerializable
     {
         /// <summary>
         /// Represents a class containing data for a <see cref="BuildComplite"/> and <see cref="BuildError"/> event.
@@ -82,9 +82,26 @@ namespace LuaScriptConstructor.Types
         public List<string> Returns { get; protected set; }
 
         /// <summary>
+        /// Function diagram.
+        /// </summary>
+        public virtual Forms.ConstructorDiagram Diagram { get; set; }
+
+        /// <summary>
         /// Funtion table.
         /// </summary>
-        new public virtual Shapes.ConstructorTable Table { get; protected set; }
+        new public virtual Shapes.ConstructorTable Table
+        {
+            get
+            {
+                if (this is ProgrammaticallyDefinedFunction)
+                {
+                    return (this as ProgrammaticallyDefinedFunction).Table;
+                }
+                
+                List<string> warnings = new List<string>();
+                return BuildTable(Diagram, ref warnings);
+            }
+        }
 
         /// <summary>
         /// Function code.
@@ -155,7 +172,7 @@ namespace LuaScriptConstructor.Types
 
             try
             {
-                Table = BuildTable(diagram, ref warnings);
+                BuildTable(diagram, ref warnings);
             }
             catch (Exception e)
             {
@@ -174,7 +191,9 @@ namespace LuaScriptConstructor.Types
         /// <returns></returns>
         private Shapes.ConstructorTable BuildTable(Forms.ConstructorDiagram diagram, ref List<string> warnings)
         {
-          
+            Arguments = new List<string>();
+            Returns = new List<string>();
+
             Shapes.ConstructorTable table = new Shapes.ConstructorTable();
             table.Heading = Name;
             table.SubHeading = Description;
@@ -183,7 +202,7 @@ namespace LuaScriptConstructor.Types
             table.Size = new System.Drawing.SizeF(100f, 100f);
             table.Icon = Properties.Resources.UserFunction_16x;
             table.Function = this;
-            table.SetKey(Prefix + "_" + Name + DateTime.Now.GetHashCode());
+            table.SetKey(Prefix + "_" + Name + "_" + DateTime.Now.GetHashCode());
 
             if ((AccessType == VariableAccessTypes.Input) || (AccessType == VariableAccessTypes.InputOutput))
             {
@@ -194,7 +213,7 @@ namespace LuaScriptConstructor.Types
                     Style = Crainiate.Diagramming.PortStyle.Default,
                     AllowMove = false
                 };
-                input.SetKey("input_" + Prefix + "_" + Name + DateTime.Now.GetHashCode());
+                input.SetKey("input_" + Prefix + "_" + Name + "_" + DateTime.Now.GetHashCode());
                 table.Ports.Add(input);
             }
 
@@ -207,7 +226,7 @@ namespace LuaScriptConstructor.Types
                     Style = Crainiate.Diagramming.PortStyle.Default,
                     AllowMove = false
                 };
-                output.SetKey("output_" + Prefix + "_" + Name + DateTime.Now.GetHashCode());
+                output.SetKey("output_" + Prefix + "_" + Name + "_" + DateTime.Now.GetHashCode());
                 table.Ports.Add(output);
             }
 
@@ -259,7 +278,7 @@ namespace LuaScriptConstructor.Types
                 port.Orientation = Crainiate.Diagramming.PortOrientation.Left;
                 port.Direction = Crainiate.Diagramming.Direction.In;
                 port.Style = Crainiate.Diagramming.PortStyle.Input;
-                port.SetKey(argument);
+                port.SetKey(argument + "_" + DateTime.Now.GetHashCode());
                 arguments.Rows.Add(row);
                 table.Ports.Add(port);
             }
@@ -274,13 +293,92 @@ namespace LuaScriptConstructor.Types
                 port.Orientation = Crainiate.Diagramming.PortOrientation.Left;
                 port.Direction = Crainiate.Diagramming.Direction.Out;
                 port.Style = Crainiate.Diagramming.PortStyle.Output;
-                port.SetKey(@return);
+                port.SetKey(@return + "_" + DateTime.Now.GetHashCode());
                 returns.Rows.Add(row);
                 table.Ports.Add(port);
             }
             table.Groups.Add(returns);
 
             return table;
+        }
+
+        /// <summary>
+        /// Serialize function to string.
+        /// </summary>
+        /// <returns>Serialized function</returns>
+        public string SerializeToString()
+        {
+            string result = "{";
+            result += "Name=∴Name=>" + Name + "<=Name∴;";
+            result += "Prefix=∴Prefix=>" + Prefix + "<=Prefix∴;";
+            result += "Type=" + Type + ";";
+            result += "Description=∴Description=>" + Description + "<=Description∴;";
+            result += "Value=∴Value=>" + Value + "<=Value∴;";
+            result += "Diagram=" + Diagram.SerializeToString() + ";";
+            result += "Code=∴Code=>" + Code + "<=Code∴;";
+            result += "}";
+            return result;
+        }
+
+        /// <summary>
+        /// Deserialize function from string.
+        /// </summary>
+        /// <param name="serializedFunction">Serialized function</param>
+        public void DeserializeFromString(string serializedFunction)
+        {
+            serializedFunction = serializedFunction.Substring(1, serializedFunction.Length - 2);
+            while (serializedFunction.Length > 0)
+            {
+                int propertySign = serializedFunction.IndexOf('=');
+                string propertyName = serializedFunction.Substring(0, propertySign);
+                int delimiter = Saves.Saves.FindPropertyDelemiter(serializedFunction, propertySign);
+                switch (propertyName)
+                {
+                    case "Name":
+                        this.Name = (serializedFunction.Substring(propertySign + 1, delimiter - (propertySign + 1)).Replace("∴Name=>","").Replace("<=Name∴",""));
+                        serializedFunction = serializedFunction.Substring(delimiter + 1);
+                        break;
+                    case "Prefix":
+                        this.Prefix = (serializedFunction.Substring(propertySign + 1, delimiter - (propertySign + 1)).Replace("∴Prefix=>","").Replace("<=Prefix∴",""));
+                        serializedFunction = serializedFunction.Substring(delimiter + 1);
+                        break;
+                    case "Type":
+                        string type = (serializedFunction.Substring(propertySign + 1, delimiter - (propertySign + 1)));
+                        switch (type)
+                        {
+
+                            case "Init":
+                                this.Type = FuntionTypes.Init;
+                                break;
+                            case "Main":
+                                this.Type = FuntionTypes.Main;
+                                break;
+                            case "Regular":
+                                this.Type = FuntionTypes.Regular;
+                                break;
+                        }
+                        serializedFunction = serializedFunction.Substring(delimiter + 1);
+                        break;
+                    case "Description":
+                        this.Description = (serializedFunction.Substring(propertySign + 1, delimiter - (propertySign + 1))).Replace("∴Description=>", "").Replace("<=Description∴", "");
+                        serializedFunction = serializedFunction.Substring(delimiter + 1);
+                        break;
+                    case "Value":
+                        this.Value = (serializedFunction.Substring(propertySign + 1, delimiter - (propertySign + 1)).Replace("∴Value=>","").Replace("<=Value∴",""));
+                        serializedFunction = serializedFunction.Substring(delimiter + 1);
+                        break;
+                    case "Diagram":
+                        this.Diagram = new Forms.ConstructorDiagram();
+                        this.Diagram.DeserializeFromString(serializedFunction.Substring(propertySign + 1, delimiter - (propertySign + 1)));
+                        serializedFunction = serializedFunction.Substring(delimiter + 1);
+                        break;
+                    case "Code":
+                        this.Code = (serializedFunction.Substring(propertySign + 1, delimiter - (propertySign + 1))).Replace("∴Code=>", "").Replace("<=Code∴", "");
+                        serializedFunction = serializedFunction.Substring(delimiter + 1);
+                        break;
+
+                }
+            }
         }
     }
 }

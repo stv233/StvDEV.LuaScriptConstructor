@@ -79,7 +79,7 @@ namespace LuaScriptConstructor.Types
                     Icon = Properties.Resources.LocalVariable_16x,
                     Variable = this
                 };
-                table.SetKey(Prefix + "_" + Name + DateTime.Now.GetHashCode());
+                table.SetKey(Prefix + "_" + Name + "_" + DateTime.Now.GetHashCode());
 
                 if ((InteractionType == ValueInteractionTypes.Set) || (InteractionType == ValueInteractionTypes.GetSet))
                 {
@@ -90,7 +90,7 @@ namespace LuaScriptConstructor.Types
                         Style = Crainiate.Diagramming.PortStyle.Input,
                         AllowMove = false
                     };
-                    argument.SetKey("argument_" + Prefix + "_" + Name + DateTime.Now.GetHashCode());
+                    argument.SetKey("argument_" + Prefix + "_" + Name + "_" + DateTime.Now.GetHashCode());
                     table.Ports.Add(argument);
 
 
@@ -106,7 +106,7 @@ namespace LuaScriptConstructor.Types
                         Style = Crainiate.Diagramming.PortStyle.Output,
                         AllowMove = false
                     };
-                    @return.SetKey("return_" + Prefix + "_" + Name + DateTime.Now.GetHashCode());
+                    @return.SetKey("return_" + Prefix + "_" + Name + "_" + DateTime.Now.GetHashCode());
                     table.Ports.Add(@return);
                 }
 
@@ -119,7 +119,7 @@ namespace LuaScriptConstructor.Types
                         Style = Crainiate.Diagramming.PortStyle.Simple,
                         AllowMove = false
                     };
-                    input.SetKey("input_" + Prefix + "_" + Name + DateTime.Now.GetHashCode());
+                    input.SetKey("input_" + Prefix + "_" + Name + "_" + DateTime.Now.GetHashCode());
                     table.Ports.Add(input);
                 }
 
@@ -132,7 +132,7 @@ namespace LuaScriptConstructor.Types
                         Style = Crainiate.Diagramming.PortStyle.Simple,
                         AllowMove = false
                     };
-                    output.SetKey("output_" + Prefix + "_" + Name + DateTime.Now.GetHashCode());
+                    output.SetKey("output_" + Prefix + "_" + Name + "_" + DateTime.Now.GetHashCode());
                     table.Ports.Add(output);
                 }
 

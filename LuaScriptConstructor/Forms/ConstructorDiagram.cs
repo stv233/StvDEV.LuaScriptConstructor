@@ -9,7 +9,7 @@ namespace LuaScriptConstructor.Forms
     /// <summary>
     /// Constructor diagram.
     /// </summary>
-    class ConstructorDiagram : Diagram
+    class ConstructorDiagram : Diagram, Saves.IConstructorSerializable
     {
         private struct Mouse
         {
@@ -278,23 +278,48 @@ namespace LuaScriptConstructor.Forms
         {
             if (element is Shapes.ConstructorTable)
             {
-                var table = (Shapes.ConstructorTable)element;
+                var table = element as Shapes.ConstructorTable;
                 Tables.Add(element.Key, table);
                 
                 if (table.Type == Shapes.ConstructorTable.ConstructionTableTypes.Function)
                 {
-                    table.BackColor = ((Types.Function)table.Owner).Table.BackColor;
-                    table.GradientColor = ((Types.Function)table.Owner).Table.GradientColor;
+                    try
+                    {
+                        table.BackColor = ((Types.Function)table.Owner).Table.BackColor;
+                        table.GradientColor = ((Types.Function)table.Owner).Table.GradientColor;
+                    }
+                    catch 
+                    {
+                        table.BackColor = Color.White;
+                        table.GradientColor = Color.White;
+                    }
+                    table.AllowRenew = true;
                 }
                 else if (table.Type == Shapes.ConstructorTable.ConstructionTableTypes.Variable)
                 {
-                    table.BackColor = ((Types.Variable)table.Owner).Table.BackColor;
-                    table.GradientColor = ((Types.Variable)table.Owner).Table.GradientColor;
+                    try
+                    {
+                        table.BackColor = ((Types.Variable)table.Owner).Table.BackColor;
+                        table.GradientColor = ((Types.Variable)table.Owner).Table.GradientColor;
+                    }
+                    catch 
+                    {
+                        table.BackColor = new Types.Variable().Table.BackColor;
+                        table.GradientColor = new Types.Variable().Table.GradientColor;
+                    }
                 }
                 else
                 {
-                    table.BackColor = table.Owner.Table.BackColor;
-                    table.GradientColor = table.Owner.Table.GradientColor;
+                    try
+                    {
+                        table.BackColor = table.Owner.Table.BackColor;
+                        table.GradientColor = table.Owner.Table.GradientColor;
+                    }
+                    catch 
+                    {
+                        table.BackColor = new Types.Constant().Table.BackColor;
+                        table.GradientColor = new Types.Constant().Table.GradientColor;
+                    }
                 }
             }
             base.OnElementInserted(element);
@@ -360,9 +385,180 @@ namespace LuaScriptConstructor.Forms
             function.AccessType = Types.Variable.VariableAccessTypes.InputOutput;
             function.Description = "User function";
             function.Build(this);
-            var form = (frMain)this.ParentForm;
-            form.ProjectFunctions[this.Parent.Text.Replace(" ", "_")] = function;
-            form.RefreshProjectFunction();
+            //var form = (frMain)this.ParentForm;
+            //form.ProjectFunctions[this.Parent.Text.Replace(" ", "_")] = function;
+            //form.RefreshProjectFunction();
         }
+        
+        /// <summary>
+        /// Serialize constructor diagram to string.
+        /// </summary>
+        /// <returns>Serialized string</returns>
+        public string SerializeToString()
+        {
+            string result = "{";
+            result += "Type=" + type + ";";
+            result += "Tables=" + SerializeTables(Tables.Values) + ";";
+            result += "Connectors=" + SerializeConnectors(Connectors.Values) + ";";
+            result += "}";
+            return result;
+        }
+
+        /// <summary>
+        /// Serialize diagram connectors to string.
+        /// </summary>
+        /// <param name="connectors">Diagram conectors</param>
+        /// <returns>Serialized connectors</returns>
+        private string SerializeConnectors(Dictionary<string, Shapes.ConstructorConnector>.ValueCollection connectors)
+        {
+            string result = "{";
+            foreach(Shapes.ConstructorConnector connector in connectors)
+            {
+                result += "Connector=" + connector.SerializeToString() + ";";
+            }
+            result += "}";
+            return result;
+        }
+
+        /// <summary>
+        /// Serialize diagram tabkes to string.
+        /// </summary>
+        /// <param name="tables">Diagram tables</param>
+        /// <returns>Serialized diagram</returns>
+        private string SerializeTables(Dictionary<string, Shapes.ConstructorTable>.ValueCollection tables)
+        {
+            string result = "{";
+            foreach (Shapes.ConstructorTable table in tables)
+            {
+                result += "Table=" + table.SerializeToString() + ";";
+            }
+            result += "}";
+            return result;
+        }
+
+        /// <summary>
+        /// Deserialize constuctor diagram from string.
+        /// </summary>
+        /// <param name="serializedDiagram">Serialized diagram</param>
+        public void DeserializeFromString(string serializedDiagram)
+        {
+            serializedDiagram = serializedDiagram.Substring(1, serializedDiagram.Length - 2);
+            while (serializedDiagram.Length > 0)
+            {
+                int propertySign = serializedDiagram.IndexOf('=');
+                string propertyName = serializedDiagram.Substring(0, propertySign);
+                int delimiter = Saves.Saves.FindPropertyDelemiter(serializedDiagram, propertySign);
+                switch (propertyName)
+                {
+                    case "Type":
+                        string typeString = (serializedDiagram.Substring(propertySign + 1, delimiter - (propertySign + 1)));
+                        switch (typeString)
+                        {
+                            case "Main":
+                                type = ConstructorDiagramTypes.Main;
+                                break;
+                            case "None":
+                                type = ConstructorDiagramTypes.None;
+                                break;
+                            case "Regular":
+                                type = ConstructorDiagramTypes.Regular;
+                                break;
+                        }
+                        serializedDiagram = serializedDiagram.Substring(delimiter + 1);
+                        break;
+                    case "Tables":
+                        string tables = (serializedDiagram.Substring(propertySign + 1, delimiter - (propertySign + 1)));
+                        foreach (Shapes.ConstructorTable table in DeserializeTables(tables).Values)
+                        {
+                            this.Model.Shapes.Add(table);
+                        }
+                        serializedDiagram = serializedDiagram.Substring(delimiter + 1);
+                        break;
+                    case "Connectors":
+                        string connectors = (serializedDiagram.Substring(propertySign + 1, delimiter - (propertySign + 1)));
+                        Dictionary<string, Shapes.ConstructorConnector>.ValueCollection connectorsValues = DeserializeConnectors(connectors).Values;
+                        foreach (Shapes.ConstructorConnector connector in connectorsValues)
+                        {
+                            
+                            foreach(var table in Tables.Values)
+                            {
+                                foreach(Crainiate.Diagramming.Port port in table.Ports.Values)
+                                {
+                                    if (connector.StartPort.Key == port.Key)
+                                    {
+                                        connector.Start.Port = port;
+                                    }
+                                    if (connector.EndPort.Key == port.Key)
+                                    {
+                                        connector.End.Port = port;
+                                    }
+                                }
+                            }
+                            Connectors.Add(connector.Key,connector);
+                            this.Model.Lines.Add(connector);
+                        }
+                        serializedDiagram = serializedDiagram.Substring(delimiter + 1);
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Deserialize constructor diagram connectors from string.
+        /// </summary>
+        /// <param name="serializedConnestors">Serialized connector</param>
+        /// <returns>Diagram connectors</returns>
+        private Dictionary<string, Shapes.ConstructorConnector> DeserializeConnectors(string serializedConnestors)
+        {
+            serializedConnestors = serializedConnestors.Substring(1, serializedConnestors.Length - 2);
+            Dictionary<string, Shapes.ConstructorConnector> result = new Dictionary<string, Shapes.ConstructorConnector>();
+            while (serializedConnestors.Length > 0)
+            {
+                int propertySign = serializedConnestors.IndexOf('=');
+                string propertyName = serializedConnestors.Substring(0, propertySign);
+                int delimiter = Saves.Saves.FindPropertyDelemiter(serializedConnestors, propertySign);
+                switch (propertyName)
+                {
+                    case "Connector":
+                        Shapes.ConstructorConnector connector = new Shapes.ConstructorConnector();
+                        connector.End.Marker = new Crainiate.Diagramming.Arrow();
+                        connector.Start.Marker = new Crainiate.Diagramming.Marker(Crainiate.Diagramming.MarkerStyle.Ellipse);
+                        connector.DeserializeFromString(serializedConnestors.Substring(propertySign + 1, delimiter - (propertySign + 1)));
+                        result[connector.Key] = connector;
+                        serializedConnestors = serializedConnestors.Substring(delimiter + 1);
+                        break;
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Deserialize constructor diagram tables from string.
+        /// </summary>
+        /// <param name="serializedTables">Serialized tables</param>
+        /// <returns>Diagram tables</returns>
+        private Dictionary<string, Shapes.ConstructorTable> DeserializeTables(string serializedTables)
+        {
+            serializedTables = serializedTables.Substring(1, serializedTables.Length - 2);
+            Dictionary<string, Shapes.ConstructorTable> result = new Dictionary<string, Shapes.ConstructorTable>();
+            while (serializedTables.Length > 0)
+            {
+                int propertySign = serializedTables.IndexOf('=');
+                string propertyName = serializedTables.Substring(0, propertySign);
+                int delimiter = Saves.Saves. FindPropertyDelemiter(serializedTables, propertySign);
+                switch (propertyName)
+                {
+                    case "Table":
+                        Shapes.ConstructorTable table = new Shapes.ConstructorTable();
+                        table.DeserializeFromString(serializedTables.Substring(propertySign + 1, delimiter - (propertySign + 1)));
+                        result[table.Key] = table;
+                        serializedTables = serializedTables.Substring(delimiter + 1);
+                        break;
+                }
+            }
+            return result;
+        }
+
+       
     }
 }

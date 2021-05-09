@@ -28,6 +28,8 @@ namespace LuaScriptConstructor.Forms
 
         public DiagramTabPage(string name) : base(name)
         {
+            Name = name;
+
             this.AutoScroll = true;
 
             diagram = new ConstructorDiagram

@@ -90,10 +90,14 @@ namespace Crainiate.Diagramming
                             //Reset the ports
                             foreach (Port port in shape.Ports.Values)
                             {
-                                Port actionPort = (Port)actionshape.Ports[port.Key];
-                                port.SuspendValidation();
-                                port.Location = actionPort.Location;
-                                port.ResumeValidation();
+                                try
+                                {
+                                    Port actionPort = (Port)actionshape.Ports[port.Key];
+                                    port.SuspendValidation();
+                                    port.Location = actionPort.Location;
+                                    port.ResumeValidation();
+                                }
+                                catch { }
                             }
 
                             //Reset shape location and size

@@ -38,7 +38,7 @@ namespace LuaScriptConstructor.Types
                     Constant = this
                 };
                 table.GradientColor = table.BackColor;
-                table.SetKey(Prefix + "_Constant" + DateTime.Now.GetHashCode());
+                table.SetKey(Prefix + "_Constant" + "_" + DateTime.Now.GetHashCode());
 
                 var @return = new Crainiate.Diagramming.Port
                 {
@@ -47,7 +47,7 @@ namespace LuaScriptConstructor.Types
                     Style = Crainiate.Diagramming.PortStyle.Output,
                     AllowMove = false
                 };
-                @return.SetKey("return_" + Prefix + "_Constant" + DateTime.Now.GetHashCode());
+                @return.SetKey("return_" + Prefix + "_Constant" + "_" + DateTime.Now.GetHashCode());
                 table.Ports.Add(@return);
 
                 return table;

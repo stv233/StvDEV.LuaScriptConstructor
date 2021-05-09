@@ -8,7 +8,7 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
     /// </summary>
     class ConstructorTreeNode : TreeNode
     {
-        private Shapes.ConstructorTable _table;
+        private Types.Constant nodeObject;
         /// <summary>
         /// Table.
         /// </summary>
@@ -16,15 +16,18 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
         {
             get
             {
-                return new Shapes.ConstructorTable (_table);
-            }
-            set
-            {
-                _table = value;
-                Text = _table.Heading.Replace("_", " ");
-                Image = _table.Icon;
-                ToolTipText = _table.SubHeading;
-                Name = _table.Heading;
+                if (nodeObject is Types.Function || nodeObject is Types.ProgrammaticallyDefinedFunction)
+                {
+                    return new Shapes.ConstructorTable((nodeObject as Types.Function).Table);
+                }
+                else if (nodeObject is Types.Variable)
+                {
+                    return new Shapes.ConstructorTable((nodeObject as Types.Variable).Table);
+                }
+                else
+                {
+                    return new Shapes.ConstructorTable(nodeObject.Table);
+                }
             }
         }
 
@@ -48,11 +51,24 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
         /// Tree node with constructor table.
         /// </summary>
         /// <param name="table">Constructor table</param>
-        public ConstructorTreeNode(Shapes.ConstructorTable table)
+        public ConstructorTreeNode(Types.Constant type)
         {
-            Table = table;
-            ToolTipText = table.SubHeading;
-            Image = table.Icon;
+            nodeObject = type;
+            Text = type.Table.Heading.Replace("_", " ");
+            ToolTipText = type.Table.SubHeading;
+
+            if (type is Types.Function || type is Types.ProgrammaticallyDefinedFunction)
+            {
+                Image = (type as Types.Function).Table.Icon;
+            }
+            else if (type is Types.Variable)
+            {
+                Image = (type as Types.Variable).Table.Icon;
+            }
+            else
+            {
+                Image = type.Table.Icon;
+            }
         }
 
     }

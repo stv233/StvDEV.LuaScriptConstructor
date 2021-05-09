@@ -12,6 +12,8 @@ namespace LuaScriptConstructor.Types
     /// </summary>
     class ProgrammaticallyDefinedFunction : Function
     {
+        private ConstructorTable _table = new ConstructorTable();
+
         /// <summary>
         /// Funtion type.
         /// </summary>
@@ -34,11 +36,11 @@ namespace LuaScriptConstructor.Types
         {
             get
             {
-                return base.Table;
+                return _table;
             }
             set
             {
-                base.Table = value;
+                _table = value;
             }
         }
 

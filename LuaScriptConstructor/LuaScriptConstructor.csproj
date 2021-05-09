@@ -76,6 +76,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Saves\IConstructorSerializable.cs" />
+    <Compile Include="Saves\Saves.cs" />
     <Compile Include="Shapes\ConstructorConnector.cs" />
     <Compile Include="Shapes\ConstructorTable.cs" />
     <Compile Include="Types\Constant.cs" />
