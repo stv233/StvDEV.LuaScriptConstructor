@@ -155,7 +155,9 @@ namespace LuaScriptConstructor
             var tsmiAddFunction = new ToolStripMenuItem
             {
                 Text = "New function graph",
-                Image = Properties.Resources.NewGraph_16x
+                Image = Properties.Resources.NewGraph_16x,
+                ShortcutKeyDisplayString = "Ctrl+G",
+                ShortcutKeys = Keys.Control | Keys.G
             };
             tsmiFunctions.DropDownItems.Add(tsmiAddFunction);
             tsmiAddFunction.Click += (s, e) =>
@@ -181,7 +183,9 @@ namespace LuaScriptConstructor
             var tsmiRemoveFunction = new ToolStripMenuItem
             {
                 Text = "Close function graph",
-                Image = Properties.Resources.Close_red_16x
+                Image = Properties.Resources.Close_red_16x,
+                ShortcutKeyDisplayString = "Ctrl+Shift+G",
+                ShortcutKeys = Keys.Control | Keys.Shift | Keys.G
             };
             tsmiFunctions.DropDownItems.Add(tsmiRemoveFunction);
             tsmiRemoveFunction.Click += (s, e) =>
@@ -409,6 +413,15 @@ namespace LuaScriptConstructor
 
             #endregion
 
+            tsmiNew.Click += (s, e) =>
+            {
+                if (MessageBox.Show("Are you sure you want to create a new project?", "New project?",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    New();
+                }
+            };
+
             tsmiSave.Click += (s, e) =>
             {
                 if (String.IsNullOrEmpty(projectPath))
@@ -470,9 +483,7 @@ namespace LuaScriptConstructor
                 {
                     this.Text += "*";
                 }
-            };
-
-            
+            }; 
 
             #endregion
         }
@@ -515,6 +526,12 @@ namespace LuaScriptConstructor
                     }
                 }
             }
+        }
+
+        public void New()
+        {
+            System.Diagnostics.Process.Start(System.Reflection.Assembly.GetExecutingAssembly().Location,"-skiplast");
+            Application.Exit();
         }
 
         public void Save(string path, TabControl tabControl)
