@@ -484,11 +484,11 @@ namespace LuaScriptConstructor.Forms
                             {
                                 foreach(Crainiate.Diagramming.Port port in table.Ports.Values)
                                 {
-                                    if (connector.StartPort.Key == port.Key)
+                                    if ((connector.StartPort != null) && (connector.StartPort.Key == port.Key))
                                     {
                                         connector.Start.Port = port;
                                     }
-                                    if (connector.EndPort.Key == port.Key)
+                                    if ((connector.EndPort != null) && (connector.EndPort.Key == port.Key))
                                     {
                                         connector.End.Port = port;
                                     }
