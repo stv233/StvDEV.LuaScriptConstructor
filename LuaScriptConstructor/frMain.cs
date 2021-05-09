@@ -271,8 +271,6 @@ namespace LuaScriptConstructor
 
             #endregion
 
-
-
             #region /// SplitContainer
 
             var scMain = new SplitContainer
@@ -292,7 +290,6 @@ namespace LuaScriptConstructor
                 Width = scMain.Panel1.ClientSize.Width,
                 Height = scMain.Panel1.ClientSize.Height,
                 Font = new System.Drawing.Font(Font.FontFamily, 10, System.Drawing.FontStyle.Regular),
-                //ShowNodeToolTips = true,
                 Parent = scMain.Panel1
             };
             ctvMain.AddCategory("Basic");

@@ -36,23 +36,46 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
                 node.ImageIndex = this.ImageList.Images.Count - 1;
             }
 
-            foreach (TreeNode categoryNode in Nodes)
+            try
             {
-                if (categoryNode.Name == category)
+                AddCategory(category);
+            }
+            catch { }
+
+            Add(category, this.Nodes, node);
+        }
+
+        public static void Add(string category, TreeNodeCollection nodes, ConstructorTreeNode node)
+        {
+            string subCategory = "";
+
+            if (category.Contains("\\"))
+            {
+                subCategory = category.Substring(0, category.IndexOf('\\') - 1);
+                category = category.Substring(category.IndexOf('\\') + 1);
+            }
+            else
+            {
+                subCategory = category;
+                category = "";
+            }
+
+            foreach (TreeNode categoryNode in nodes)
+            {
+                if (categoryNode.Name == subCategory)
                 {
-                    categoryNode.Nodes.Add(node);
-                    return;
+                    if (String.IsNullOrEmpty(category))
+                    {
+                        categoryNode.Nodes.Add(node);
+                        return;
+                    }
+                    else
+                    {
+                        Add(category, categoryNode.Nodes, node);
+                    }
                 }
             }
 
-            var newCategory = new TreeNode
-            {
-                Name = category,
-                Text = category
-            };
-
-            newCategory.Nodes.Add(node);
-            Nodes.Add(newCategory);
         }
 
         /// <summary>
@@ -61,9 +84,32 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
         /// <param name="category">Category name</param>
         public virtual void AddCategory(string category)
         {
-            foreach (TreeNode categoryNode in Nodes)
+            AddCategory(category, this.Nodes);
+        }
+
+        /// <summary>
+        /// Adds a category with the given name.
+        /// </summary>
+        /// <param name="category">Category name</param>
+        /// <param name="nodes">Parent nodes collection</param>
+        public static void AddCategory(string category, TreeNodeCollection nodes)
+        {
+            string subCategory = "";
+
+            if (category.Contains("\\"))
             {
-                if (categoryNode.Name == category)
+                subCategory = category.Substring(0, category.IndexOf('\\') - 1);
+                category = category.Substring(category.IndexOf('\\') + 1);
+            }
+            else
+            {
+                subCategory = category;
+                category = "";
+            }
+
+            foreach (TreeNode categoryNode in nodes)
+            {
+                if ((categoryNode.Name == subCategory) && (String.IsNullOrEmpty(category)))
                 {
                     throw new Exception("Tree already contains a category with the given name.");
                 }
@@ -71,10 +117,15 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
 
             var newCategory = new TreeNode
             {
-                Name = category,
-                Text = category
+                Name = subCategory,
+                Text = subCategory
             };
-            Nodes.Add(newCategory);
+            nodes.Add(newCategory);
+
+            if (!String.IsNullOrEmpty(category))
+            {
+                AddCategory(category, newCategory.Nodes);
+            }
         }
         
         /// <summary>
@@ -83,12 +134,43 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
         /// <param name="category">Category name</param>
         public virtual void RemoveCategory(string category)
         {
-            foreach (TreeNode categoryNode in Nodes)
+            RemoveCategory(category, this.Nodes);
+        }
+
+        /// <summary>
+        /// Remove category from tree by name.
+        /// </summary>
+        /// <param name="category">Category name</param>
+        /// <param name="nodes">Parent nodes collection</param>
+        public static void RemoveCategory(string category, TreeNodeCollection nodes)
+        {
+            string subCategory = "";
+
+            if (category.Contains("\\"))
             {
-                if (categoryNode.Name == category)
+                subCategory = category.Substring(0, category.IndexOf('\\') - 1);
+                category = category.Substring(category.IndexOf('\\') + 1);
+            }
+            else
+            {
+                subCategory = category;
+                category = "";
+            }
+
+            foreach (TreeNode categoryNode in nodes)
+            {
+                if (categoryNode.Name == subCategory)
                 {
-                    Nodes.Remove(categoryNode);
-                    return;
+                    if (String.IsNullOrEmpty(category))
+                    {
+                        nodes.Remove(categoryNode);
+                        return;
+                    }
+                    else
+                    {
+                        RemoveCategory(category, categoryNode.Nodes);
+                        return;
+                    }
                 }
             }
         }
@@ -96,15 +178,46 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
         /// <summary>
         /// Clear category items by category name.
         /// </summary>
-        /// <param name="category">Category name.</param>
+        /// <param name="category">Category name</param>
         public virtual void ClearCategory(string category)
         {
-            foreach (TreeNode categoryNode in Nodes)
+            ClearCategory(category, this.Nodes);
+        }
+
+        /// <summary>
+        /// Clear category items by category name.
+        /// </summary>
+        /// <param name="category">Category name</param>
+        /// <param name="nodes">Parent nodes collection</param>
+        public static void ClearCategory(string category, TreeNodeCollection nodes)
+        {
+            string subCategory = "";
+
+            if (category.Contains("\\"))
             {
-                if (categoryNode.Name == category)
+                subCategory = category.Substring(0, category.IndexOf('\\') - 1);
+                category = category.Substring(category.IndexOf('\\') + 1);
+            }
+            else
+            {
+                subCategory = category;
+                category = "";
+            }
+
+            foreach(TreeNode categoryNode in nodes)
+            {
+                if (categoryNode.Name == subCategory)
                 {
-                    categoryNode.Nodes.Clear();
-                    return;
+                    if (String.IsNullOrEmpty(category))
+                    {
+                        categoryNode.Nodes.Clear();
+                        return;
+                    }
+                    else
+                    {
+                        ClearCategory(category, categoryNode.Nodes);
+                        return;
+                    }
                 }
             }
         }
