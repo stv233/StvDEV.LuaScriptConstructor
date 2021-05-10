@@ -333,12 +333,22 @@ namespace LuaScriptConstructor
                 Parent = this
             };
 
+            var htbSearch = new Windows.Forms.HintTextBox
+            {
+                HintValue = "Search",
+                Height = 5,
+                Dock = DockStyle.Top,
+                Parent = scMain.Panel1
+            };
+            
+
             #region /// Tree view
 
             ctvMain = new Forms.ConstructorTreeView.ConstructorTreeView
             {
                 Width = scMain.Panel1.ClientSize.Width,
                 Height = scMain.Panel1.ClientSize.Height,
+                Top = htbSearch.Height - 1,
                 Font = new System.Drawing.Font(Font.FontFamily, 10, System.Drawing.FontStyle.Regular),
                 Parent = scMain.Panel1
             };
@@ -467,6 +477,11 @@ namespace LuaScriptConstructor
                         Open(projectPath, tcMain);
                     }
                 }
+            };
+
+            htbSearch.TextChanged += (s, e) =>
+            {
+                ctvMain.Search(htbSearch.Text);
             };
 
             tcMain.GotFocus += (s, e) =>

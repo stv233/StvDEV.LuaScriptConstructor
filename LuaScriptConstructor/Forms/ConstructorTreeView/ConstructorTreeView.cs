@@ -5,7 +5,7 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
 {
     class ConstructorTreeView : Kesoft.Windows.Forms.Win7StyleTreeView.Win7StyleTreeView
     {
-        ToolTip toolTip = new ToolTip();
+        ToolTip toolTip = new ToolTip(); 
 
         private TreeNode mouseCureentNode; 
 
@@ -45,6 +45,12 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
             Add(category, this.Nodes, node);
         }
 
+        /// <summary>
+        /// Add node to category.
+        /// </summary>
+        /// <param name="category">Category</param>
+        /// <param name="nodes">Parent nodes collection</param>
+        /// <param name="node">Constructor tree node</param>
         public static void Add(string category, TreeNodeCollection nodes, ConstructorTreeNode node)
         {
             string subCategory = "";
@@ -222,6 +228,49 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
             }
         }
 
+        /// <summary>
+        /// Searches for Node containing the given text.
+        /// </summary>
+        /// <param name="target">Search target</param>
+        public virtual void Search(string target)
+        {
+            if (!String.IsNullOrEmpty(target))
+            {
+                Search(target, this.Nodes);
+            }
+        }
+
+        /// <summary>
+        /// Searches for Node containing the given text.
+        /// </summary>
+        /// <param name="target">Search target</param>
+        /// <param name="nodes">Parent nodes collection</param>
+        public static bool Search(string target, TreeNodeCollection nodes)
+        {
+            bool result = false;
+
+            foreach (TreeNode node in nodes)
+            {
+                bool localResult = false;
+                if ((node.Text.ToLower().Contains(target.ToLower())) || (String.IsNullOrEmpty(target)))
+                {
+                    result = true;
+                    localResult = true;
+                }        
+
+                if ((!Search(target, node.Nodes)) && (!localResult))
+                {
+                    node.BackColor = System.Drawing.Color.White;
+                }
+                else
+                {
+                    node.EnsureVisible();
+                    node.BackColor = System.Drawing.Color.FromArgb(28, 196, 247);
+                }
+            }
+
+            return result;
+        }
         protected override void OnNodeMouseHover(TreeNodeMouseHoverEventArgs e)
         {
             mouseCureentNode = e.Node;
