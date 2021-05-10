@@ -508,7 +508,13 @@ namespace LuaScriptConstructor
             {
                 if (projectFunctions.ContainsKey(tabPage.Text.Replace(" ","_")))
                 {
-                    projectFunctions[tabPage.Text.Replace(" ", "_")].Diagram = tabPage.Diagram;
+                    var function = projectFunctions[tabPage.Text.Replace(" ", "_")];
+                    function.Diagram = tabPage.Diagram;
+                    tabPage.TextChanged += (s, e) =>
+                    {
+                        function.Name = tabPage.Text.Replace(" ", "_");
+                        RefreshProjectFunction();
+                    };
                 }
             }
 
@@ -536,72 +542,90 @@ namespace LuaScriptConstructor
 
         public void Save(string path, TabControl tabControl)
         {
-            Status = "Initializing a save";
-            File.Create(path).Close();
-            using (var fileStream = new FileStream(path, FileMode.Open))
+            try
             {
-                using (var streamWriter = new StreamWriter(fileStream))
+                Status = "Initializing a save";
+                File.Create(path).Close();
+                using (var fileStream = new FileStream(path, FileMode.Open))
                 {
-                    List<Types.Function> functions = new List<Types.Function>();
-                    foreach(var function in projectFunctions.Values)
+                    using (var streamWriter = new StreamWriter(fileStream))
                     {
-                        functions.Add((Types.Function)function);
-                    }
+                        List<Types.Function> functions = new List<Types.Function>();
+                        foreach (var function in projectFunctions.Values)
+                        {
+                            functions.Add((Types.Function)function);
+                        }
 
-                    string file = "{";
-                    file += "Counter=" + functionsCounter + ";";
-                    Status = "Saving functions";
-                    file += "Functions=" + SerializeFunctions(functions) + ";";
-                    Status = "Saving graphs";
-                    file += "TabPages=" + SerializeTabPages(tcMain.TabPages) + ";";
-                    file += "}";
-                    Status = "File recording";
-                    streamWriter.Write(file);
+                        string file = "{";
+                        file += "Counter=" + functionsCounter + ";";
+                        Status = "Saving functions";
+                        file += "Functions=" + SerializeFunctions(functions) + ";";
+                        Status = "Saving graphs";
+                        file += "TabPages=" + SerializeTabPages(tcMain.TabPages) + ";";
+                        file += "}";
+                        Status = "File recording";
+                        streamWriter.Write(file);
+                    }
                 }
+                Status = "Save completed";
             }
-            Status = "Save completed";
+            catch (Exception e)
+            {
+                MessageBox.Show("Failed to save.\n" + e.Message, "Filed to save!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Status = "Failed to save";
+            }
         }
 
         public void Open(string path, TabControl tabControl)
         {
-            Status = "Initializing a open";
-            string file = File.ReadAllText(path);
-            tabControl.TabPages.Clear();
+            //try
+            //{
+                Status = "Initializing a open";
+                string file = File.ReadAllText(path);
+                tabControl.TabPages.Clear();
 
-            Status = "Opening...";
-            file = file.Substring(1, file.Length - 2);
-            List<Types.Function> functions = new List<Types.Function>();
-            while (file.Length > 0)
-            {
-                int propertySign = file.IndexOf('=');
-                string propertyName = file.Substring(0, propertySign);
-                int delimiter = Saves.Saves.FindPropertyDelemiter(file, propertySign);
-                switch (propertyName)
+                Status = "Opening...";
+                file = file.Substring(1, file.Length - 2);
+                List<Types.Function> functions = new List<Types.Function>();
+                while (file.Length > 0)
                 {
-                    case "Counter":
-                        functionsCounter = Convert.ToInt32(file.Substring(propertySign + 1, delimiter - (propertySign + 1)));
-                        file = file.Substring(delimiter + 1);
-                        break;
-                    case "Functions":
-                        functions = DeserializeFunctions(file.Substring(propertySign + 1, delimiter - (propertySign + 1)));
-                        projectFunctions = new Dictionary<string, Types.Function>();
-                        foreach(Types.Function function in functions)
-                        {   
-                            projectFunctions[function.Name] = function;
-                        }
-                        file = file.Substring(delimiter + 1);
-                        break;
-                    case "TabPages":
-                        DeserializeTabPages(file.Substring(propertySign + 1, delimiter - (propertySign + 1)), tcMain);
-                        file = file.Substring(delimiter + 1);
-                        break;
+                    int propertySign = file.IndexOf('=');
+                    string propertyName = file.Substring(0, propertySign);
+                    int delimiter = Saves.Saves.FindPropertyDelemiter(file, propertySign);
+                    switch (propertyName)
+                    {
+                        case "Counter":
+                            functionsCounter = Convert.ToInt32(file.Substring(propertySign + 1, delimiter - (propertySign + 1)));
+                            file = file.Substring(delimiter + 1);
+                            break;
+                        case "Functions":
+                            functions = DeserializeFunctions(file.Substring(propertySign + 1, delimiter - (propertySign + 1)));
+                            projectFunctions = new Dictionary<string, Types.Function>();
+                            foreach (Types.Function function in functions)
+                            {
+                                projectFunctions[function.Name] = function;
+                            }
+                            file = file.Substring(delimiter + 1);
+                            break;
+                        case "TabPages":
+                            DeserializeTabPages(file.Substring(propertySign + 1, delimiter - (propertySign + 1)), tcMain);
+                            file = file.Substring(delimiter + 1);
+                            break;
+                    }
                 }
-            }
 
-            ReconectFunctions();
-            RefreshProjectFunction();
+                ReconectFunctions();
+                RefreshProjectFunction();
 
-            Status = "Opening completed";
+                Status = "Opening completed";
+            //}
+            //catch (Exception e)
+            //{
+            //    MessageBox.Show("Failed to open file.\n" + e.Message, "Failed to open file!",
+            //        MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    Status = "Failed to open file";
+            //}
         }
 
         private string SerializeFunctions(List<Types.Function> functions)

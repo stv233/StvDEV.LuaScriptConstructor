@@ -270,7 +270,10 @@ namespace LuaScriptConstructor.Shapes
 
             foreach(string portKey in portsToRemove)
             {
+                var port = this.Ports[portKey];
+                port.Label = new Label("[Port_Removed]");
                 this.Ports.Remove(portKey);
+
             }
 
             foreach(Port port in prototype.Ports.Values)
@@ -315,6 +318,7 @@ namespace LuaScriptConstructor.Shapes
             result += "Heading=∴Heading=>" + Heading + "<=Heading∴;";
             result += "SubHeading=∴SubHeading=>" + SubHeading + "<=SubHeading∴;";
             result += "Type=" + Type + ";";
+            result += "CanEditHeading= " + CanEditHeading.ToString() + ";";
             if (Function != null)
             {
                 result += "Function=" + Function.Name + ";";
@@ -438,6 +442,10 @@ namespace LuaScriptConstructor.Shapes
                                 this.Type = ConstructorTableTypes.Variable;
                                 break;
                         }
+                        serializedTable = serializedTable.Substring(delimiter + 1);
+                        break;
+                    case "CanEditHeading":
+                        this.CanEditHeading = Convert.ToBoolean(serializedTable.Substring(propertySign + 1, delimiter - (propertySign + 1)));
                         serializedTable = serializedTable.Substring(delimiter + 1);
                         break;
                     case "Function":

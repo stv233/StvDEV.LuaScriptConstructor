@@ -42,12 +42,18 @@ namespace LuaScriptConstructor.Shapes
             result += "StartLocation=" + Start.Location.X + "-" + Start.Location.Y + ";";
             if (StartPort != null)
             {
-                result += "StartPortKey=" + StartPort.Key + ";";
+                if (!((StartPort.Label != null) && (StartPort.Label.Text == "[Port_Removed]")))
+                {
+                    result += "StartPortKey=" + StartPort.Key + ";";
+                }
             }
             result += "EndLocation=" + End.Location.X + "-" + End.Location.Y + ";";
             if (EndPort != null)
             {
-                result += "EndPortKey=" + EndPort.Key + ";";
+                if (!((EndPort.Label != null) && (EndPort.Label.Text == "[Port_Removed]")))
+                {
+                    result += "EndPortKey=" + EndPort.Key + ";";
+                }
             }
 
             result += "}";
@@ -85,7 +91,7 @@ namespace LuaScriptConstructor.Shapes
                         break;
                     case "EndLocation":
                         string[] endLocation = (serializedConnector.Substring(propertySign + 1, delimiter - (propertySign + 1)).Split('-'));
-                        this.Start.Location = new System.Drawing.PointF(Convert.ToInt32(endLocation[0]), Convert.ToInt32(endLocation[1]));
+                        this.End.Location = new System.Drawing.PointF(Convert.ToInt32(endLocation[0]), Convert.ToInt32(endLocation[1]));
                         serializedConnector = serializedConnector.Substring(delimiter + 1);
                         break;
                     case "EndPortKey":
