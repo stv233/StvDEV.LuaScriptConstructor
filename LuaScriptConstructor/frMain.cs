@@ -337,10 +337,10 @@ namespace LuaScriptConstructor
             {
                 HintValue = "Search",
                 Height = 5,
-                Dock = DockStyle.Top,
+                Dock = DockStyle.Top,  
                 Parent = scMain.Panel1
             };
-            
+
 
             #region /// Tree view
 
@@ -498,7 +498,7 @@ namespace LuaScriptConstructor
                 {
                     this.Text += "*";
                 }
-            }; 
+            };
 
             #endregion
         }

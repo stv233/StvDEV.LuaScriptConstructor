@@ -256,9 +256,11 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
                 {
                     result = true;
                     localResult = true;
-                }        
+                }
 
-                if ((!Search(target, node.Nodes)) && (!localResult))
+                //if ((!Search(target, node.Nodes)) && (!localResult))
+                Search(target, node.Nodes);
+                if (!localResult)
                 {
                     node.BackColor = System.Drawing.Color.White;
                 }
