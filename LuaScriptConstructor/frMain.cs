@@ -347,7 +347,7 @@ namespace LuaScriptConstructor
             ctvMain = new Forms.ConstructorTreeView.ConstructorTreeView
             {
                 Width = scMain.Panel1.ClientSize.Width,
-                Height = scMain.Panel1.ClientSize.Height,
+                Height = scMain.Panel1.ClientSize.Height - htbSearch.Height + 1,
                 Top = htbSearch.Height - 1,
                 Font = new System.Drawing.Font(Font.FontFamily, 10, System.Drawing.FontStyle.Regular),
                 Parent = scMain.Panel1
@@ -406,7 +406,7 @@ namespace LuaScriptConstructor
             scMain.Panel1.Resize += (s, e) =>
             {
                 ctvMain.Width = scMain.Panel1.ClientSize.Width;
-                ctvMain.Height = scMain.Panel1.ClientSize.Height;
+                ctvMain.Height = scMain.Panel1.ClientSize.Height - htbSearch.Height + 1;
             };
 
             scMain.Panel2.Resize += (s, e) =>
