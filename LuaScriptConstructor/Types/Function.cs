@@ -24,7 +24,7 @@ namespace LuaScriptConstructor.Types
         }
 
         /// <summary>
-        /// Represents a class containing data for a <see cref="BuildComplite"/> and <see cref="BuildError"/> event.
+        /// Represents a class containing data for a <see cref="BuildSuccess"/> and <see cref="BuildError"/> event.
         /// </summary>
         public class FunctionBuildEventArgs : EventArgs
         {
@@ -39,19 +39,19 @@ namespace LuaScriptConstructor.Types
             public Exception Error { get; protected set; }
 
             /// <summary>
-            /// Represents a class containing data for a <see cref="BuildComplite"/> and <see cref="BuildError"/> event.
+            /// Represents a class containing data for a <see cref="BuildSuccess"/> and <see cref="BuildError"/> event.
             /// </summary>
             /// <param name="error">Build error</param>
             public FunctionBuildEventArgs(Exception error) { Error = error; Warnings = new List<string>(); }
 
             /// <summary>
-            /// Represents a class containing data for a <see cref="BuildComplite"/> and <see cref="BuildError"/> event.
+            /// Represents a class containing data for a <see cref="BuildSuccess"/> and <see cref="BuildError"/> event.
             /// </summary>
             /// <param name="warnings">Build warnings</param>
             public FunctionBuildEventArgs(List<string> warnings) { Warnings = warnings; Error = null; }
 
             /// <summary>
-            /// Represents a class containing data for a <see cref="BuildComplite"/> and <see cref="BuildError"/> event.
+            /// Represents a class containing data for a <see cref="BuildSuccess"/> and <see cref="BuildError"/> event.
             /// </summary>
             /// <param name="error">Build error</param>
             /// <param name="warnings">Build warnings</param>
@@ -60,7 +60,7 @@ namespace LuaScriptConstructor.Types
         }
 
         /// <summary>
-        /// Represents a method that handles <see cref="BuildComplite"/> and <see cref="BuildError"/> events.
+        /// Represents a method that handles <see cref="BuildSuccess"/> and <see cref="BuildError"/> events.
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="e">Event arguments</param>
@@ -148,7 +148,7 @@ namespace LuaScriptConstructor.Types
         /// <summary>
         /// Occurs when the assembly of the function is complete.
         /// </summary>
-        public FunctionBuildEvents BuildComplite;
+        public FunctionBuildEvents BuildSuccess;
 
         /// <summary>
         /// Occurs when the assembly of a function fails.
@@ -177,16 +177,41 @@ namespace LuaScriptConstructor.Types
             Type = type;
             Arguments = new List<string>();
             Returns = new List<string>();       
-            BuildComplite += (s, e) => { };
-            BuildError += (s, e) => { };
+            BuildSuccess += (object s, FunctionBuildEventArgs e) => 
+            {
+               foreach (string warning in e.Warnings)
+                {
+                    frMain.ConsoleWarning(warning);
+                }
+                frMain.ConsoleMessage("Build successful: ", System.Drawing.Color.LimeGreen);
+                frMain.ConsoleMessage("0 errors ", System.Drawing.Color.Red, false);
+                frMain.ConsoleMessage(e.Warnings.Count.ToString() + " warnings", System.Drawing.Color.Gold, false);
+                frMain.ConsoleMessage("\n", System.Drawing.Color.Black, false);
+            };
+            BuildError += (object s, FunctionBuildEventArgs e) =>
+            {
+                foreach (string warning in e.Warnings)
+                {
+                    frMain.ConsoleWarning(warning);
+                }
+                frMain.ConsoleError(e.Error.Message);
+                frMain.ConsoleMessage("Build failed: ", System.Drawing.Color.DarkRed);
+                frMain.ConsoleMessage("1 error ", System.Drawing.Color.Red, false);
+                frMain.ConsoleMessage(e.Warnings.Count.ToString() + " warnings", System.Drawing.Color.Gold, false);
+                frMain.ConsoleMessage("\n", System.Drawing.Color.Black, false);
+            };
         }
 
-        public void Build(Forms.ConstructorDiagram diagram)
+        public bool Build(Forms.ConstructorDiagram diagram)
         {
+            frMain.ConsoleMessage("Building \"", System.Drawing.Color.LimeGreen);
+            frMain.ConsoleMessage(this.Name, System.Drawing.Color.Green, false);
+            frMain.ConsoleMessage("\" function...\n", System.Drawing.Color.LimeGreen, false);
+
             List<string> warnings = new List<string>();
 
-            //try
-            //{
+            try
+            {
                 if (this.Type == FuntionTypes.Regular)
                 {
                     BuildTable(diagram, ref warnings);
@@ -197,14 +222,20 @@ namespace LuaScriptConstructor.Types
                     string init = BuildCode(diagram, ref warnings, FuntionTypes.Init);
                     this.Code = init + "\n\n\n" + BuildCode(diagram, ref warnings, FuntionTypes.Main);
                 }
-            //}
-            //catch (Exception e)
-            //{
-            //    BuildError(this, new FunctionBuildEventArgs(e, warnings));
-            //    System.Windows.Forms.MessageBox.Show(e.Message);
-            //}
+            }
+            catch (Exception e)
+            {
+                BuildError(this, new FunctionBuildEventArgs(e, warnings));
+                foreach (Shapes.ConstructorTable table in diagram.Tables.Values)
+                {
+                    table.ArgumentsValues = null;
+                    table.RetrurnsValues = null;
+                }
+                return false;
+            }
 
-            BuildComplite(this, new FunctionBuildEventArgs(warnings));
+            BuildSuccess(this, new FunctionBuildEventArgs(warnings));
+            return true;
         }
 
         /// <summary>
@@ -298,7 +329,7 @@ namespace LuaScriptConstructor.Types
                 }
                 catch (System.NullReferenceException)
                 {
-                    warnings.Add("Connector start is not connected to port!");
+                    warnings.Add("Connector end is not connected to port!");
                 }
             }
 

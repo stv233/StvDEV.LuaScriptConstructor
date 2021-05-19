@@ -381,7 +381,8 @@ namespace LuaScriptConstructor.Forms
         /// </summary>
         public virtual void Build()
         {
-            var function = new Types.Function(this.Parent.Text.Replace(" ","_"));
+            var function = new Types.Function(this.Parent.Text.Replace(" ","_"), ((this.Type == ConstructorDiagramTypes.Regular) ? Types.Function.FuntionTypes.Regular 
+                : ((this.Type == ConstructorDiagramTypes.Main) ? Types.Function.FuntionTypes.Main : Types.Function.FuntionTypes.Regular)));
             function.AccessType = Types.Variable.VariableAccessTypes.InputOutput;
             function.Description = "User function";
             function.Build(this);

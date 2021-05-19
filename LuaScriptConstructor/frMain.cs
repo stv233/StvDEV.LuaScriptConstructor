@@ -8,6 +8,52 @@ namespace LuaScriptConstructor
 {
     public partial class frMain : Form
     {
+        #region /// Console
+
+        /// <summary>
+        /// Script constructor console.
+        /// </summary>
+        public static ConsoleControl.ConsoleControl ConstructorConsole { get; set; }
+
+        /// <summary>
+        /// Print message in console.
+        /// </summary>
+        /// <param name="message">Message</param>
+        /// <param name="color">Color</param>
+        public static void ConsoleMessage(string message, System.Drawing.Color color, bool time = true)
+        {
+            ConstructorConsole.WriteOutput( ((time == true) ? "[" + System.DateTime.Now.ToLongTimeString() + "]:> " : "") + message, color);
+        }
+
+        /// <summary>
+        /// Print log in console.
+        /// </summary>
+        /// <param name="log">Log</param>
+        public static void ConsoleLog(string log)
+        {
+            ConsoleMessage(log + "\n", System.Drawing.Color.Black);
+        }
+
+        /// <summary>
+        /// Print warning in console.
+        /// </summary>
+        /// <param name="warning">Warning</param>
+        public static void ConsoleWarning(string warning)
+        {
+            ConsoleMessage("Warrning! " + warning + "\n", System.Drawing.Color.Gold);
+        }
+
+        /// <summary>
+        /// Print error in console.
+        /// </summary>
+        /// <param name="error">Error</param>
+        public static void ConsoleError(string error)
+        {
+            ConsoleMessage("Error! " + error + "\n", System.Drawing.Color.Red);
+        }
+
+        #endregion
+
         private static string _status = "";
         /// <summary>
         /// Programm status.
@@ -20,6 +66,7 @@ namespace LuaScriptConstructor
             }
             set
             {
+                ConsoleLog(value);
                 tslStatus.Text = value;
                 _status = value;
             }
@@ -40,6 +87,7 @@ namespace LuaScriptConstructor
 
         public frMain()
         {
+
             #region /// Initialization
 
             #region /// Form
@@ -368,15 +416,27 @@ namespace LuaScriptConstructor
                 }
             }
 
-                #endregion
+            #endregion
+
+            #region /// WorkArea
+
+            var scWorkArea = new SplitContainer
+            {
+                BorderStyle = BorderStyle.None,
+                Orientation = Orientation.Horizontal,
+                SplitterDistance = scMain.Panel2.Height / 3 * 2,
+                Width = scMain.Panel2.ClientSize.Width,
+                Height = scMain.Panel2.ClientSize.Height,
+                Parent = scMain.Panel2
+            };
 
             #region /// Tab Control
 
             tcMain = new TradeWright.UI.Forms.TabControlExtra
             {
-                Width = scMain.Panel2.ClientSize.Width,
-                Height = scMain.Panel2.ClientSize.Height,
-                Parent = scMain.Panel2
+                Width = scWorkArea.Panel1.ClientSize.Width,
+                Height = scWorkArea.Panel1.ClientSize.Height,
+                Parent = scWorkArea.Panel1
             };
 
             var tpMain = new DiagramTabPage()
@@ -388,6 +448,22 @@ namespace LuaScriptConstructor
 
             #endregion
 
+            #region /// Console
+
+            ConstructorConsole = new ConsoleControl.ConsoleControl
+            {
+                BorderStyle = BorderStyle.None,
+                BackColor = System.Drawing.Color.White,
+                IsInputEnabled = false,
+                Width = scWorkArea.Panel2.ClientSize.Width - 2,
+                Height = scWorkArea.Panel2.ClientSize.Height,
+                Parent = scWorkArea.Panel2
+            };
+            ConstructorConsole.StartProcess(new System.Diagnostics.ProcessStartInfo());
+
+            #endregion
+
+            #endregion
 
             #endregion
 
@@ -411,8 +487,22 @@ namespace LuaScriptConstructor
 
             scMain.Panel2.Resize += (s, e) =>
             {
-                tcMain.Width = scMain.Panel2.ClientSize.Width;
-                tcMain.Height = scMain.Panel2.ClientSize.Height;
+                float ratio = (float)scWorkArea.SplitterDistance / (float)scWorkArea.ClientSize.Height;
+                scWorkArea.Width = scMain.Panel2.ClientSize.Width;
+                scWorkArea.Height = scMain.Panel2.ClientSize.Height;
+                scWorkArea.SplitterDistance = (int)(scWorkArea.ClientSize.Height * ratio);
+            };
+
+            scWorkArea.Panel1.Resize += (s, e) =>
+            {
+                tcMain.Width = scWorkArea.Panel1.ClientSize.Width;
+                tcMain.Height = scWorkArea.Panel1.ClientSize.Height;
+            };
+
+            scWorkArea.Panel2.Resize += (s, e) =>
+            {
+                ConstructorConsole.Width = scWorkArea.Panel2.ClientSize.Width - 2;
+                ConstructorConsole.Height = scWorkArea.Panel2.ClientSize.Height;
             };
 
             this.Resize += (s, e) =>
@@ -422,6 +512,11 @@ namespace LuaScriptConstructor
             };
 
             #endregion
+
+            this.Load += (s, e) =>
+            {
+                ConsoleMessage(Application.ProductName + " is loaded and ready to go\n", System.Drawing.Color.Blue);
+            };
 
             tsmiNew.Click += (s, e) =>
             {
@@ -594,7 +689,7 @@ namespace LuaScriptConstructor
                         Status = "Saving graphs";
                         file += "TabPages=" + SerializeTabPages(tcMain.TabPages) + ";";
                         file += "}";
-                        Status = "File recording";
+                        Status = "Record file " + path + "...";
                         streamWriter.Write(file);
                     }
                 }
@@ -610,13 +705,13 @@ namespace LuaScriptConstructor
 
         public void Open(string path, TabControl tabControl)
         {
-            //try
-            //{
+            try
+            {
                 Status = "Initializing a open";
                 string file = File.ReadAllText(path);
                 tabControl.TabPages.Clear();
 
-                Status = "Opening...";
+                Status = "Opening the file " + path + "...";
                 file = file.Substring(1, file.Length - 2);
                 List<Types.Function> functions = new List<Types.Function>();
                 while (file.Length > 0)
@@ -650,24 +745,36 @@ namespace LuaScriptConstructor
                 RefreshProjectFunction();
 
                 Status = "Opening completed";
-            //}
-            //catch (Exception e)
-            //{
-            //    MessageBox.Show("Failed to open file.\n" + e.Message, "Failed to open file!",
-            //        MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    Status = "Failed to open file";
-            //}
+                ConstructorConsole.ClearOutput();
+                ConsoleMessage("Project " + path + " loaded and ready to go\n", System.Drawing.Color.Blue);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Failed to open file.\n" + e.Message, "Failed to open file!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Status = "Failed to open file";
+            }
         }
 
         public void BuildAll(string path, TabControl tabControl)
         {
             string scriptName = Path.GetFileNameWithoutExtension(path);
 
+            frMain.ConsoleMessage("Building \"", System.Drawing.Color.LimeGreen);
+            frMain.ConsoleMessage(scriptName, System.Drawing.Color.Green, false);
+            frMain.ConsoleMessage("\" script...\n", System.Drawing.Color.LimeGreen, false);
+
             string file = "";
 
             foreach (Types.Function function in projectFunctions.Values)
             {
-                function.Build(function.Diagram);
+                if (!function.Build(function.Diagram))
+                {
+                    frMain.ConsoleMessage("Build failed: ", System.Drawing.Color.DarkRed);
+                    frMain.ConsoleMessage("script build faild on function ", System.Drawing.Color.Red, false);
+                    frMain.ConsoleMessage(function.Name + "\n", System.Drawing.Color.DarkRed, false);
+                    return;
+                }
                 file += function.Code;
                 file += "\n\n";
             }
@@ -681,6 +788,10 @@ namespace LuaScriptConstructor
             file += main.Code;
 
             File.WriteAllText(path, file);
+
+            frMain.ConsoleMessage("Build successful: ", System.Drawing.Color.LimeGreen);
+            frMain.ConsoleMessage(path, System.Drawing.Color.Green, false);
+            frMain.ConsoleMessage(" was successfully built", System.Drawing.Color.LimeGreen, false);
 
         }
         private string SerializeFunctions(List<Types.Function> functions)
