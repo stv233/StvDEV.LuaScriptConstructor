@@ -383,7 +383,7 @@ namespace LuaScriptConstructor
 
             var htbSearch = new Windows.Forms.HintTextBox
             {
-                HintValue = "Search",
+                HintValue = "⁣S⁣e⁣a⁣r⁣c⁣h⁣",
                 Height = 5,
                 Dock = DockStyle.Top,  
                 Parent = scMain.Panel1
@@ -592,7 +592,10 @@ namespace LuaScriptConstructor
 
             htbSearch.TextChanged += (s, e) =>
             {
-                ctvMain.Search(htbSearch.Text);
+                if (htbSearch.Text != htbSearch.HintValue)
+                {
+                    ctvMain.Search(htbSearch.Text);
+                }
             };
 
             tcMain.GotFocus += (s, e) =>

@@ -234,10 +234,8 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
         /// <param name="target">Search target</param>
         public virtual void Search(string target)
         {
-            if (!String.IsNullOrEmpty(target))
-            {
-                Search(target, this.Nodes);
-            }
+
+            Search(target, this.Nodes);
         }
 
         /// <summary>
@@ -247,27 +245,30 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
         /// <param name="nodes">Parent nodes collection</param>
         public static bool Search(string target, TreeNodeCollection nodes)
         {
-            bool result = false;
+            bool result = String.IsNullOrEmpty(target);
 
             foreach (TreeNode node in nodes)
             {
-                bool localResult = false;
+                bool localResult = String.IsNullOrEmpty(target);
                 if ((node.Text.ToLower().Contains(target.ToLower())) || (String.IsNullOrEmpty(target)))
                 {
                     result = true;
                     localResult = true;
                 }
 
-                //if ((!Search(target, node.Nodes)) && (!localResult))
-                Search(target, node.Nodes);
-                if (!localResult)
+                if ((!Search(target, node.Nodes)) && (!localResult))
+                //Search(target, node.Nodes);
+                //if (!localResult)
                 {
-                    node.BackColor = System.Drawing.Color.White;
+                    node.ForeColor = System.Drawing.Color.LightGray;
                 }
                 else
                 {
-                    node.EnsureVisible();
-                    node.BackColor = System.Drawing.Color.FromArgb(28, 196, 247);
+                    if (!String.IsNullOrEmpty(target))
+                    {
+                        node.EnsureVisible();
+                    }
+                    node.ForeColor = System.Drawing.Color.Black;//FromArgb(28, 196, 247);
                 }
             }
 
