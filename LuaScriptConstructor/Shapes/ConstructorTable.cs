@@ -151,12 +151,12 @@ namespace LuaScriptConstructor.Shapes
         /// <summary>
         /// Values of connected inputs;
         /// </summary>
-        public List<string> ArgumentsValues { get; set; }
+        public Dictionary<string, string> ArgumentsValues { get; set; }
 
         /// <summary>
         /// Values of connected return;
         /// </summary>
-        public List<string> RetrurnsValues { get; set; }
+        public Dictionary<string, string> RetrurnsValues { get; set; }
 
         /// <summary>
         /// Can edit table Heading.
@@ -285,7 +285,7 @@ namespace LuaScriptConstructor.Shapes
                         if (FindTableItemWithText((port as TablePort).TableItem.Text, this) != null)
                         {
                             var newPort = new TablePort(FindTableItemWithText((port as TablePort).TableItem.Text, this));
-                            newPort.SetKey(port.Key.Substring(0, port.Key.LastIndexOf('_')) + DateTime.Now.GetHashCode());
+                            newPort.SetKey(port.Key.Substring(0, port.Key.LastIndexOf('_')) + Math.Abs(DateTime.Now.GetHashCode()).ToString());
                             newPort.Orientation = port.Orientation;
                             newPort.Direction = port.Direction;
                             newPort.Style = port.Style;

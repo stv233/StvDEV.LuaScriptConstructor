@@ -450,7 +450,7 @@ namespace LuaScriptConstructor
                 using (var sfd = new SaveFileDialog
                 {
                     FileName = projectPath,
-                    Filter = "Lua script project (*.LUASP)|*.luasp|All files(*.*)|*.*"
+                    Filter = "Lua script project (*.LUASP)|*.luasp|All files (*.*)|*.*"
                 })
                 {
                     if (sfd.ShowDialog() == DialogResult.OK)
@@ -467,7 +467,7 @@ namespace LuaScriptConstructor
                 using (var ofd = new OpenFileDialog
                 {
                     FileName = projectPath,
-                    Filter = "Lua script project (*.LUASP)|*.luasp|All files(*.*)|*.*"
+                    Filter = "Lua script project (*.LUASP)|*.luasp|All files (*.*)|*.*"
                 })
                 {
                     if (ofd.ShowDialog() == DialogResult.OK)
@@ -475,6 +475,22 @@ namespace LuaScriptConstructor
                         projectPath = ofd.FileName;
                         this.Text = Application.ProductName + " - " + Path.GetFileName(projectPath);
                         Open(projectPath, tcMain);
+                    }
+                }
+            };
+
+            tsmiBuildFunction.Click += (s, e) =>
+            {
+                (tcMain.SelectedTab as DiagramTabPage).Diagram.Build();
+            };
+
+            tsmiBuildAll.Click += (s, e) =>
+            {
+                using (var sfd = new SaveFileDialog { Filter = "Lua script (*.lua)|*.lua|All files (*.*)|*.*" })
+                {
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
+                        BuildAll(sfd.FileName, tcMain);
                     }
                 }
             };
@@ -643,6 +659,30 @@ namespace LuaScriptConstructor
             //}
         }
 
+        public void BuildAll(string path, TabControl tabControl)
+        {
+            string scriptName = Path.GetFileNameWithoutExtension(path);
+
+            string file = "";
+
+            foreach (Types.Function function in projectFunctions.Values)
+            {
+                function.Build(function.Diagram);
+                file += function.Code;
+                file += "\n\n";
+            }
+
+            Types.Function main = new Types.Function(scriptName, Types.Function.FuntionTypes.Main)
+            {
+                Diagram = (tabControl.TabPages[0] as DiagramTabPage).Diagram
+            };
+
+            main.Build(main.Diagram);
+            file += main.Code;
+
+            File.WriteAllText(path, file);
+
+        }
         private string SerializeFunctions(List<Types.Function> functions)
         {
             string result = "{";

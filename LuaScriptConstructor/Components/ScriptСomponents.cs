@@ -48,7 +48,7 @@ namespace LuaScriptConstructor.Components
                     GradientColor = System.Drawing.Color.White,
                     SubHeading = "Main script function"
                 };
-                mainTable.SetKey(main.Prefix + "_" + main.Name + DateTime.Now.GetHashCode());
+                mainTable.SetKey(main.Prefix + "_" + main.Name + Math.Abs(DateTime.Now.GetHashCode()).ToString());
 
                 var mainPort = new Crainiate.Diagramming.Port
                 {
@@ -56,7 +56,7 @@ namespace LuaScriptConstructor.Components
                     Direction = Crainiate.Diagramming.Direction.Out,
                     Orientation = Crainiate.Diagramming.PortOrientation.Bottom
                 };
-                mainPort.SetKey("mainoutput_" + DateTime.Now.GetHashCode());
+                mainPort.SetKey("mainoutput_" + Math.Abs(DateTime.Now.GetHashCode()).ToString());
                 mainTable.Ports.Add(mainPort);
 
                 main.Table = mainTable;
@@ -83,7 +83,7 @@ namespace LuaScriptConstructor.Components
                     GradientColor = System.Drawing.Color.White,
                     SubHeading = "Init script function"
                 };
-                initTable.SetKey(init.Prefix + "_" + init.Name + DateTime.Now.GetHashCode());
+                initTable.SetKey(init.Prefix + "_" + init.Name + Math.Abs(DateTime.Now.GetHashCode()).ToString());
 
                 var initPort = new Crainiate.Diagramming.Port
                 {
@@ -91,7 +91,7 @@ namespace LuaScriptConstructor.Components
                     Direction = Crainiate.Diagramming.Direction.Out,
                     Orientation = Crainiate.Diagramming.PortOrientation.Bottom
                 };
-                initPort.SetKey("initoutput_" + DateTime.Now.GetHashCode());
+                initPort.SetKey("initoutput_" + Math.Abs(DateTime.Now.GetHashCode()).ToString());
                 initTable.Ports.Add(initPort);
 
                 init.Table = initTable;
@@ -119,7 +119,7 @@ namespace LuaScriptConstructor.Components
                     GradientColor = System.Drawing.Color.White,
                     SubHeading = "Function start"
                 };
-                startTable.SetKey(start.Prefix + "_" + start.Name + DateTime.Now.GetHashCode());
+                startTable.SetKey(start.Prefix + "_" + start.Name + Math.Abs(DateTime.Now.GetHashCode()).ToString());
 
                 var startPort = new Crainiate.Diagramming.Port
                 {
@@ -127,7 +127,7 @@ namespace LuaScriptConstructor.Components
                     Direction = Crainiate.Diagramming.Direction.Out,
                     Orientation = Crainiate.Diagramming.PortOrientation.Bottom
                 };
-                startPort.SetKey("startoutput_" + DateTime.Now.GetHashCode());
+                startPort.SetKey("startoutput_" + Math.Abs(DateTime.Now.GetHashCode()).ToString());
                 startTable.Ports.Add(startPort);
 
                 start.Table = startTable;

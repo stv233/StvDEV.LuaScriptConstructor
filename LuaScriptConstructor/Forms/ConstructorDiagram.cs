@@ -379,7 +379,7 @@ namespace LuaScriptConstructor.Forms
         /// <summary>
         /// Build function.
         /// </summary>
-        protected virtual void Build()
+        public virtual void Build()
         {
             var function = new Types.Function(this.Parent.Text.Replace(" ","_"));
             function.AccessType = Types.Variable.VariableAccessTypes.InputOutput;

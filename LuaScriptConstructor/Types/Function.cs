@@ -8,6 +8,21 @@ namespace LuaScriptConstructor.Types
     /// </summary>
     class Function : Variable, Saves.IConstructorSerializable
     {
+        private int unicBuildCounter = 10;
+        private struct codeConnector
+        {
+            public string StartShape;
+            public string StartPort;
+            public string EndShape;
+            public string EndPort;
+        }
+
+        private enum FillTableTypes
+        {
+            Function,
+            Return
+        }
+
         /// <summary>
         /// Represents a class containing data for a <see cref="BuildComplite"/> and <see cref="BuildError"/> event.
         /// </summary>
@@ -170,15 +185,24 @@ namespace LuaScriptConstructor.Types
         {
             List<string> warnings = new List<string>();
 
-            try
-            {
-                BuildTable(diagram, ref warnings);
-            }
-            catch (Exception e)
-            {
-                BuildError(this, new FunctionBuildEventArgs(e, warnings));
-                System.Windows.Forms.MessageBox.Show(e.Message);
-            }
+            //try
+            //{
+                if (this.Type == FuntionTypes.Regular)
+                {
+                    BuildTable(diagram, ref warnings);
+                    this.Code = BuildCode(diagram, ref warnings);
+                }
+                else
+                {
+                    string init = BuildCode(diagram, ref warnings, FuntionTypes.Init);
+                    this.Code = init + "\n\n\n" + BuildCode(diagram, ref warnings, FuntionTypes.Main);
+                }
+            //}
+            //catch (Exception e)
+            //{
+            //    BuildError(this, new FunctionBuildEventArgs(e, warnings));
+            //    System.Windows.Forms.MessageBox.Show(e.Message);
+            //}
 
             BuildComplite(this, new FunctionBuildEventArgs(warnings));
         }
@@ -193,6 +217,7 @@ namespace LuaScriptConstructor.Types
         {
             Arguments = new List<string>();
             Returns = new List<string>();
+            List<string> IgnoreList = new List<string>();
 
             Shapes.ConstructorTable table = new Shapes.ConstructorTable();
             table.Heading = Name;
@@ -202,7 +227,7 @@ namespace LuaScriptConstructor.Types
             table.Size = new System.Drawing.SizeF(100f, 100f);
             table.Icon = Properties.Resources.UserFunction_16x;
             table.Function = this;
-            table.SetKey(Prefix + "_" + Name + "_" + DateTime.Now.GetHashCode());
+            table.SetKey(Prefix + "_" + Name + "_" + Math.Abs(DateTime.Now.GetHashCode()).ToString());
 
             if ((AccessType == VariableAccessTypes.Input) || (AccessType == VariableAccessTypes.InputOutput))
             {
@@ -213,7 +238,7 @@ namespace LuaScriptConstructor.Types
                     Style = Crainiate.Diagramming.PortStyle.Default,
                     AllowMove = false
                 };
-                input.SetKey("input_" + Prefix + "_" + Name + "_" + DateTime.Now.GetHashCode());
+                input.SetKey("input_" + Prefix + "_" + Name + "_" + Math.Abs(DateTime.Now.GetHashCode()).ToString());
                 table.Ports.Add(input);
             }
 
@@ -226,7 +251,7 @@ namespace LuaScriptConstructor.Types
                     Style = Crainiate.Diagramming.PortStyle.Default,
                     AllowMove = false
                 };
-                output.SetKey("output_" + Prefix + "_" + Name + "_" + DateTime.Now.GetHashCode());
+                output.SetKey("output_" + Prefix + "_" + Name + "_" + Math.Abs(DateTime.Now.GetHashCode()).ToString());
                 table.Ports.Add(output);
             }
 
@@ -236,11 +261,15 @@ namespace LuaScriptConstructor.Types
                 {
                     if (connector.StartPort.Key.Contains("functionargument"))
                     {
-                        if (connector.Start.DockedElement is Shapes.ConstructorTable)
+                        if (!IgnoreList.Contains(connector.StartPort.Key))
                         {
-                            Arguments.Add("argument-"
-                                + ((Shapes.ConstructorTable)connector.Start.DockedElement).Heading
-                                + "_" + (Arguments.Count + 1).ToString());
+                            if (connector.Start.DockedElement is Shapes.ConstructorTable)
+                            {
+                                Arguments.Add("argument-"
+                                    + ((Shapes.ConstructorTable)connector.Start.DockedElement).Heading
+                                    + "_" + (Arguments.Count + 1).ToString());
+                                IgnoreList.Add(connector.StartPort.Key);
+                            }
                         }
 
                     }
@@ -254,11 +283,15 @@ namespace LuaScriptConstructor.Types
                 {
                     if (connector.EndPort.Key.Contains("functionreturn"))
                     {
-                        if (connector.End.DockedElement is Shapes.ConstructorTable)
+                        if (!IgnoreList.Contains(connector.StartPort.Key))
                         {
-                            Returns.Add("return-"
-                                + ((Shapes.ConstructorTable)connector.End.DockedElement).Heading
-                                + "_ " + (Returns.Count + 1).ToString());
+                            if (connector.End.DockedElement is Shapes.ConstructorTable)
+                            {
+                                Returns.Add("return-"
+                                    + ((Shapes.ConstructorTable)connector.End.DockedElement).Heading
+                                    + "_ " + (Returns.Count + 1).ToString());
+                                IgnoreList.Add(connector.StartPort.Key);
+                            }
                         }
 
                     }
@@ -278,7 +311,7 @@ namespace LuaScriptConstructor.Types
                 port.Orientation = Crainiate.Diagramming.PortOrientation.Left;
                 port.Direction = Crainiate.Diagramming.Direction.In;
                 port.Style = Crainiate.Diagramming.PortStyle.Input;
-                port.SetKey(argument + "_" + DateTime.Now.GetHashCode());
+                port.SetKey(argument + "_" + Math.Abs(DateTime.Now.GetHashCode()).ToString());
                 arguments.Rows.Add(row);
                 table.Ports.Add(port);
             }
@@ -293,13 +326,273 @@ namespace LuaScriptConstructor.Types
                 port.Orientation = Crainiate.Diagramming.PortOrientation.Left;
                 port.Direction = Crainiate.Diagramming.Direction.Out;
                 port.Style = Crainiate.Diagramming.PortStyle.Output;
-                port.SetKey(@return + "_" + DateTime.Now.GetHashCode());
+                port.SetKey(@return + "_" + Math.Abs(DateTime.Now.GetHashCode()).ToString());
                 returns.Rows.Add(row);
                 table.Ports.Add(port);
             }
             table.Groups.Add(returns);
 
             return table;
+        }
+
+        private string BuildCode(Forms.ConstructorDiagram diagram, ref List<string> warnings, FuntionTypes type = FuntionTypes.Regular)
+        {
+
+            string code = "";
+            if (type == FuntionTypes.Regular)
+            {
+                code += "function " + Name + "(e,";
+
+                foreach (string arg in Arguments)
+                {
+                    code += arg.Replace("argument-", "").Substring(0, arg.Replace("argument-", "").LastIndexOf("_")) + ",";
+                }
+
+                if (Arguments.Count > 0)
+                {
+                    code = code.Substring(0, code.Length - 1);
+                }
+
+                code += ")\n";
+            }
+            else
+            {
+                code += "function " + Name + "_" + type.ToString().ToLower() + "_name(e, name)\n";
+            }
+
+            List<codeConnector> codeConnectors = new List<codeConnector>();
+
+            foreach (Shapes.ConstructorConnector connector in diagram.Connectors.Values)
+            {
+                var codeConnector = new codeConnector();
+                if (connector.StartPort != null)
+                {
+                    codeConnector.StartPort = connector.StartPort.ToString();
+                    codeConnector.StartShape = (connector.StartPort.Parent as Crainiate.Diagramming.Shape).ToString(); ;
+                }
+                
+                if (connector.EndPort != null)
+                {
+                    codeConnector.EndPort = connector.EndPort.ToString();
+                    codeConnector.EndShape = (connector.EndPort.Parent as Crainiate.Diagramming.Shape).ToString();
+                }
+
+                codeConnectors.Add(codeConnector);
+            }
+
+            Shapes.ConstructorTable currentTable = null;
+            foreach(codeConnector codeConnector in codeConnectors)
+            {
+                if (codeConnector.StartPort != null)
+                {
+                    string startPort = "startoutput_";
+
+                    if (type == FuntionTypes.Main)
+                    {
+                        startPort = "mainoutput_";
+                    }
+                    else if (type == FuntionTypes.Init)
+                    {
+                        startPort = "initoutput_";
+                    }
+                    if (codeConnector.StartPort.Contains(startPort))
+                    {
+                        currentTable = diagram.Tables[codeConnector.EndShape];
+                        break;
+                    }
+                }
+            }
+            if (currentTable == null)
+            {
+                throw new Exception("Failed to locate the beginning of the function. Possibly the function table is not connected to the connector.");
+            }
+
+
+            while (currentTable != null)
+            {
+                if ((currentTable.ArgumentsValues != null) && (currentTable.RetrurnsValues != null))
+                {
+                    throw new Exception("Incorrect function call order detected.");
+                }
+                FillTable(diagram, ref warnings, ref currentTable, ref code, codeConnectors);
+
+
+                bool found = false;
+                foreach (Crainiate.Diagramming.Port port in currentTable.Ports.Values)
+                {
+                    if (port.Key.Contains("output_"))
+                    {
+                        foreach (codeConnector codeConnector in codeConnectors)
+                        {
+                            if (codeConnector.StartPort == port.ToString())
+                            {
+                                
+                                try
+                                {
+                                    found = true;
+                                    currentTable = diagram.Tables[codeConnector.EndShape];
+                                    break;
+                                }
+                                catch
+                                {
+                                    found = false;
+                                    currentTable = null;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (!found)
+                {
+                    break;
+                }
+                
+            }
+
+            code += "return ";
+            bool comma = false;
+            foreach (codeConnector codeConnector in codeConnectors)
+            {
+                if (codeConnector.EndPort.Contains("functionreturn"))
+                {
+                    Shapes.ConstructorTable returnTable = diagram.Tables[codeConnector.EndShape];
+                    if (comma) { code += ","; }
+                    FillTable(diagram, ref warnings, ref returnTable, ref code, codeConnectors, FillTableTypes.Return);
+                    comma = true;
+                }
+            }
+
+            code += "\nend\n";
+
+            foreach(Shapes.ConstructorTable table in diagram.Tables.Values)
+            {
+                table.ArgumentsValues = null;
+                table.RetrurnsValues = null;
+            }
+
+            return code;
+
+        }
+
+        private void FillTable(Forms.ConstructorDiagram diagram, ref List<string> warnings, ref Shapes.ConstructorTable table, ref string code, List<codeConnector> codeConnectors, FillTableTypes fillType = FillTableTypes.Function)
+        {
+            table.ArgumentsValues = new Dictionary<string, string>();
+            table.RetrurnsValues = new Dictionary<string, string>();
+
+            foreach (Crainiate.Diagramming.Port port in table.Ports.Values)
+            {
+                if (port.Key.Contains("argument"))
+                {
+                    Shapes.ConstructorTable argumentTable = null;
+                    string returnConnector = "";
+                    foreach(codeConnector codeConnector in codeConnectors)
+                    {
+                        if (codeConnector.EndPort == port.ToString())
+                        {
+                            if (!diagram.Tables.ContainsKey(codeConnector.StartShape))
+                            {
+                                throw new Exception("A connector that does not lead to a value is connected to the argument of the " + table.Heading + " function.");
+                            }
+                            argumentTable = diagram.Tables[codeConnector.StartShape];
+                            returnConnector = codeConnector.StartPort;
+                            break;
+                        }
+                    }
+                    if (argumentTable == null)
+                    {
+                        continue;
+                    }
+
+                    if (argumentTable.Type == Shapes.ConstructorTable.ConstructorTableTypes.Function)
+                    {
+
+                        if (argumentTable.RetrurnsValues == null)
+                        {
+                            FillTable(diagram, ref warnings, ref argumentTable, ref code, codeConnectors);
+                        }
+
+                        table.ArgumentsValues[port.Key] = argumentTable.RetrurnsValues[returnConnector];
+                    }
+                    else
+                    {
+                        table.ArgumentsValues[port.Key] = argumentTable.Heading;
+                    }
+                }
+
+                if (port.Key.Contains("return"))
+                {
+                    foreach(codeConnector codeConnector in codeConnectors)
+                    {
+                        if (codeConnector.StartPort == port.ToString())
+                        {
+                            table.RetrurnsValues[port.ToString()] = table.Heading + "_return_" + Math.Abs(DateTime.Now.GetHashCode()).ToString() + unicBuildCounter.ToString("X4");
+                            unicBuildCounter++;
+                        }
+                    }
+                }
+            }
+
+            if (fillType == FillTableTypes.Function)
+            {
+                if (table.RetrurnsValues.Count > 0)
+                {
+                    code += "local ";
+                    bool сomma = false;
+                    foreach(Crainiate.Diagramming.Port port in table.Ports.Values)
+                    {
+                        if (port.Key.Contains("return"))
+                        {
+                            if (сomma) { code += ","; }
+                            if (table.RetrurnsValues.ContainsKey(port.ToString()))
+                            {
+                                code += table.RetrurnsValues[port.ToString()];
+                            }
+                            else
+                            {
+                                code += "_";
+                            }
+                            сomma = true;
+                        }
+                    }
+                    //foreach (string @return in table.RetrurnsValues.Values)
+                    //{
+                    //    if (сomma) { code += ","; }
+                    //    code += @return;
+                    //    сomma = true;
+                    //}
+                    code += " = ";
+                }
+
+                code += table.Heading + "(e";
+
+                if (table.ArgumentsValues.Count > 0)
+                {
+                    foreach (string argument in table.ArgumentsValues.Values)
+                    {
+                        code += ","; 
+                        code += argument;
+                    }
+                }
+
+                code += ")\n";
+            }
+            else if (fillType == FillTableTypes.Return)
+            {
+                if (table.ArgumentsValues.Count > 0)
+                {
+                    bool сomma = false;
+                    foreach (string argument in table.ArgumentsValues.Values)
+                    {
+                        if (сomma) { code += ","; }
+                        code += argument;
+                        сomma = true;
+                    }
+                }
+
+            }
+
+
         }
 
         /// <summary>
