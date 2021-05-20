@@ -34,7 +34,7 @@ namespace LuaScriptConstructor.Forms
 
             diagram = new ConstructorDiagram
             {
-                AutoScroll = true,
+                //AutoScroll = true,
                 Dock = DockStyle.Fill,
                 Parent = this
             };
@@ -49,13 +49,19 @@ namespace LuaScriptConstructor.Forms
 
             var paging = new Crainiate.Diagramming.Forms.Paging
             {
-                Enabled = true,
+                Enabled = false,
                 Margin = margin,
                 Padding = new System.Drawing.SizeF(0, 0),
-                Page = 1, 
+                Page = 1,
                 WorkspaceColor = System.Drawing.SystemColors.AppWorkspace
             };
             diagram.Paging = paging;
+
+            diagram.Suspend();
+            diagram.Dock = DockStyle.None;
+            diagram.Width = 2000;
+            diagram.Height = 2000;
+            diagram.Resume();
         }
     }
 }
