@@ -111,6 +111,11 @@ namespace LuaScriptConstructor.Types
         }
 
         /// <summary>
+        /// Returns or sets whether an identifier is specified with arguments.
+        /// </summary>
+        public virtual bool IdentifierWithArguments { get; set; }
+
+        /// <summary>
         /// Function code.
         /// </summary>
         new public string Code

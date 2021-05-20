@@ -21,7 +21,8 @@ namespace LuaScriptConstructor.Types
         {
             Function,
             Return,
-            SetVariable
+            SetVariable,
+            If
         }
 
         /// <summary>
@@ -363,10 +364,19 @@ namespace LuaScriptConstructor.Types
             return table;
         }
 
+        /// <summary>
+        /// Build function code
+        /// </summary>
+        /// <param name="diagram">Function diagram</param>
+        /// <param name="warnings">Warrnings list</param>
+        /// <param name="type">Function type</param>
+        /// <returns>Function code</returns>
         protected string BuildCode(Forms.ConstructorDiagram diagram, ref List<string> warnings, FuntionTypes type = FuntionTypes.Regular)
         {
 
             string code = "";
+
+            // Function header
             if (type == FuntionTypes.Regular)
             {
                 code += "function " + Name + "(e,";
@@ -394,6 +404,7 @@ namespace LuaScriptConstructor.Types
 
             List<codeConnector> codeConnectors = new List<codeConnector>();
 
+            // Fill connectors list
             foreach (Shapes.ConstructorConnector connector in diagram.Connectors.Values)
             {
                 var codeConnector = new codeConnector();
@@ -412,6 +423,7 @@ namespace LuaScriptConstructor.Types
                 codeConnectors.Add(codeConnector);
             }
 
+            // Search start function
             Shapes.ConstructorTable currentTable = null;
             foreach(codeConnector codeConnector in codeConnectors)
             {
@@ -447,14 +459,14 @@ namespace LuaScriptConstructor.Types
                 }
             }
 
-
+            // Iterate function sequence
             while (currentTable != null)
             {
                 if ((currentTable.ArgumentsValues != null) && (currentTable.RetrurnsValues != null))
                 {
                     throw new Exception("Incorrect function call order detected.");
                 }
-                FillTable(diagram, ref warnings, ref currentTable, ref code, codeConnectors, ((currentTable.Function.Prefix == "setvariable") ? FillTableTypes.SetVariable : FillTableTypes.Function));
+                FillTable(diagram, ref warnings, ref currentTable, ref code, codeConnectors, GetFillType(currentTable.Function.Prefix));
 
 
                 bool found = false;
@@ -490,6 +502,7 @@ namespace LuaScriptConstructor.Types
                 
             }
 
+            // Print function returns
             code += "return ";
             bool comma = false;
             foreach (codeConnector codeConnector in codeConnectors)
@@ -515,17 +528,30 @@ namespace LuaScriptConstructor.Types
 
         }
 
+        /// <summary>
+        /// Fill table code.
+        /// </summary>
+        /// <param name="diagram">Function diagram</param>
+        /// <param name="warnings">Warnings list</param>
+        /// <param name="table">Table</param>
+        /// <param name="code">Code</param>
+        /// <param name="codeConnectors">Diagramm connectors list</param>
+        /// <param name="fillType">Fill type</param>
         private void FillTable(Forms.ConstructorDiagram diagram, ref List<string> warnings, ref Shapes.ConstructorTable table, ref string code, List<codeConnector> codeConnectors, FillTableTypes fillType = FillTableTypes.Function)
         {
             table.ArgumentsValues = new Dictionary<string, string>();
             table.RetrurnsValues = new Dictionary<string, string>();
 
+            // Iterate ports
             foreach (Crainiate.Diagramming.Port port in table.Ports.Values)
             {
+                // Arguments ports
                 if (port.Key.Contains("argument"))
                 {
                     Shapes.ConstructorTable argumentTable = null;
                     string returnConnector = "";
+
+                    // Search connected to argument table
                     foreach(codeConnector codeConnector in codeConnectors)
                     {
                         if (codeConnector.EndPort == port.ToString())
@@ -544,9 +570,10 @@ namespace LuaScriptConstructor.Types
                         continue;
                     }
 
+                    // If argument connected to function
                     if (argumentTable.Type == Shapes.ConstructorTable.ConstructorTableTypes.Function)
                     {
-
+                        // If connectet to argument table not filled, fill it.
                         if (argumentTable.RetrurnsValues == null)
                         {
                             FillTable(diagram, ref warnings, ref argumentTable, ref code, codeConnectors);
@@ -560,10 +587,12 @@ namespace LuaScriptConstructor.Types
                     }
                 }
 
+                // Return ports
                 if (port.Key.Contains("return"))
                 {
                     foreach(codeConnector codeConnector in codeConnectors)
                     {
+                        // If port has connected connector, create return variable.
                         if (codeConnector.StartPort == port.ToString())
                         {
                             table.RetrurnsValues[port.ToString()] = table.Function.Identifier.Replace(".","") + "_return_" + Math.Abs(DateTime.Now.GetHashCode()).ToString() + unicBuildCounter.ToString("X4");
@@ -573,6 +602,7 @@ namespace LuaScriptConstructor.Types
                 }
             }
 
+            // Print code as "return = function(arguments)"
             if (fillType == FillTableTypes.Function)
             {
                 if (table.RetrurnsValues.Count > 0)
@@ -617,6 +647,7 @@ namespace LuaScriptConstructor.Types
 
                 code += ")\n";
             }
+            // Print code as "arguments"
             else if (fillType == FillTableTypes.Return)
             {
                 if (table.ArgumentsValues.Count > 0)
@@ -631,6 +662,7 @@ namespace LuaScriptConstructor.Types
                 }
 
             }
+            // Print code as "function = arguments" 
             else if (fillType == FillTableTypes.SetVariable)
             {
                 if (table.ArgumentsValues.Count > 0)
@@ -646,8 +678,109 @@ namespace LuaScriptConstructor.Types
                     code += "\n";
                 }
             }
+            // Print code as "if (argument) then functions end"
+            else if (fillType == FillTableTypes.If)
+            {
+                if ((table.Function as ProgrammaticallyDefinedFunction).IdentifierWithArguments)
+                {
+                    code += table.Function.Identifier;
+                }
+                else
+                {
+                    code += "if(";
+
+                    if (table.ArgumentsValues.Count > 0)
+                    {
+                        bool comma = false;
+                        foreach (string argument in table.ArgumentsValues.Values)
+                        {
+                            if (comma) { code += ","; }
+                            code += argument;
+                            comma = true;
+                        }
+                    }
+                    else
+                    {
+                        code += "true";
+                    }
+
+                    code += ") ";
+                }
+
+                code += "then\n";
+
+                Shapes.ConstructorTable currentIfTable = null;
+
+                foreach (codeConnector codeConnector in codeConnectors)
+                {
+                    if (codeConnector.StartPort != null)
+                    {
+                        if (codeConnector.StartShape == table.ToString())
+                        {
+                            if (codeConnector.StartPort.Contains("trueOutput"))
+                            {
+                                currentIfTable = diagram.Tables[codeConnector.EndShape];
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                while (currentIfTable != null)
+                {
+                    if ((currentIfTable.ArgumentsValues != null) && (currentIfTable.RetrurnsValues != null))
+                    {
+                        throw new Exception("Incorrect function call order detected.");
+                    }
+                    FillTable(diagram, ref warnings, ref currentIfTable, ref code, codeConnectors, GetFillType(currentIfTable.Function.Prefix));
 
 
+                    bool found = false;
+                    foreach (Crainiate.Diagramming.Port port in currentIfTable.Ports.Values)
+                    {
+                        if (port.Key.Contains("output_"))
+                        {
+                            foreach (codeConnector codeConnector in codeConnectors)
+                            {
+                                if (codeConnector.StartPort == port.ToString())
+                                {
+
+                                    try
+                                    {
+                                        found = true;
+                                        currentIfTable = diagram.Tables[codeConnector.EndShape];
+                                        break;
+                                    }
+                                    catch
+                                    {
+                                        found = false;
+                                        currentIfTable = null;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (!found)
+                    {
+                        break;
+                    }
+                }
+
+                code += "end\n";
+            }
+
+
+        }
+
+        /// <summary>
+        /// Return fill type by prefix.
+        /// </summary>
+        /// <param name="prefix">Prefix</param>
+        /// <returns></returns>
+        private FillTableTypes GetFillType(string prefix)
+        {
+            return ((prefix == "setvariable") ? FillTableTypes.SetVariable : ((prefix == "if") ? FillTableTypes.If : FillTableTypes.Function));
         }
 
         /// <summary>

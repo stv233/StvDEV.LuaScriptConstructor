@@ -66,6 +66,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\BasicComponents.cs" />
     <Compile Include="Components\FunctionComponents.cs" />
     <Compile Include="Components\ScriptСomponents.cs" />
     <Compile Include="Components\ValuesComponents.cs" />
@@ -174,6 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Console.ico" />
+    <None Include="Resources\If_16x.png" />
     <None Include="Resources\Calculator_16x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

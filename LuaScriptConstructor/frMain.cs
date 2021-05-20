@@ -243,7 +243,9 @@ namespace LuaScriptConstructor
                     if (MessageBox.Show("Are you sure you want to close the function graph? This action cannot be undone.",
                         "Close function graph",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
                     {
+                        projectFunctions.Remove(tcMain.SelectedTab.Text);
                         tcMain.TabPages.Remove(tcMain.SelectedTab);
+                        RefreshProjectFunction();
                     }
                 }
             };
@@ -402,9 +404,28 @@ namespace LuaScriptConstructor
             };
             ctvMain.AddCategory("Basic");
 
+            #region /// Basic
+
+            foreach (Types.Constant constant in Components.BasicComponents.Constants)
+            {
+                ctvMain.Add("Basic", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
+            }
+
+            foreach (Types.Constant constant in Components.BasicComponents.Variables)
+            {
+                ctvMain.Add("Basic", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
+            }
+
+            foreach (Types.Constant constant in Components.BasicComponents.Functions)
+            {
+                ctvMain.Add("Basic", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
+            }
+
+            #endregion
+
             #region /// Values
 
-            foreach(Types.Constant constant in Components.ValuesComponents.Constants)
+            foreach (Types.Constant constant in Components.ValuesComponents.Constants)
             {
                 ctvMain.Add("Basic\\Values", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
             }
