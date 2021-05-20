@@ -41,7 +41,8 @@ namespace LuaScriptConstructor.Saves
                 }
             }
 
-            return -1;
+            throw new Exception("Could not find delimiter. Level difference: " + level.ToString());
+            //return -1;
         }
     }
 }

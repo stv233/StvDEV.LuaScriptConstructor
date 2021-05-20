@@ -61,6 +61,26 @@ namespace LuaScriptConstructor.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] _1in0out {
+            get {
+                object obj = ResourceManager.GetObject("_1in0out", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] _2in1out {
+            get {
+                object obj = ResourceManager.GetObject("_2in1out", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap BuildSelection_16x {
@@ -76,6 +96,16 @@ namespace LuaScriptConstructor.Properties {
         internal static System.Drawing.Bitmap BuildSolution_16x {
             get {
                 object obj = ResourceManager.GetObject("BuildSolution_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Calculator_16x {
+            get {
+                object obj = ResourceManager.GetObject("Calculator_16x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

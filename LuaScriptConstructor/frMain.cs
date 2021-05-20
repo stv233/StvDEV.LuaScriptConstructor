@@ -402,10 +402,62 @@ namespace LuaScriptConstructor
             };
             ctvMain.AddCategory("Basic");
 
+            #region /// Values
+
+            foreach(Types.Constant constant in Components.ValuesComponents.Constants)
+            {
+                ctvMain.Add("Basic\\Values", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
+            }
+
+            foreach (Types.Constant constant in Components.ValuesComponents.Variables)
+            {
+                ctvMain.Add("Basic\\Values\\Variables", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
+            }
+
+            foreach (Types.Constant constant in Components.ValuesComponents.Functions)
+            {
+                ctvMain.Add("Basic\\Values\\Variables", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
+            }
+
+            #endregion
+
+            #region /// Math
+
+            foreach (Types.Constant constant in Components.MathematicalComponents.Constants)
+            {
+                ctvMain.Add("Basic\\Calculations", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
+            }
+
+            foreach (Types.Constant constant in Components.MathematicalComponents.Variables)
+            {
+                ctvMain.Add("Basic\\Calculations", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
+            }
+
+            foreach (Types.Constant constant in Components.MathematicalComponents.Functions)
+            {
+                ctvMain.Add("Basic\\Calculations", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
+            }
+
+            #endregion
+
+            #region /// Function components
+
+            foreach (Types.Variable variable in Components.FunctionComponents.Constants)
+            {
+                ctvMain.Add("Function components", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
             foreach (Types.Variable variable in Components.FunctionComponents.Variables)
             {
                  ctvMain.Add("Function components", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
             }
+
+            foreach (Types.Variable variable in Components.FunctionComponents.Functions)
+            {
+                ctvMain.Add("Function components", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            #endregion
 
             foreach (var functionObject in projectFunctions.Values)
             {
@@ -657,6 +709,8 @@ namespace LuaScriptConstructor
                         if (function != null)
                         {
                             table.Function = function;
+                            table.BackColor = function.Table.BackColor;
+                            table.GradientColor = function.Table.GradientColor;
                         }
                     }
                 }
@@ -767,7 +821,7 @@ namespace LuaScriptConstructor
             frMain.ConsoleMessage(scriptName, System.Drawing.Color.Green, false);
             frMain.ConsoleMessage("\" script...\n", System.Drawing.Color.LimeGreen, false);
 
-            string file = "";
+            string file = "Include('StvDEVScriptConstructor.bin')\n";
 
             foreach (Types.Function function in projectFunctions.Values)
             {
@@ -794,9 +848,10 @@ namespace LuaScriptConstructor
 
             frMain.ConsoleMessage("Build successful: ", System.Drawing.Color.LimeGreen);
             frMain.ConsoleMessage(path, System.Drawing.Color.Green, false);
-            frMain.ConsoleMessage(" was successfully built", System.Drawing.Color.LimeGreen, false);
+            frMain.ConsoleMessage(" was successfully built\n", System.Drawing.Color.LimeGreen, false);
 
         }
+       
         private string SerializeFunctions(List<Types.Function> functions)
         {
             string result = "{";
@@ -918,14 +973,31 @@ namespace LuaScriptConstructor
                 }
             }
 
-            foreach(var objectFuction in projectFunctions.Values)
+            foreach (var function in Components.MathematicalComponents.Functions)
             {
-                Types.Function function = objectFuction as Types.Function;
                 if (function.Name == name)
                 {
                     return function;
                 }
             }
+
+            foreach (var function in Components.ValuesComponents.Functions)
+            {
+                if (function.Name == name)
+                {
+                    return function;
+                }
+            }
+
+            foreach (var function in projectFunctions.Values)
+            {
+                if (function.Name == name)
+                {
+                    return function;
+                }
+            }
+
+            
 
             return null;
         }

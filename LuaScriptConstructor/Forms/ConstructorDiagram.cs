@@ -159,6 +159,20 @@ namespace LuaScriptConstructor.Forms
             };
             tsmiBuild.Click += (s, e) => { Build(); };
             cmsMenu.Items.Add(tsmiBuild);
+
+            var tsmiSave = new ToolStripMenuItem("Save...");
+            tsmiSave.Click += (s, e) =>
+            {
+                using (var sfd = new SaveFileDialog())
+                {
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
+                        System.IO.File.WriteAllText(sfd.FileName, this.SerializeToString());
+                    }
+                }
+            };
+            cmsMenu.Items.Add(tsmiSave);
+
             this.ContextMenuStrip = cmsMenu;
 
             #endregion

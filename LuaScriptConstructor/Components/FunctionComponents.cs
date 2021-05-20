@@ -20,7 +20,7 @@ namespace LuaScriptConstructor.Components
         {
             get
             {
-                var variable = new List<Types.Variable>();
+                var variables = new List<Types.Variable>();
 
                 var input = new Types.Variable
                 {
@@ -29,7 +29,7 @@ namespace LuaScriptConstructor.Components
                     AccessType = Types.Variable.VariableAccessTypes.None,
                     InteractionType = Types.Variable.ValueInteractionTypes.Get
                 };
-                variable.Add(input);
+                variables.Add(input);
 
                 var output = new Types.Variable
                 {
@@ -38,9 +38,9 @@ namespace LuaScriptConstructor.Components
                     AccessType = Types.Variable.VariableAccessTypes.None,
                     InteractionType = Types.Variable.ValueInteractionTypes.Set
                 };
-                variable.Add(output);
+                variables.Add(output);
 
-                return variable;
+                return variables;
             }
         }
 

@@ -20,7 +20,8 @@ namespace LuaScriptConstructor.Types
         private enum FillTableTypes
         {
             Function,
-            Return
+            Return,
+            SetVariable
         }
 
         /// <summary>
@@ -244,7 +245,7 @@ namespace LuaScriptConstructor.Types
         /// <param name="diagram">Function diagramm</param>
         /// <param name="warnings">Warnings list</param>
         /// <returns></returns>
-        private Shapes.ConstructorTable BuildTable(Forms.ConstructorDiagram diagram, ref List<string> warnings)
+        protected Shapes.ConstructorTable BuildTable(Forms.ConstructorDiagram diagram, ref List<string> warnings)
         {
             Arguments = new List<string>();
             Returns = new List<string>();
@@ -314,16 +315,12 @@ namespace LuaScriptConstructor.Types
                 {
                     if (connector.EndPort.Key.Contains("functionreturn"))
                     {
-                        if (!IgnoreList.Contains(connector.StartPort.Key))
-                        {
                             if (connector.End.DockedElement is Shapes.ConstructorTable)
                             {
                                 Returns.Add("return-"
                                     + ((Shapes.ConstructorTable)connector.End.DockedElement).Heading
                                     + "_ " + (Returns.Count + 1).ToString());
-                                IgnoreList.Add(connector.StartPort.Key);
                             }
-                        }
 
                     }
                 }
@@ -366,7 +363,7 @@ namespace LuaScriptConstructor.Types
             return table;
         }
 
-        private string BuildCode(Forms.ConstructorDiagram diagram, ref List<string> warnings, FuntionTypes type = FuntionTypes.Regular)
+        protected string BuildCode(Forms.ConstructorDiagram diagram, ref List<string> warnings, FuntionTypes type = FuntionTypes.Regular)
         {
 
             string code = "";
@@ -386,9 +383,13 @@ namespace LuaScriptConstructor.Types
 
                 code += ")\n";
             }
-            else
+            else if (type == FuntionTypes.Init)
             {
-                code += "function " + Name + "_" + type.ToString().ToLower() + "_name(e, name)\n";
+                code += "function " + Name.ToLower() + "_init_name(e, name)\n";
+            }
+            else if (type == FuntionTypes.Main)
+            {
+                code += "function " + Name.ToLower() + "_main(e)\n";
             }
 
             List<codeConnector> codeConnectors = new List<codeConnector>();
@@ -435,7 +436,15 @@ namespace LuaScriptConstructor.Types
             }
             if (currentTable == null)
             {
-                throw new Exception("Failed to locate the beginning of the function. Possibly the function table is not connected to the connector.");
+                if (type != FuntionTypes.Init)
+                {
+                    throw new Exception("Failed to locate the beginning of the function. Possibly the function table is not connected to the connector.");
+                }
+                else
+                {
+                    code += "end\n";
+                    return code;
+                }
             }
 
 
@@ -445,7 +454,7 @@ namespace LuaScriptConstructor.Types
                 {
                     throw new Exception("Incorrect function call order detected.");
                 }
-                FillTable(diagram, ref warnings, ref currentTable, ref code, codeConnectors);
+                FillTable(diagram, ref warnings, ref currentTable, ref code, codeConnectors, ((currentTable.Function.Prefix == "setvariable") ? FillTableTypes.SetVariable : FillTableTypes.Function));
 
 
                 bool found = false;
@@ -557,7 +566,7 @@ namespace LuaScriptConstructor.Types
                     {
                         if (codeConnector.StartPort == port.ToString())
                         {
-                            table.RetrurnsValues[port.ToString()] = table.Heading + "_return_" + Math.Abs(DateTime.Now.GetHashCode()).ToString() + unicBuildCounter.ToString("X4");
+                            table.RetrurnsValues[port.ToString()] = table.Function.Identifier.Replace(".","") + "_return_" + Math.Abs(DateTime.Now.GetHashCode()).ToString() + unicBuildCounter.ToString("X4");
                             unicBuildCounter++;
                         }
                     }
@@ -595,7 +604,7 @@ namespace LuaScriptConstructor.Types
                     code += " = ";
                 }
 
-                code += table.Heading + "(e";
+                code += table.Function.Identifier + "(e";
 
                 if (table.ArgumentsValues.Count > 0)
                 {
@@ -622,6 +631,21 @@ namespace LuaScriptConstructor.Types
                 }
 
             }
+            else if (fillType == FillTableTypes.SetVariable)
+            {
+                if (table.ArgumentsValues.Count > 0)
+                {
+                    bool comma = false;
+                    code += table.Heading + " = ";
+                    foreach (string argument in table.ArgumentsValues.Values)
+                    {
+                        if (comma) { code += ","; }
+                        code += argument;
+                        comma = true;
+                    }
+                    code += "\n";
+                }
+            }
 
 
         }
@@ -636,6 +660,7 @@ namespace LuaScriptConstructor.Types
             result += "Name=∴Name=>" + Name + "<=Name∴;";
             result += "Prefix=∴Prefix=>" + Prefix + "<=Prefix∴;";
             result += "Type=" + Type + ";";
+            result += "Identifier=∴Identifier=>" + Identifier + "<=Identifier∴;";
             result += "Description=∴Description=>" + Description + "<=Description∴;";
             result += "Value=∴Value=>" + Value + "<=Value∴;";
             result += "Diagram=" + Diagram.SerializeToString() + ";";
@@ -681,6 +706,10 @@ namespace LuaScriptConstructor.Types
                                 this.Type = FuntionTypes.Regular;
                                 break;
                         }
+                        serializedFunction = serializedFunction.Substring(delimiter + 1);
+                        break;
+                    case "Identifier":
+                        this.Identifier = (serializedFunction.Substring(propertySign + 1, delimiter - (propertySign + 1)).Replace("∴Identifier=>", "").Replace("<=Identifier∴", ""));
                         serializedFunction = serializedFunction.Substring(delimiter + 1);
                         break;
                     case "Description":

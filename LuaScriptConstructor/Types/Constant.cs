@@ -27,7 +27,7 @@ namespace LuaScriptConstructor.Types
             {
                 var table = new Shapes.ConstructorTable
                 {
-                    Heading = "",
+                    Heading = Value,
                     SubHeading = "",
                     Label = new Crainiate.Diagramming.Label("Constant"),
                     Type = Shapes.ConstructorTable.ConstructorTableTypes.Constant,

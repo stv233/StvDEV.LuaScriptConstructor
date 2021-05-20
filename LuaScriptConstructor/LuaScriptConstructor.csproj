@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="Components\FunctionComponents.cs" />
     <Compile Include="Components\ScriptСomponents.cs" />
+    <Compile Include="Components\ValuesComponents.cs" />
     <Compile Include="Forms\ConstructorDiagram.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -85,6 +86,7 @@
     <Compile Include="frMain.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Components\MathematicalComponents.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Saves\IConstructorSerializable.cs" />
@@ -115,6 +117,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\1in0out" />
+    <None Include="Resources\2in1out" />
+    <None Include="StvDEVScriptConstructor.lua" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -169,6 +174,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Console.ico" />
+    <None Include="Resources\Calculator_16x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

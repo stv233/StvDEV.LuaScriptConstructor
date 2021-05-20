@@ -36,12 +36,6 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
                 node.ImageIndex = this.ImageList.Images.Count - 1;
             }
 
-            try
-            {
-                AddCategory(category);
-            }
-            catch { }
-
             Add(category, this.Nodes, node);
         }
 
@@ -57,7 +51,7 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
 
             if (category.Contains("\\"))
             {
-                subCategory = category.Substring(0, category.IndexOf('\\') - 1);
+                subCategory = category.Substring(0, category.IndexOf('\\'));
                 category = category.Substring(category.IndexOf('\\') + 1);
             }
             else
@@ -68,7 +62,7 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
 
             foreach (TreeNode categoryNode in nodes)
             {
-                if (categoryNode.Name == subCategory)
+                if (categoryNode.Text == subCategory)
                 {
                     if (String.IsNullOrEmpty(category))
                     {
@@ -78,9 +72,12 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
                     else
                     {
                         Add(category, categoryNode.Nodes, node);
+                        return;
                     }
                 }
             }
+            AddCategory(subCategory, nodes);
+            Add(subCategory + "\\" + category, nodes, node);
 
         }
 
@@ -104,7 +101,7 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
 
             if (category.Contains("\\"))
             {
-                subCategory = category.Substring(0, category.IndexOf('\\') - 1);
+                subCategory = category.Substring(0, category.IndexOf('\\'));
                 category = category.Substring(category.IndexOf('\\') + 1);
             }
             else
@@ -154,7 +151,7 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
 
             if (category.Contains("\\"))
             {
-                subCategory = category.Substring(0, category.IndexOf('\\') - 1);
+                subCategory = category.Substring(0, category.IndexOf('\\'));
                 category = category.Substring(category.IndexOf('\\') + 1);
             }
             else
@@ -256,9 +253,9 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
                     localResult = true;
                 }
 
-                if ((!Search(target, node.Nodes)) && (!localResult))
-                //Search(target, node.Nodes);
-                //if (!localResult)
+                //if ((!Search(target, node.Nodes)) && (!localResult))
+                Search(target, node.Nodes);
+                if (!localResult)
                 {
                     node.ForeColor = System.Drawing.Color.LightGray;
                 }

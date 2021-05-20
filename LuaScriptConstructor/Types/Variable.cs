@@ -12,6 +12,8 @@ namespace LuaScriptConstructor.Types
     /// </summary>
     class Variable : Constant
     {
+        public string _identifern = null;
+
         /// <summary>
         /// Variable access types.
         /// </summary>
@@ -140,14 +142,27 @@ namespace LuaScriptConstructor.Types
             }
         }
 
+
+
         /// <summary>
-        /// Function declaration string.
+        /// Function identifier string.
         /// </summary>
-        public virtual string Declaration
+        public virtual string Identifier
         {
             get
             {
-                return Name;
+                if (_identifern == null)
+                {
+                    return Name;
+                }
+                else
+                {
+                    return _identifern;
+                }
+            }
+            protected set
+            {
+                _identifern = value;
             }
         }
 

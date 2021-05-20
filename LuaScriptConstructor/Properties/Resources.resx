@@ -124,6 +124,9 @@
   <data name="BuildSolution_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BuildSolution_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Calculator_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Calculator_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Close_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Close_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -159,5 +162,11 @@
   </data>
   <data name="UserFunction_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\UserFunction_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_1in0out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\1in0out;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_2in1out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\2in1out;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>
