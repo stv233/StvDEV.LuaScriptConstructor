@@ -29,7 +29,7 @@ namespace LuaScriptConstructor.Types
             Function,
             Return,
             SetVariable,
-            If
+            IfWhile
         }
 
         /// <summary>
@@ -705,7 +705,7 @@ namespace LuaScriptConstructor.Types
                 }
             }
             // Print code as "if (argument) then functions end"
-            else if (fillType == fillTableTypes.If)
+            else if (fillType == fillTableTypes.IfWhile)
             {
                 if ((table.Function as ProgrammaticallyDefinedFunction).IdentifierWithArguments)
                 {
@@ -713,7 +713,14 @@ namespace LuaScriptConstructor.Types
                 }
                 else
                 {
-                    code += "if(";
+                    if (table.Function.Prefix == "if")
+                    {
+                        code += "if(";
+                    }
+                    else
+                    {
+                        code += "while (";
+                    }
 
                     if (table.ArgumentsValues.Count > 0)
                     {
@@ -733,7 +740,14 @@ namespace LuaScriptConstructor.Types
                     code += ") ";
                 }
 
-                code += "then\n";
+                if (table.Function.Prefix == "if")
+                {
+                    code += "then\n";
+                }
+                else
+                {
+                    code += "do\n";
+                }
 
                 Shapes.ConstructorTable currentIfTable = null;
 
@@ -806,7 +820,7 @@ namespace LuaScriptConstructor.Types
         /// <returns></returns>
         private fillTableTypes GetFillType(string prefix)
         {
-            return ((prefix == "setvariable") ? fillTableTypes.SetVariable : ((prefix == "if") ? fillTableTypes.If : fillTableTypes.Function));
+            return ((prefix == "setvariable") ? fillTableTypes.SetVariable : (((prefix == "if") || prefix == "while") ? fillTableTypes.IfWhile : fillTableTypes.Function));
         }
 
         /// <summary>

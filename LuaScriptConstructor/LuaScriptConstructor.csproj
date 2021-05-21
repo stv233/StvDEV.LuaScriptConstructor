@@ -176,6 +176,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Console.ico" />
+    <None Include="Resources\While_16x.png" />
     <None Include="Resources\DeleteTable_16x.png" />
     <None Include="Resources\GreaterLessEqua_16x.png" />
     <None Include="Resources\If_16x.png" />
