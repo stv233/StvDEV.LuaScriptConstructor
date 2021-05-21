@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Runtime.Serialization;
 using Crainiate.Diagramming;
 
@@ -10,6 +11,8 @@ namespace LuaScriptConstructor.Shapes
     /// </summary>
     class ConstructorTable : Table, Saves.IConstructorSerializable
     {
+        private System.Drawing.Image _icon;
+
         /// <summary>
         /// Represents exceptions when using a <see cref="ConstructorTable"/> with an unsuitable type.
         /// </summary>
@@ -163,7 +166,6 @@ namespace LuaScriptConstructor.Shapes
         /// </summary>
         public bool CanEditHeading { get; set; }
 
-        private System.Drawing.Image _icon;
         /// <summary>
         /// Table icon.
         /// </summary>
@@ -186,8 +188,43 @@ namespace LuaScriptConstructor.Shapes
             }
         }
 
+        /// <summary>
+        /// Table size.
+        /// </summary>
+        public override SizeF Size
+        {
+            get
+            {
+                return base.Size;
+            }
+            set
+            {
+                var width = value.Width;
+                var height = value.Height;
+
+                if (width < MinimumSize.Width)
+                {
+                    width = MinimumSize.Width;
+                }
+
+                if (height < MinimumSize.Height)
+                {
+                    height = MinimumSize.Height;
+                }
+
+                base.Size = new SizeF(width, height);
+            }
+        }
+
+        /// <summary>
+        /// Constructor table.
+        /// </summary>
         public ConstructorTable() : base() {}
 
+        /// <summary>
+        /// Creates a constructor table based on the prototype.
+        /// </summary>
+        /// <param name="prototype">Prototype</param>
         public ConstructorTable(ConstructorTable prototype) : base(prototype)
         {
             Type = prototype.Type;
@@ -221,6 +258,11 @@ namespace LuaScriptConstructor.Shapes
             }
         }
 
+        /// <summary>
+        /// Renew the table according to its function table
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Event arguments</param>
         public void RenewTable(object sender, EventArgs e)
         {
             if (this.Type != ConstructorTableTypes.Function)

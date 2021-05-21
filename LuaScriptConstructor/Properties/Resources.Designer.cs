@@ -153,6 +153,16 @@ namespace LuaScriptConstructor.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap DeleteTable_16x {
+            get {
+                object obj = ResourceManager.GetObject("DeleteTable_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap EditLabel_16x {
             get {
                 object obj = ResourceManager.GetObject("EditLabel_16x", resourceCulture);

@@ -11,13 +11,16 @@ namespace LuaScriptConstructor.Forms
     /// </summary>
     class ConstructorDiagram : Diagram, Saves.IConstructorSerializable
     {
+        private Mouse mouse;
+
+        /// <summary>
+        /// Storage structure of mouse parameters.
+        /// </summary>
         private struct Mouse
         {
             public int X;
             public int Y;
         }
-
-        private Mouse mouse;
 
         /// <summary>
         /// Types of constructor diagrams.
@@ -111,8 +114,8 @@ namespace LuaScriptConstructor.Forms
             tsmiConnector.Click += (s, e) =>
             {
                 Shapes.ConstructorConnector connector = new Shapes.ConstructorConnector();
-                connector.Start.Location = new PointF(mouse.X - 50, mouse.Y - 50);
-                connector.End.Location = new PointF(mouse.X + 50, mouse.Y + 50); //300,140
+                connector.Start.Location = new PointF(mouse.X - 25, mouse.Y - 25);
+                connector.End.Location = new PointF(mouse.X + 25, mouse.Y + 25); //300,140
                 connector.Avoid = true;
                 connector.End.Marker = new Crainiate.Diagramming.Arrow();
                 connector.Start.Marker = new Crainiate.Diagramming.Marker(Crainiate.Diagramming.MarkerStyle.Ellipse);
@@ -123,6 +126,7 @@ namespace LuaScriptConstructor.Forms
                 this.Refresh();
             };
             cmsMenu.Items.Add(tsmiConnector);
+            
             var tsmiEdit = new ToolStripMenuItem("Edit")
             {
                 ShortcutKeyDisplayString = "F2",
@@ -150,6 +154,7 @@ namespace LuaScriptConstructor.Forms
                 }
             };
             cmsMenu.Items.Add(tsmiEdit);
+            
             var tsmiBuild = new ToolStripMenuItem 
             { 
                 Text = "Build function", 
@@ -159,6 +164,63 @@ namespace LuaScriptConstructor.Forms
             };
             tsmiBuild.Click += (s, e) => { Build(); };
             cmsMenu.Items.Add(tsmiBuild);
+
+            var tsmiDelete = new ToolStripMenuItem
+            {
+                Text = "Delete",
+                Image = Properties.Resources.DeleteTable_16x,
+                Visible = false,
+                ShortcutKeyDisplayString = "Delete",
+                ShortcutKeys = Keys.Delete
+            };
+            tsmiDelete.Click += (s, e) =>
+            {
+                if (this.Model.SelectedElements() != null)
+                {
+                    foreach (var element in this.Model.SelectedElements().Values)
+                    {
+
+                        if (element is Shapes.ConstructorConnector)
+                        {
+                            try
+                            {
+                                Connectors.Remove(element.Key);
+                                this.Model.Lines.Remove(element.Key);
+                            }
+                            catch { }
+                        }
+                        else if (element is Shapes.ConstructorTable)
+                        {
+                            bool script = false;
+                            foreach (var scriptComponent in Components.ScriptСomponents.Functions)
+                            {
+                                try
+                                {
+                                    if ((element as Shapes.ConstructorTable).Function.Prefix == scriptComponent.Prefix)
+                                    {
+                                        script = true;
+                                        break;
+                                    }
+                                }
+                                catch { }
+                            }
+                            if (script) { continue; };
+
+                            try
+                            {
+                                var table = (Shapes.ConstructorTable)element;
+
+                                Tables.Remove(element.Key);
+                                this.Model.Shapes.Remove(element.Key);
+                            }
+                            catch { }
+                        }
+
+                    }
+                    this.Refresh();
+                }
+            };
+            cmsMenu.Items.Add(tsmiDelete);
 
             var tsmiSave = new ToolStripMenuItem("Save...");
             tsmiSave.Click += (s, e) =>
@@ -204,56 +266,18 @@ namespace LuaScriptConstructor.Forms
             {
                 if (e.KeyCode == Keys.Delete)
                 {
-                    if (this.Model.SelectedElements() != null)
-                    {
-                        foreach (var element in this.Model.SelectedElements().Values)
-                        {
-
-                            if (element is Shapes.ConstructorConnector)
-                            {
-                                try
-                                {
-                                    Connectors.Remove(element.Key);
-                                    this.Model.Lines.Remove(element.Key);
-                                }
-                                catch { }
-                            }
-                            else if (element is Shapes.ConstructorTable)
-                            {
-                                try
-                                {
-                                    var table = (Shapes.ConstructorTable)element;
-
-                                    // If the table is a function.
-                                    if (table.Type == Shapes.ConstructorTable.ConstructorTableTypes.Function)
-                                    {
-                                        // If the table is a table of one of the Script component functions, then it cannot be deleted.
-                                        foreach (Types.Function function in Components.ScriptСomponents.Functions)
-                                        {
-                                            if (table.Function.Prefix == function.Prefix)
-                                            {
-                                                return;
-                                            }
-                                        }
-                                    }
-
-                                    Tables.Remove(element.Key);
-                                    this.Model.Shapes.Remove(element.Key);
-                                }
-                                catch { }
-                            }
-                            
-                        }
-                        this.Refresh();
-                    }
+                    tsmiDelete.PerformClick();
                 }
             };
 
             this.MouseDown += (s, e) =>
             {
+
                 if (e.Button == MouseButtons.Right)
                 {
-                    
+                    bool edit = false;
+                    bool delete = false;
+
                     if (Model.SelectedShapes().Count == 1)
                     {
                         
@@ -265,15 +289,41 @@ namespace LuaScriptConstructor.Forms
 
                                 if ((table.CanEditHeading))
                                 {
-                                    tsmiEdit.Visible = true;
-                                    return;
+                                    edit = true;
                                 }
+
                             }
                         }
                     }
+
+                    if (Model.SelectedElements().Count > 0)
+                    {
+                        delete = true;
+                        if ((Model.SelectedElements().Count == 1) && (Model.SelectedShapes().Count == 1))
+                        {
+                            foreach(var shape in Model.SelectedShapes().Values)
+                            {
+                                foreach (var scriptComponent in Components.ScriptСomponents.Functions)
+                                {
+                                    try
+                                    {
+                                        if ((shape as Shapes.ConstructorTable).Function.Prefix == scriptComponent.Prefix)
+                                        {
+                                            delete = false;
+                                        }
+                                    }
+                                    catch { }
+                                }
+                            }
+                        }
+                        
+                    }
+
+                    tsmiEdit.Visible = edit;
+                    tsmiDelete.Visible = delete;
                 }
 
-                tsmiEdit.Visible = false;
+                
             };
 
             #endregion

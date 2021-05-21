@@ -51,6 +51,8 @@ namespace LuaScriptConstructor.Components
                     e.Table.Function = @if;
                     e.Table.Heading = "If";
                     e.Table.SubHeading = "Truth condition";
+                    e.Table.MinimumSize = new System.Drawing.SizeF(e.Table.Size.Width, 70);
+                    e.Table.Size = e.Table.MinimumSize;
 
                     e.Table.Groups.Clear();
 
