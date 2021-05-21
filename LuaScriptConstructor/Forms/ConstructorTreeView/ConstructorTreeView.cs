@@ -3,12 +3,17 @@ using System.Windows.Forms;
 
 namespace LuaScriptConstructor.Forms.ConstructorTreeView
 {
+    /// <summary>
+    /// Tree for displaying a list of constructor items.
+    /// </summary>
     class ConstructorTreeView : Kesoft.Windows.Forms.Win7StyleTreeView.Win7StyleTreeView
     {
-        ToolTip toolTip = new ToolTip(); 
+        private ToolTip toolTip = new ToolTip(); 
+        private TreeNode mouseCureentNode;
 
-        private TreeNode mouseCureentNode; 
-
+        /// <summary>
+        /// Tree for displaying a list of constructor items
+        /// </summary>
         public ConstructorTreeView() : base() {}
 
         /// <summary>

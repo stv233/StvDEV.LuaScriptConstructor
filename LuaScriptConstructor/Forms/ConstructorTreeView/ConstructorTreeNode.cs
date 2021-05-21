@@ -62,19 +62,22 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
             {
                 Text = type.Table.Heading.Replace("_", " ");
             }
-            ToolTipText = type.Table.SubHeading;
+            
 
             if (type is Types.Function || type is Types.ProgrammaticallyDefinedFunction)
             {
                 Image = (type as Types.Function).Table.Icon;
+                ToolTipText = (type as Types.Function).Description;
             }
             else if (type is Types.Variable)
             {
                 Image = (type as Types.Variable).Table.Icon;
+                ToolTipText = Table.SubHeading;
             }
             else
             {
                 Image = type.Table.Icon;
+                ToolTipText = Table.Heading;
             }
         }
 
