@@ -8,11 +8,16 @@ using System.Threading.Tasks;
 namespace LuaScriptConstructor.Types
 {
     /// <summary>
-    /// Lua variable.
+    /// Represents a variable type class for a script constructor.
     /// </summary>
     class Variable : Constant
     {
         public string _identifern = null;
+
+        /// <summary>
+        /// Fires during table rebuild.
+        /// </summary>
+        public override event RebuildTableEvents TableRebuilding;
 
         /// <summary>
         /// Variable access types.
@@ -138,11 +143,14 @@ namespace LuaScriptConstructor.Types
                     table.Ports.Add(output);
                 }
 
+                try
+                {
+                    TableRebuilding(this, new RebuildEventArgs(ref table));
+                }
+                catch (NullReferenceException) { }
                 return table;
             }
         }
-
-
 
         /// <summary>
         /// Function identifier string.
@@ -165,7 +173,6 @@ namespace LuaScriptConstructor.Types
                 _identifern = value;
             }
         }
-
 
     }
 }

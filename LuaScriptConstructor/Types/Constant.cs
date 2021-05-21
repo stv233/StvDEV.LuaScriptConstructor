@@ -6,8 +6,43 @@ using System.Threading.Tasks;
 
 namespace LuaScriptConstructor.Types
 {
+    /// <summary>
+    /// Represents a constant type class for a script constructor.
+    /// </summary>
     class Constant
     {
+        /// <summary>
+        /// Represents a class containing data for a <see cref="Constant.TableRebuilding"/> event.
+        /// </summary>
+        public class RebuildEventArgs : EventArgs
+        {
+            /// <summary>
+            /// Rebuilded table.
+            /// </summary>
+            public Shapes.ConstructorTable Table { get; protected set; }
+
+            /// <summary>
+            /// Represents a class containing data for a <see cref="Variable.TableRebuilding"/> event.
+            /// </summary>
+            /// <param name="table">Rebuilded table</param>
+            public RebuildEventArgs(ref Shapes.ConstructorTable table)
+            {
+                Table = table;
+            }
+        }
+
+        /// <summary>
+        /// Represents a method that handles <see cref="Variable.TableRebuilding"/> event.
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Event arguments</param>
+        public delegate void RebuildTableEvents(object sender, RebuildEventArgs e);
+
+        /// <summary>
+        /// Fires during table rebuild.
+        /// </summary>
+        public virtual event RebuildTableEvents TableRebuilding;
+
         /// <summary>
         /// Constant value.
         /// </summary>
@@ -50,11 +85,15 @@ namespace LuaScriptConstructor.Types
                 @return.SetKey("return_" + Prefix + "_Constant" + "_" + DateTime.Now.GetHashCode());
                 table.Ports.Add(@return);
 
+                try
+                {
+                    TableRebuilding(this, new RebuildEventArgs(ref table));
+                }
+                catch (NullReferenceException) { }
                 return table;
 
             }
         }
-
 
     }
 }

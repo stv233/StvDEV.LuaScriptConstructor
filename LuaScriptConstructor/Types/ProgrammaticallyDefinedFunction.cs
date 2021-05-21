@@ -8,43 +8,11 @@ using System.Threading.Tasks;
 namespace LuaScriptConstructor.Types
 {
     /// <summary>
-    /// Lua function for which code and table are set programmatically.
+    /// Represents a function for which code and table are set programmatically type class for a script constructor
     /// </summary>
     class ProgrammaticallyDefinedFunction : Function
     {
         private ConstructorTable _table = new ConstructorTable();
-
-        /// <summary>
-        /// Represents a class containing data for a <see cref="ProgrammaticallyDefinedFunction.TableRebuilding"/> event.
-        /// </summary>
-        public class RebuildEventArgs: EventArgs
-        {
-            /// <summary>
-            /// Rebuilded table.
-            /// </summary>
-            public ConstructorTable Table { get; protected set; }
-
-            /// <summary>
-            /// Represents a class containing data for a <see cref="ProgrammaticallyDefinedFunction.TableRebuilding"/> event.
-            /// </summary>
-            /// <param name="table">Rebuilded table</param>
-            public RebuildEventArgs(ref ConstructorTable table)
-            {
-                Table = table;
-            }
-        }
-
-        /// <summary>
-        /// Represents a method that handles <see cref="ProgrammaticallyDefinedFunction.TableRebuilding"/> event.
-        /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">Event arguments</param>
-        public delegate void RebuildTableEvents(object sender, RebuildEventArgs e);
-
-        /// <summary>
-        /// Fires during table rebuild.
-        /// </summary>
-        public event RebuildTableEvents TableRebuilding;
 
         /// <summary>
         /// Sets or returns whether the given function should be placed in the library.
@@ -55,6 +23,11 @@ namespace LuaScriptConstructor.Types
         /// Sets or returns whether to rebuild the function table
         /// </summary>
         public bool NeedRebuild { get; set; }
+
+        /// <summary>
+        /// Fires during table rebuild.
+        /// </summary>
+        public override event RebuildTableEvents TableRebuilding;
 
         /// <summary>
         /// Funtion type.
@@ -84,7 +57,11 @@ namespace LuaScriptConstructor.Types
                     {
                         List<string> warnings = new List<string>();
                         _table = base.BuildTable(this.Diagram, ref warnings);
-                        TableRebuilding(this, new RebuildEventArgs(ref _table));
+                        try
+                        {
+                            TableRebuilding(this, new RebuildEventArgs(ref _table));
+                        }
+                        catch (NullReferenceException) { }
                     }
                 }
                 return _table;
@@ -128,6 +105,11 @@ namespace LuaScriptConstructor.Types
             {
                 base.Code = value;
             }
+        }
+
+        public ProgrammaticallyDefinedFunction()
+        {
+            TableRebuilding += (s, e) => { };
         }
     }
 }

@@ -4,11 +4,15 @@ using System.Collections.Generic;
 namespace LuaScriptConstructor.Types
 {
     /// <summary>
-    /// Lua function.
+    /// Represents a constant type class for a script constructor.
     /// </summary>
     class Function : Variable, Saves.IConstructorSerializable
     {
         private int unicBuildCounter = 10;
+
+        /// <summary>
+        /// Structure of writing connectors when building a function code
+        /// </summary>
         private struct codeConnector
         {
             public string StartShape;
@@ -17,7 +21,10 @@ namespace LuaScriptConstructor.Types
             public string EndPort;
         }
 
-        private enum FillTableTypes
+        /// <summary>
+        /// Function table code filling types.
+        /// </summary>
+        private enum fillTableTypes
         {
             Function,
             Return,
@@ -69,6 +76,11 @@ namespace LuaScriptConstructor.Types
         public delegate void FunctionBuildEvents(object sender, FunctionBuildEventArgs e);
 
         /// <summary>
+        /// Fires during table rebuild.
+        /// </summary>
+        public override event RebuildTableEvents TableRebuilding;
+
+        /// <summary>
         /// Lua function types.
         /// </summary>
         public enum FuntionTypes
@@ -116,7 +128,13 @@ namespace LuaScriptConstructor.Types
                 }
                 
                 List<string> warnings = new List<string>();
-                return BuildTable(Diagram, ref warnings);
+                Shapes.ConstructorTable table = BuildTable(Diagram, ref warnings);
+                try
+                {
+                    TableRebuilding(this, new RebuildEventArgs(ref table));
+                }
+                catch (NullReferenceException) { }
+                return table;
             }
         }
 
@@ -158,18 +176,20 @@ namespace LuaScriptConstructor.Types
         public FunctionBuildEvents BuildError;
 
         /// <summary>
-        /// Lua function.
+        /// Represents a constant type class for a script constructor.
         /// </summary>
-        protected Function() { }
+        protected Function()
+        {
+        }
 
         /// <summary>
-        /// Lua function.
+        /// Represents a constant type class for a script constructor.
         /// </summary>
-        /// <param name="name">Function name.</param>
+        /// <param name="name">Function name</param>
         public Function(string name) : this(name, FuntionTypes.Regular) { }
 
         /// <summary>
-        /// Lua function.
+        /// Represents a constant type class for a script constructor.
         /// </summary>
         /// <param name="name">Function name</param>
         /// <param name="type">Function type</param>
@@ -202,8 +222,14 @@ namespace LuaScriptConstructor.Types
                 frMain.ConsoleMessage(e.Warnings.Count.ToString() + " warnings", System.Drawing.Color.Gold, false);
                 frMain.ConsoleMessage("\n", System.Drawing.Color.Black, false);
             };
+            TableRebuilding += (s, e) => { };
         }
 
+        /// <summary>
+        /// Build function.
+        /// </summary>
+        /// <param name="diagram">Function</param>
+        /// <returns><Build success/returns>
         public bool Build(Forms.ConstructorDiagram diagram)
         {
             frMain.ConsoleMessage("Building \"", System.Drawing.Color.LimeGreen);
@@ -245,7 +271,7 @@ namespace LuaScriptConstructor.Types
         /// </summary>
         /// <param name="diagram">Function diagramm</param>
         /// <param name="warnings">Warnings list</param>
-        /// <returns></returns>
+        /// <returns>Function table</returns>
         protected Shapes.ConstructorTable BuildTable(Forms.ConstructorDiagram diagram, ref List<string> warnings)
         {
             Arguments = new List<string>();
@@ -511,7 +537,7 @@ namespace LuaScriptConstructor.Types
                 {
                     Shapes.ConstructorTable returnTable = diagram.Tables[codeConnector.EndShape];
                     if (comma) { code += ","; }
-                    FillTable(diagram, ref warnings, ref returnTable, ref code, codeConnectors, FillTableTypes.Return);
+                    FillTable(diagram, ref warnings, ref returnTable, ref code, codeConnectors, fillTableTypes.Return);
                     comma = true;
                 }
             }
@@ -537,7 +563,7 @@ namespace LuaScriptConstructor.Types
         /// <param name="code">Code</param>
         /// <param name="codeConnectors">Diagramm connectors list</param>
         /// <param name="fillType">Fill type</param>
-        private void FillTable(Forms.ConstructorDiagram diagram, ref List<string> warnings, ref Shapes.ConstructorTable table, ref string code, List<codeConnector> codeConnectors, FillTableTypes fillType = FillTableTypes.Function)
+        private void FillTable(Forms.ConstructorDiagram diagram, ref List<string> warnings, ref Shapes.ConstructorTable table, ref string code, List<codeConnector> codeConnectors, fillTableTypes fillType = fillTableTypes.Function)
         {
             table.ArgumentsValues = new Dictionary<string, string>();
             table.RetrurnsValues = new Dictionary<string, string>();
@@ -603,7 +629,7 @@ namespace LuaScriptConstructor.Types
             }
 
             // Print code as "return = function(arguments)"
-            if (fillType == FillTableTypes.Function)
+            if (fillType == fillTableTypes.Function)
             {
                 if (table.RetrurnsValues.Count > 0)
                 {
@@ -648,7 +674,7 @@ namespace LuaScriptConstructor.Types
                 code += ")\n";
             }
             // Print code as "arguments"
-            else if (fillType == FillTableTypes.Return)
+            else if (fillType == fillTableTypes.Return)
             {
                 if (table.ArgumentsValues.Count > 0)
                 {
@@ -663,7 +689,7 @@ namespace LuaScriptConstructor.Types
 
             }
             // Print code as "function = arguments" 
-            else if (fillType == FillTableTypes.SetVariable)
+            else if (fillType == fillTableTypes.SetVariable)
             {
                 if (table.ArgumentsValues.Count > 0)
                 {
@@ -679,7 +705,7 @@ namespace LuaScriptConstructor.Types
                 }
             }
             // Print code as "if (argument) then functions end"
-            else if (fillType == FillTableTypes.If)
+            else if (fillType == fillTableTypes.If)
             {
                 if ((table.Function as ProgrammaticallyDefinedFunction).IdentifierWithArguments)
                 {
@@ -778,9 +804,9 @@ namespace LuaScriptConstructor.Types
         /// </summary>
         /// <param name="prefix">Prefix</param>
         /// <returns></returns>
-        private FillTableTypes GetFillType(string prefix)
+        private fillTableTypes GetFillType(string prefix)
         {
-            return ((prefix == "setvariable") ? FillTableTypes.SetVariable : ((prefix == "if") ? FillTableTypes.If : FillTableTypes.Function));
+            return ((prefix == "setvariable") ? fillTableTypes.SetVariable : ((prefix == "if") ? fillTableTypes.If : fillTableTypes.Function));
         }
 
         /// <summary>

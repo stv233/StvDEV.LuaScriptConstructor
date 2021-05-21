@@ -46,6 +46,12 @@ namespace LuaScriptConstructor.Components
                     AccessType = Types.Variable.VariableAccessTypes.None,
                     InteractionType = Types.Variable.ValueInteractionTypes.Get
                 };
+                get.TableRebuilding += (s, e) =>
+                {
+                    e.Table.Heading = "SomeVariable";
+                    e.Table.SubHeading = "Variable";
+                    e.Table.Label = new Crainiate.Diagramming.Label("Get");
+                };
                 variables.Add(get);
 
                 return variables;
@@ -65,6 +71,7 @@ namespace LuaScriptConstructor.Components
                 {
                     Name = "Set",
                     Prefix = "setvariable",
+                    Description = "Sets the value of a variable",
                     Type = Types.Function.FuntionTypes.Regular,
                     NeedRebuild = true,
                     Diagram = new Forms.ConstructorDiagram(),
@@ -80,8 +87,10 @@ namespace LuaScriptConstructor.Components
                     e.Table.GradientColor = new Types.Variable().Table.BackColor;
                     e.Table.CanEditHeading = true;
                     e.Table.Function = set;
-                    e.Table.Heading = "Set";
-                    e.Table.SubHeading = "Sets the value of a variable";
+                    e.Table.Heading = "SomeVariable";
+                    e.Table.SubHeading = set.Description;
+                    e.Table.MinimumSize = new System.Drawing.SizeF(200, 50);
+                    e.Table.Size = e.Table.MinimumSize;
 
                     e.Table.Groups.Clear();
 

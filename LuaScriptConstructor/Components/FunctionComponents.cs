@@ -29,6 +29,11 @@ namespace LuaScriptConstructor.Components
                     AccessType = Types.Variable.VariableAccessTypes.None,
                     InteractionType = Types.Variable.ValueInteractionTypes.Get
                 };
+                input.TableRebuilding += (s, e) =>
+                {
+                    e.Table.SubHeading = "Argument";
+                    e.Table.BackColor = e.Table.GradientColor = System.Drawing.Color.DeepSkyBlue;
+                };
                 variables.Add(input);
 
                 var output = new Types.Variable
@@ -37,6 +42,11 @@ namespace LuaScriptConstructor.Components
                     Prefix = "functionreturn",
                     AccessType = Types.Variable.VariableAccessTypes.None,
                     InteractionType = Types.Variable.ValueInteractionTypes.Set
+                };
+                output.TableRebuilding += (s, e) =>
+                {
+                    e.Table.SubHeading = "Return";
+                    e.Table.BackColor = e.Table.GradientColor = System.Drawing.Color.DeepSkyBlue;
                 };
                 variables.Add(output);
 

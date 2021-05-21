@@ -461,6 +461,25 @@ namespace LuaScriptConstructor
 
             #endregion
 
+            #region /// Comparison
+
+            foreach (Types.Constant constant in Components.ComparisonComponents.Constants)
+            {
+                ctvMain.Add("Basic\\Comparisons", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
+            }
+
+            foreach (Types.Constant constant in Components.ComparisonComponents.Variables)
+            {
+                ctvMain.Add("Basic\\Comparisons", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
+            }
+
+            foreach (Types.Constant constant in Components.ComparisonComponents.Functions)
+            {
+                ctvMain.Add("Basic\\Comparisons", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
+            }
+
+            #endregion
+
             #region /// Function components
 
             foreach (Types.Variable variable in Components.FunctionComponents.Constants)

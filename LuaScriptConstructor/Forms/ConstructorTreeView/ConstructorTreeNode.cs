@@ -54,7 +54,14 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
         public ConstructorTreeNode(Types.Constant type)
         {
             nodeObject = type;
-            Text = type.Table.Heading.Replace("_", " ");
+            if (type.Table.Label != null)
+            {
+                Text = type.Table.Label.Text.Replace("_", " ");
+            }
+            else
+            {
+                Text = type.Table.Heading.Replace("_", " ");
+            }
             ToolTipText = type.Table.SubHeading;
 
             if (type is Types.Function || type is Types.ProgrammaticallyDefinedFunction)

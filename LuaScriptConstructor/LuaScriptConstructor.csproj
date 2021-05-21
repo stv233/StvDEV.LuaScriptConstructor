@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="Components\BasicComponents.cs" />
     <Compile Include="Components\FunctionComponents.cs" />
+    <Compile Include="Components\ComparisonComponents.cs" />
     <Compile Include="Components\ScriptСomponents.cs" />
     <Compile Include="Components\ValuesComponents.cs" />
     <Compile Include="Forms\ConstructorDiagram.cs">
@@ -175,6 +176,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Console.ico" />
+    <None Include="Resources\GreaterLessEqua_16x.png" />
     <None Include="Resources\If_16x.png" />
     <None Include="Resources\Calculator_16x.png" />
   </ItemGroup>

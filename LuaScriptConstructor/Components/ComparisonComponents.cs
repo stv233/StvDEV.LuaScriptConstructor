@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace LuaScriptConstructor.Components
 {
-    /// <summary>
-    /// Represents math components.
-    /// </summary>
-    static class MathematicalComponents
+    class ComparisonComponents
     {
         /// <summary>
         /// Constants.
@@ -33,28 +30,28 @@ namespace LuaScriptConstructor.Components
 
                 #region /// Addition
 
-                var addition = new Types.ProgrammaticallyDefinedFunction
+                var greater = new Types.ProgrammaticallyDefinedFunction
                 {
-                    Name = "Addition (+)",
-                    Prefix = "addition",
-                    Description = "Adding two values",
+                    Name = "Greater (>)",
+                    Description = "Returns the truth of the expression \"value1 > value2\"",
+                    Prefix = "greater",
                     Type = Types.Function.FuntionTypes.Regular,
-                    Identifier = new Properties.Settings().LibraryName + ".Addition",
+                    Identifier = new Properties.Settings().LibraryName + ".Greater",
                     IsLibraryFunction = true,
                     NeedRebuild = true,
                     Diagram = new Forms.ConstructorDiagram(),
                     AccessType = Types.Variable.VariableAccessTypes.InputOutput
                 };
-                addition.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._2in1out));
-                addition.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
+                greater.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._2in1out));
+                greater.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
                 {
-                    e.Table.Icon = Properties.Resources.Calculator_16x;
+                    e.Table.Icon = Properties.Resources.GreaterLessEqua_16x;
                     e.Table.Type = Shapes.ConstructorTable.ConstructorTableTypes.Function;
-                    e.Table.Label = new Crainiate.Diagramming.Label(addition.Name);
-                    e.Table.Function = addition;
-                    e.Table.Heading = addition.Name;
+                    e.Table.Label = new Crainiate.Diagramming.Label(greater.Name);
+                    e.Table.Function = greater;
+                    e.Table.Heading = greater.Name;
                     e.Table.GradientColor = System.Drawing.Color.White;
-                    e.Table.SubHeading = addition.Description;
+                    e.Table.SubHeading = greater.Description;
                     e.Table.MinimumSize = new System.Drawing.SizeF(250, 150);
                     e.Table.Size = e.Table.MinimumSize;
 
@@ -63,39 +60,40 @@ namespace LuaScriptConstructor.Components
                         group.Text = group.Text.Replace("Argument", "Value").Replace("Return", "Result");
                         foreach (Crainiate.Diagramming.TableRow row in group.Rows)
                         {
-                            row.Text = row.Text.Replace("Argument", "Value").Replace("Return", "Result");
+                            row.Text = row.Text.Replace("Argument", "Value").Replace("Return", "Truth");
                         }
                     }
                 };
 
-                functions.Add(addition);
+                functions.Add(greater);
 
                 #endregion
 
-                #region /// Subtraction
+                #region /// Less
 
-                var subtraction = new Types.ProgrammaticallyDefinedFunction
+                var less = new Types.ProgrammaticallyDefinedFunction
                 {
-                    Name = "Subtraction (-)",
-                    Prefix = "subtraction",
-                    Description = "Subtracts the second value from the first",
-                    Identifier = new Properties.Settings().LibraryName + ".Subtraction",
+                    Name = "Less (<)",
+                    Prefix = "less",
+                    Description = "Returns the truth of the expression \"value1 < value2\"",
+                    Identifier = new Properties.Settings().LibraryName + ".Less",
                     IsLibraryFunction = true,
                     NeedRebuild = true,
                     Diagram = new Forms.ConstructorDiagram(),
                     Type = Types.Function.FuntionTypes.Regular,
                     AccessType = Types.Variable.VariableAccessTypes.InputOutput
                 };
-                subtraction.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._2in1out));
-                subtraction.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
+
+                less.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._2in1out));
+                less.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
                 {
-                    e.Table.Icon = Properties.Resources.Calculator_16x;
+                    e.Table.Icon = Properties.Resources.GreaterLessEqua_16x;
                     e.Table.Type = Shapes.ConstructorTable.ConstructorTableTypes.Function;
-                    e.Table.Label = new Crainiate.Diagramming.Label(subtraction.Name);
-                    e.Table.Function = subtraction;
-                    e.Table.Heading = subtraction.Name;
+                    e.Table.Label = new Crainiate.Diagramming.Label(less.Name);
+                    e.Table.Function = less;
+                    e.Table.Heading = less.Name;
                     e.Table.GradientColor = System.Drawing.Color.White;
-                    e.Table.SubHeading = subtraction.Description;
+                    e.Table.SubHeading = less.Description;
                     e.Table.MinimumSize = new System.Drawing.SizeF(250, 150);
                     e.Table.Size = e.Table.MinimumSize;
 
@@ -104,40 +102,40 @@ namespace LuaScriptConstructor.Components
                         group.Text = group.Text.Replace("Argument", "Value").Replace("Return", "Result");
                         foreach (Crainiate.Diagramming.TableRow row in group.Rows)
                         {
-                            row.Text = row.Text.Replace("Argument", "Value").Replace("Return", "Result");
+                            row.Text = row.Text.Replace("Argument", "Value").Replace("Return", "Truth");
                         }
                     }
                 };
 
-                functions.Add(subtraction);
+                functions.Add(less);
 
 
                 #endregion
 
-                #region /// Multiplication
+                #region /// GreaterOrEqual
 
-                var multiplication = new Types.ProgrammaticallyDefinedFunction
+                var greaterOrEqual = new Types.ProgrammaticallyDefinedFunction
                 {
-                    Name = "Multiplication (*)",
-                    Prefix = "multiplication",
-                    Description = "Multiplies two values",
-                    Identifier = new Properties.Settings().LibraryName + ".Multiplication",
+                    Name = "GreaterOrEqual (>=)",
+                    Prefix = "greaterOrEqual",
+                    Description = "Returns the truth of the expression \"value1 >= value2\"",
+                    Identifier = new Properties.Settings().LibraryName + ".GreaterOrEqual",
                     IsLibraryFunction = true,
                     NeedRebuild = true,
                     Diagram = new Forms.ConstructorDiagram(),
                     Type = Types.Function.FuntionTypes.Regular,
                     AccessType = Types.Variable.VariableAccessTypes.InputOutput
                 };
-                multiplication.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._2in1out));
-                multiplication.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
+                greaterOrEqual.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._2in1out));
+                greaterOrEqual.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
                 {
-                    e.Table.Icon = Properties.Resources.Calculator_16x;
+                    e.Table.Icon = Properties.Resources.GreaterLessEqua_16x;
                     e.Table.Type = Shapes.ConstructorTable.ConstructorTableTypes.Function;
-                    e.Table.Label = new Crainiate.Diagramming.Label(multiplication.Name);
-                    e.Table.Function = multiplication;
-                    e.Table.Heading = multiplication.Name;
+                    e.Table.Label = new Crainiate.Diagramming.Label(greaterOrEqual.Name);
+                    e.Table.Function = greaterOrEqual;
+                    e.Table.Heading = greaterOrEqual.Name;
                     e.Table.GradientColor = System.Drawing.Color.White;
-                    e.Table.SubHeading = multiplication.Description;
+                    e.Table.SubHeading = greaterOrEqual.Description;
                     e.Table.MinimumSize = new System.Drawing.SizeF(250, 150);
                     e.Table.Size = e.Table.MinimumSize;
 
@@ -146,40 +144,40 @@ namespace LuaScriptConstructor.Components
                         group.Text = group.Text.Replace("Argument", "Value").Replace("Return", "Result");
                         foreach (Crainiate.Diagramming.TableRow row in group.Rows)
                         {
-                            row.Text = row.Text.Replace("Argument", "Value").Replace("Return", "Result");
+                            row.Text = row.Text.Replace("Argument", "Value").Replace("Return", "Truth");
                         }
                     }
                 };
 
-                functions.Add(multiplication);
+                functions.Add(greaterOrEqual);
 
 
                 #endregion
 
-                #region /// Division
+                #region /// LessOrEqual
 
-                var division = new Types.ProgrammaticallyDefinedFunction
+                var lessOrEqual = new Types.ProgrammaticallyDefinedFunction
                 {
-                    Name = "Division (/)",
-                    Prefix = "division",
-                    Description = "Divides the first value by the second",
-                    Identifier = new Properties.Settings().LibraryName + ".Division",
+                    Name = "LessOrEqual (<=)",
+                    Prefix = "lessOrEqual",
+                    Description = "Returns the truth of the expression \"value1 <= value2\"",
+                    Identifier = new Properties.Settings().LibraryName + ".LessOrEqual",
                     IsLibraryFunction = true,
                     NeedRebuild = true,
                     Diagram = new Forms.ConstructorDiagram(),
                     Type = Types.Function.FuntionTypes.Regular,
                     AccessType = Types.Variable.VariableAccessTypes.InputOutput
                 };
-                division.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._2in1out));
-                division.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
+                lessOrEqual.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._2in1out));
+                lessOrEqual.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
                 {
-                    e.Table.Icon = Properties.Resources.Calculator_16x;
+                    e.Table.Icon = Properties.Resources.GreaterLessEqua_16x;
                     e.Table.Type = Shapes.ConstructorTable.ConstructorTableTypes.Function;
-                    e.Table.Label = new Crainiate.Diagramming.Label(division.Name);
-                    e.Table.Function = division;
-                    e.Table.Heading = division.Name;
+                    e.Table.Label = new Crainiate.Diagramming.Label(lessOrEqual.Name);
+                    e.Table.Function = lessOrEqual;
+                    e.Table.Heading = lessOrEqual.Name;
                     e.Table.GradientColor = System.Drawing.Color.White;
-                    e.Table.SubHeading = division.Description;
+                    e.Table.SubHeading = lessOrEqual.Description;
                     e.Table.MinimumSize = new System.Drawing.SizeF(250, 150);
                     e.Table.Size = e.Table.MinimumSize;
 
@@ -188,24 +186,24 @@ namespace LuaScriptConstructor.Components
                         group.Text = group.Text.Replace("Argument", "Value").Replace("Return", "Result");
                         foreach (Crainiate.Diagramming.TableRow row in group.Rows)
                         {
-                            row.Text = row.Text.Replace("Argument", "Value").Replace("Return", "Result");
+                            row.Text = row.Text.Replace("Argument", "Value").Replace("Return", "Truth");
                         }
                     }
                 };
 
-                functions.Add(division);
+                functions.Add(lessOrEqual);
 
 
                 #endregion
 
-                #region /// Modulo
+                #region /// Equal
 
                 var modulo = new Types.ProgrammaticallyDefinedFunction
                 {
-                    Name = "Modulo (%)",
-                    Prefix = "modulo",
-                    Description = "Divides the first value by the second modulo",
-                    Identifier = new Properties.Settings().LibraryName + ".Modulo",
+                    Name = "Equal (==)",
+                    Prefix = "equal",
+                    Description = "Returns the truth of the expression \"value1 == value2\"",
+                    Identifier = new Properties.Settings().LibraryName + ".Equal",
                     IsLibraryFunction = true,
                     NeedRebuild = true,
                     Diagram = new Forms.ConstructorDiagram(),
@@ -215,7 +213,7 @@ namespace LuaScriptConstructor.Components
                 modulo.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._2in1out));
                 modulo.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
                 {
-                    e.Table.Icon = Properties.Resources.Calculator_16x;
+                    e.Table.Icon = Properties.Resources.GreaterLessEqua_16x;
                     e.Table.Type = Shapes.ConstructorTable.ConstructorTableTypes.Function;
                     e.Table.Label = new Crainiate.Diagramming.Label(modulo.Name);
                     e.Table.Function = modulo;
@@ -230,7 +228,7 @@ namespace LuaScriptConstructor.Components
                         group.Text = group.Text.Replace("Argument", "Value").Replace("Return", "Result");
                         foreach (Crainiate.Diagramming.TableRow row in group.Rows)
                         {
-                            row.Text = row.Text.Replace("Argument", "Value").Replace("Return", "Result");
+                            row.Text = row.Text.Replace("Argument", "Value").Replace("Return", "Truth");
                         }
                     }
                 };

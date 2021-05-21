@@ -299,8 +299,11 @@ namespace LuaScriptConstructor.Forms
                 {
                     try
                     {
-                        table.BackColor = ((Types.Function)table.Owner).Table.BackColor;
-                        table.GradientColor = ((Types.Function)table.Owner).Table.GradientColor;
+                        var ownerTable = ((Types.Function)table.Owner).Table;
+                        table.BackColor = ownerTable.BackColor;
+                        table.GradientColor = ownerTable.GradientColor;
+                        table.MinimumSize = ownerTable.MinimumSize;
+                        table.Size = ownerTable.Size;
                     }
                     catch 
                     {
