@@ -185,7 +185,8 @@ namespace Crainiate.Diagramming
 	public enum KeyCreateMode
 	{
 		Normal = 0,
-		Guid = 1
+		Guid = 1,
+		HashCode = 2,
 	}
 
     public enum Themes

@@ -361,7 +361,7 @@ namespace LuaScriptConstructor.Types
 
             foreach (var argument in Arguments)
             {
-                Crainiate.Diagramming.TableRow row = new Crainiate.Diagramming.TableRow(argument.Replace("argument-", "").Replace("_", " "));
+                Crainiate.Diagramming.TableRow row = new Crainiate.Diagramming.TableRow(argument.Replace("argument-", "").Replace("_", " ")) { Backcolor = table.BackColor };
                 Crainiate.Diagramming.TablePort port = new Crainiate.Diagramming.TablePort(row);
                 port.Orientation = Crainiate.Diagramming.PortOrientation.Left;
                 port.Direction = Crainiate.Diagramming.Direction.In;
@@ -376,7 +376,7 @@ namespace LuaScriptConstructor.Types
 
             foreach (var @return in Returns)
             {
-                Crainiate.Diagramming.TableRow row = new Crainiate.Diagramming.TableRow(@return.Replace("return-", "").Replace("_", " "));
+                Crainiate.Diagramming.TableRow row = new Crainiate.Diagramming.TableRow(@return.Replace("return-", "").Replace("_", " ")) { Backcolor = table.BackColor};
                 Crainiate.Diagramming.TablePort port = new Crainiate.Diagramming.TablePort(row);
                 port.Orientation = Crainiate.Diagramming.PortOrientation.Left;
                 port.Direction = Crainiate.Diagramming.Direction.Out;

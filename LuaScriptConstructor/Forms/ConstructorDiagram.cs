@@ -78,7 +78,6 @@ namespace LuaScriptConstructor.Forms
             }
         }
 
-
         /// <summary>
         /// Returns a list of connectors in the diagram.
         /// </summary>
@@ -372,8 +371,23 @@ namespace LuaScriptConstructor.Forms
                     {
                         try
                         {
-                            Connectors.Remove(element.Key);
-                            this.Model.Lines.Remove(element.Key);
+                            foreach (string key in this.Model.Lines.Keys)
+                            {
+                                if (this.Model.Lines[key] == element)
+                                {
+                                    this.Model.Lines.Remove(key);
+                                    break;
+                                }
+                            }
+
+                            foreach (string key in this.Connectors.Keys)
+                            {
+                                if (this.Connectors[key] == element)
+                                {
+                                    this.Connectors.Remove(key);
+                                    break;
+                                }
+                            }
                         }
                         catch { }
                     }
@@ -396,10 +410,25 @@ namespace LuaScriptConstructor.Forms
 
                         try
                         {
-                            var table = (Shapes.ConstructorTable)element;
 
-                            Tables.Remove(element.Key);
-                            this.Model.Shapes.Remove(element.Key);
+                            foreach (string key in this.Model.Shapes.Keys)
+                            {
+                                if (this.Model.Shapes[key] == element)
+                                {
+                                    this.Model.Shapes.Remove(key);
+                                    break;
+                                }
+                            }
+
+                            foreach (string key in this.Tables.Keys)
+                            {
+                                if (this.Tables[key] == element)
+                                {
+                                    this.Tables.Remove(key);
+                                    break;
+                                }
+                            }
+
                         }
                         catch { }
                     }

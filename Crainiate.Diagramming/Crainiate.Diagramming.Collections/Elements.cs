@@ -9,6 +9,7 @@ namespace Crainiate.Diagramming.Collections
         where T: Element
     {
         private Model _model;
+        private int unicCounter = 10;
 
         //Events
         public event ElementsEventHandler InsertElement;
@@ -85,6 +86,12 @@ namespace Crainiate.Diagramming.Collections
                     }
                     return typeString + i.ToString();
                 }
+            }
+            else if (Singleton.Instance.KeyCreateMode == KeyCreateMode.HashCode)
+            {
+                Type type = typeof(T);
+                string typeString = type.Name;
+                return typeString + "_" +  DateTime.Now.GetHashCode() + unicCounter++;
             }
             else
             {

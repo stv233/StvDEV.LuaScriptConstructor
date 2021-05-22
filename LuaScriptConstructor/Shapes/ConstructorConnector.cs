@@ -39,20 +39,33 @@ namespace LuaScriptConstructor.Shapes
         {
             string result = "{";
             result += "Key=" + Key + ";";
-            result += "StartLocation=" + Start.Location.X + "-" + Start.Location.Y + ";";
             if (StartPort != null)
             {
                 if (!((StartPort.Label != null) && (StartPort.Label.Text == "[Port_Removed]")))
                 {
+                    result += "StartLocation=" + Start.Location.X + "-" + Start.Location.Y + ";";
                     result += "StartPortKey=" + StartPort.Key + ";";
                 }
+                else
+                {
+                    result += "EndLocation=" + this.FirstPoint.X + "-" + this.FirstPoint.Y + ";";
+                }
+            }
+            else
+            {
+                result += "StartLocation=" + Start.Location.X + "-" + Start.Location.Y + ";";
             }
             result += "EndLocation=" + End.Location.X + "-" + End.Location.Y + ";";
             if (EndPort != null)
             {
                 if (!((EndPort.Label != null) && (EndPort.Label.Text == "[Port_Removed]")))
                 {
+                    result += "EndLocation=" + End.Location.X + "-" + End.Location.Y + ";";
                     result += "EndPortKey=" + EndPort.Key + ";";
+                }
+                else
+                {  
+                    result += "EndLocation=" + this.LastPoint.X + "-" + this.LastPoint.Y + ";";
                 }
             }
 
@@ -81,7 +94,7 @@ namespace LuaScriptConstructor.Shapes
                         break;
                     case "StartLocation":
                         string[] startLocation = (serializedConnector.Substring(propertySign + 1, delimiter - (propertySign + 1)).Split('-'));
-                        this.Start.Location = new System.Drawing.PointF(Convert.ToInt32(startLocation[0]), Convert.ToInt32(startLocation[1]));
+                        this.Start.Location = new System.Drawing.PointF((float)Convert.ToDouble(startLocation[0]), (float)Convert.ToDouble(startLocation[1]));
                         serializedConnector = serializedConnector.Substring(delimiter + 1);
                         break;
                     case "StartPortKey":
@@ -91,7 +104,7 @@ namespace LuaScriptConstructor.Shapes
                         break;
                     case "EndLocation":
                         string[] endLocation = (serializedConnector.Substring(propertySign + 1, delimiter - (propertySign + 1)).Split('-'));
-                        this.End.Location = new System.Drawing.PointF(Convert.ToInt32(endLocation[0]), Convert.ToInt32(endLocation[1]));
+                        this.End.Location = new System.Drawing.PointF((float)Convert.ToDouble(endLocation[0]), (float)Convert.ToDouble(endLocation[1]));
                         serializedConnector = serializedConnector.Substring(delimiter + 1);
                         break;
                     case "EndPortKey":

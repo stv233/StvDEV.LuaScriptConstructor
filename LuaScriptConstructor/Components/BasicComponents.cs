@@ -88,7 +88,7 @@ namespace LuaScriptConstructor.Components
                         Direction = Crainiate.Diagramming.Direction.Out,
                         //Style = Crainiate.Diagramming.PortStyle.Input
                     };
-                    truePort.SetKey("trueOutput-" + Math.Abs(DateTime.Now.GetHashCode()).ToString());
+                    truePort.SetKey("trueOutput_" + Math.Abs(DateTime.Now.GetHashCode()).ToString());
                     e.Table.Ports.Add(truePort);
                     truePort.X += -25;
 
@@ -154,7 +154,7 @@ namespace LuaScriptConstructor.Components
                         Direction = Crainiate.Diagramming.Direction.Out,
                         //Style = Crainiate.Diagramming.PortStyle.Input
                     };
-                    truePort.SetKey("trueOutput-" + Math.Abs(DateTime.Now.GetHashCode()).ToString());
+                    truePort.SetKey("trueOutput_" + Math.Abs(DateTime.Now.GetHashCode()).ToString());
                     e.Table.Ports.Add(truePort);
                     truePort.X += -25;
 

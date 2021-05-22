@@ -8,6 +8,14 @@ namespace LuaScriptConstructor
 {
     public partial class frMain : Form
     {
+        private static string _status = "";
+        private Forms.ConstructorTreeView.ConstructorTreeView ctvMain;
+        private TradeWright.UI.Forms.TabControlExtra tcMain;
+        private int functionsCounter = 0;
+        private string projectPath = "";
+
+        private static ToolStripLabel tslStatus;
+
         #region /// Console
 
         /// <summary>
@@ -54,7 +62,6 @@ namespace LuaScriptConstructor
 
         #endregion
 
-        private static string _status = "";
         /// <summary>
         /// Programm status.
         /// </summary>
@@ -77,14 +84,6 @@ namespace LuaScriptConstructor
         /// </summary>
         private Dictionary<string, Types.Function> projectFunctions { get; set; }
 
-        private Forms.ConstructorTreeView.ConstructorTreeView ctvMain;
-        private TradeWright.UI.Forms.TabControlExtra tcMain;
-
-        private int functionsCounter = 0;
-        private string projectPath = "";
-
-        private static ToolStripLabel tslStatus;
-
         public frMain()
         {
 
@@ -94,6 +93,12 @@ namespace LuaScriptConstructor
 
             this.Size = new System.Drawing.Size(800, 600);
             this.Text = Application.ProductName;
+
+            #endregion
+
+            #region /// Crainiate
+
+            Crainiate.Diagramming.Singleton.Instance.KeyCreateMode = Crainiate.Diagramming.KeyCreateMode.HashCode;
 
             #endregion
 
@@ -628,7 +633,7 @@ namespace LuaScriptConstructor
                 else
                 {
                     this.Text = Application.ProductName + " - " + Path.GetFileName(projectPath);
-                    Save(projectPath, tcMain);
+                    Save(projectPath);
                 }
             };
 
@@ -644,7 +649,7 @@ namespace LuaScriptConstructor
                     {
                         projectPath = sfd.FileName;
                         this.Text = Application.ProductName + " - " + Path.GetFileName(projectPath);
-                        Save(projectPath, tcMain);
+                        Save(projectPath);
                     }
                 }
             };
@@ -661,7 +666,7 @@ namespace LuaScriptConstructor
                     {
                         projectPath = ofd.FileName;
                         this.Text = Application.ProductName + " - " + Path.GetFileName(projectPath);
-                        Open(projectPath, tcMain);
+                        Open(projectPath);
                     }
                 }
             };
@@ -677,7 +682,7 @@ namespace LuaScriptConstructor
                 {
                     if (sfd.ShowDialog() == DialogResult.OK)
                     {
-                        BuildAll(sfd.FileName, tcMain);
+                        BuildAll(sfd.FileName);
                     }
                 }
             };
@@ -708,7 +713,10 @@ namespace LuaScriptConstructor
 
             #endregion
         }
-        
+
+        /// <summary>
+        /// Refreshes the display of functions created in the project.
+        /// </summary>
         public void RefreshProjectFunction()
         {
             ctvMain.ClearCategory("Project functions");
@@ -723,7 +731,10 @@ namespace LuaScriptConstructor
             }
         }
 
-        private void ReconectFunctions()
+        /// <summary>
+        /// Reassigns all tables and diagram in the project to their functions.
+        /// </summary>
+        private void ReconnectFunctions()
         {
             foreach (DiagramTabPage tabPage in tcMain.TabPages)
             {
@@ -741,29 +752,97 @@ namespace LuaScriptConstructor
 
             foreach (DiagramTabPage tabPage in tcMain.TabPages)
             {
-                foreach(Shapes.ConstructorTable table in tabPage.Diagram.Tables.Values)
+                ReconnectDiagramTables(tabPage.Diagram);
+            }
+        }
+
+        /// <summary>
+        /// Reassigns all tables in a tab page diagram to their function.
+        /// </summary>
+        /// <param name="tabPage"></param>
+        public void ReconnectTabPage(TabPage tabPage)
+        {
+            if (tabPage is Forms.DiagramTabPage)
+            {
+                ReconnectDiagramTables((tabPage as Forms.DiagramTabPage).Diagram);
+            }
+        }
+
+        /// <summary>
+        /// Reassigns all tables in the diagram to their function or if table is script component variable, to variable.
+        /// </summary>
+        /// <param name="diagram"></param>
+        private void ReconnectDiagramTables(Forms.ConstructorDiagram diagram)
+        {
+            foreach (Shapes.ConstructorTable table in diagram.Tables.Values)
+            {
+                if (table.Type == Shapes.ConstructorTable.ConstructorTableTypes.Function)
                 {
-                    if (table.Type == Shapes.ConstructorTable.ConstructorTableTypes.Function)
+                    Types.Function function = FindFunctionByName(table.Function.Name);
+                    if (function != null)
                     {
-                        Types.Function function = FindFunctionByName(table.Function.Name);
-                        if (function != null)
+                        var functionTable = function.Table;
+                        table.Function = function;
+                        table.BackColor = function.Table.BackColor;
+                        table.GradientColor = function.Table.GradientColor;
+                        foreach (Crainiate.Diagramming.TableGroup tableGroup in table.Groups)
                         {
-                            table.Function = function;
-                            table.BackColor = function.Table.BackColor;
-                            table.GradientColor = function.Table.GradientColor;
+                            tableGroup.Backcolor = functionTable.FindTableItemWithText(tableGroup.Text).Backcolor;
+                            foreach (Crainiate.Diagramming.TableRow tableRow in tableGroup.Rows)
+                            {
+                                tableRow.Backcolor = functionTable.FindTableItemWithText(tableRow.Text).Backcolor;
+                            }
                         }
+                        foreach (Crainiate.Diagramming.TableRow tableRow in table.Rows)
+                        {
+                            tableRow.Backcolor = functionTable.FindTableItemWithText(tableRow.Text).Backcolor;
+                        }
+                        foreach (Crainiate.Diagramming.Port port in table.Ports.Values)
+                        {
+                            try
+                            {
+                                port.BackColor = functionTable.FindPortWithName(port.Key.Substring(0, port.Key.LastIndexOf("_"))).BackColor;
+                                port.GradientColor = functionTable.FindPortWithName(port.Key.Substring(0, port.Key.LastIndexOf("_"))).GradientColor;
+                            }
+                            catch { }
+                        }
+                        diagram.Refresh();
+                    }
+                }
+                else if (table.Type == Shapes.ConstructorTable.ConstructorTableTypes.Variable)
+                {
+                    if ((table.SubHeading.Contains("Argument")) || (table.SubHeading.Contains("Return")))
+                    {
+                        if (table.SubHeading.Contains("Argument"))
+                        {
+                            table.Variable = Components.FunctionComponents.Variables[0];
+                            table.BackColor = table.GradientColor = table.Variable.Table.BackColor;
+                        }
+                        else
+                        {
+                            table.Variable = Components.FunctionComponents.Variables[0];
+                            table.BackColor = table.GradientColor = table.Variable.Table.BackColor;
+                        }
+                        diagram.Refresh();
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Launches a new copy of the program, closing the old one.
+        /// </summary>
         public void New()
         {
             System.Diagnostics.Process.Start(System.Reflection.Assembly.GetExecutingAssembly().Location,"-skiplast");
             Application.Exit();
         }
 
-        public void Save(string path, TabControl tabControl)
+        /// <summary>
+        /// Saves the project to a file.
+        /// </summary>
+        /// <param name="path">Path</param>
+        public void Save(string path)
         {
             try
             {
@@ -800,13 +879,17 @@ namespace LuaScriptConstructor
             }
         }
 
-        public void Open(string path, TabControl tabControl)
+        /// <summary>
+        /// Opens a project from a file.
+        /// </summary>
+        /// <param name="path">Path</param>
+        public void Open(string path)
         {
             try
             {
                 Status = "Initializing a open";
                 string file = File.ReadAllText(path);
-                tabControl.TabPages.Clear();
+                tcMain.TabPages.Clear();
 
                 Status = "Opening the file " + path + "...";
                 file = file.Substring(1, file.Length - 2);
@@ -838,7 +921,7 @@ namespace LuaScriptConstructor
                     }
                 }
 
-                ReconectFunctions();
+                ReconnectFunctions();
                 RefreshProjectFunction();
 
                 Status = "Opening completed";
@@ -851,9 +934,14 @@ namespace LuaScriptConstructor
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Status = "Failed to open file";
             }
+
         }
 
-        public void BuildAll(string path, TabControl tabControl)
+        /// <summary>
+        /// Builds the entire project into a file.
+        /// </summary>
+        /// <param name="path">Path</param>
+        public void BuildAll(string path)
         {
             string scriptName = Path.GetFileNameWithoutExtension(path);
 
@@ -878,7 +966,7 @@ namespace LuaScriptConstructor
 
             Types.Function main = new Types.Function(scriptName, Types.Function.FuntionTypes.Main)
             {
-                Diagram = (tabControl.TabPages[0] as DiagramTabPage).Diagram
+                Diagram = (tcMain.TabPages[0] as DiagramTabPage).Diagram
             };
 
             main.Build(main.Diagram);
@@ -891,7 +979,12 @@ namespace LuaScriptConstructor
             frMain.ConsoleMessage(" was successfully built\n", System.Drawing.Color.LimeGreen, false);
 
         }
-       
+
+        /// <summary>
+        /// Serializes a list of functions to a string.
+        /// </summary>
+        /// <param name="functions">List of function</param>
+        /// <returns>Serialized string</returns>
         private string SerializeFunctions(List<Types.Function> functions)
         {
             string result = "{";
@@ -903,6 +996,11 @@ namespace LuaScriptConstructor
             return result;
         }
 
+        /// <summary>
+        /// Serializes a tab pages collection to a string.
+        /// </summary>
+        /// <param name="tabPages">Tab pages collection</param>
+        /// <returns>Serialized string</returns>
         private string SerializeTabPages(TabControl.TabPageCollection tabPages)
         {
             string result = "{";
@@ -914,6 +1012,11 @@ namespace LuaScriptConstructor
             return result;
         }
 
+        /// <summary>
+        /// Serializes tab page to string.
+        /// </summary>
+        /// <param name="tabPage">Tab page</param>
+        /// <returns>Serialized string</returns>
         private string SerializeTabPage(DiagramTabPage tabPage)
         {
             string result = "{";
@@ -923,6 +1026,11 @@ namespace LuaScriptConstructor
             return result;
         }
 
+        /// <summary>
+        /// Deserializes a list of functions from string.
+        /// </summary>
+        /// <param name="serializedFunctions">Serialized string</param>
+        /// <returns>List of functions</returns>
         private List<Types.Function> DeserializeFunctions(string serializedFunctions)
         {
             serializedFunctions = serializedFunctions.Substring(1, serializedFunctions.Length - 2);
@@ -947,6 +1055,12 @@ namespace LuaScriptConstructor
             return functions;
         }
 
+        /// <summary>
+        /// Deserializes tab pages collection from string.
+        /// </summary>
+        /// <param name="serializedTabPages">Serialized string</param>
+        /// <param name="tabControl">Tab control</param>
+        /// <returns>Tab pages collection</returns>
         private TabControl.TabPageCollection DeserializeTabPages(string serializedTabPages,TabControl tabControl)
         {
             serializedTabPages = serializedTabPages.Substring(1, serializedTabPages.Length - 2);
@@ -968,6 +1082,11 @@ namespace LuaScriptConstructor
             return tabPages;
         }
 
+        /// <summary>
+        /// Deserializes tab page from string.
+        /// </summary>
+        /// <param name="serializedTabPage">Serialized string</param>
+        /// <returns>Tab page</returns>
         private DiagramTabPage DeserializeTabPage(string serializedTabPage)
         {
             serializedTabPage = serializedTabPage.Substring(1, serializedTabPage.Length - 2);
@@ -995,6 +1114,11 @@ namespace LuaScriptConstructor
             return tabPage;
         }
 
+        /// <summary>
+        /// Searches in the project and in programmatically defined functions for a function with the specified name
+        /// </summary>
+        /// <param name="name">Name</param>
+        /// <returns>Function</returns>
         private Types.Function FindFunctionByName(string name)
         {
             foreach(var function in Components.FunctionComponents.Functions)
@@ -1008,6 +1132,14 @@ namespace LuaScriptConstructor
             foreach(var function in Components.ScriptСomponents.Functions)
             {
                 if(name == function.Name)
+                {
+                    return function;
+                }
+            }
+
+            foreach (var function in Components.BasicComponents.Functions)
+            {
+                if (name == function.Name)
                 {
                     return function;
                 }

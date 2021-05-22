@@ -272,7 +272,10 @@ namespace LuaScriptConstructor.Shapes
 
             if (!AllowRenew) { return; };
 
-            Function.Diagram.Suspend();
+            if (Function.Diagram != null)
+            {
+                Function.Diagram.Suspend();
+            }
 
             Dictionary<Port, string> portsItem = new Dictionary<Port, string>();
             foreach (Port port in this.Ports.Values)
@@ -302,6 +305,9 @@ namespace LuaScriptConstructor.Shapes
                     if (FindTableItemWithText(portsItem[port], this) != null)
                     {
                         (port as TablePort).TableItem = FindTableItemWithText(portsItem[port], this);
+                        ///Fixes a strange error, with a change in the orientation of the port, I do not know where it comes from///
+                        port.Orientation = PortOrientation.Left;
+                        ///////
                     }
                     else
                     {
@@ -345,7 +351,10 @@ namespace LuaScriptConstructor.Shapes
                 }
             }
 
-            Function.Diagram.Resume();
+            if (Function.Diagram != null)
+            {
+                Function.Diagram.Resume();
+            }
 
         }
 
@@ -496,12 +505,12 @@ namespace LuaScriptConstructor.Shapes
                         break;
                     case "Size":
                         string[] size = (serializedTable.Substring(propertySign + 1, delimiter - (propertySign + 1)).Split('-'));
-                        this.Size = new System.Drawing.SizeF(Convert.ToInt32(size[0]), Convert.ToInt32(size[1]));
+                        this.Size = new System.Drawing.SizeF((float)Convert.ToDouble(size[0]), (float)Convert.ToDouble(size[1]));
                         serializedTable = serializedTable.Substring(delimiter + 1);
                         break;
                     case "Location":
                         string[] location = (serializedTable.Substring(propertySign + 1, delimiter - (propertySign + 1)).Split('-'));
-                        this.Location = new System.Drawing.PointF(Convert.ToInt32(location[0]), Convert.ToInt32(location[1]));
+                        this.Location = new System.Drawing.PointF((float)Convert.ToDouble(location[0]), (float)Convert.ToDouble(location[1]));
                         serializedTable = serializedTable.Substring(delimiter + 1);
                         break;
                     case "Groups":
@@ -787,13 +796,27 @@ namespace LuaScriptConstructor.Shapes
         /// <param name="text">Text</param>
         /// <param name="table">Table</param>
         /// <returns>TableItem or null</returns>
-        private TableItem FindTableItemWithText(string text,Table table)
+        private static TableItem FindTableItemWithText(string text,Table table)
         {
+            TableItem tableItem = null;
             if (table.Groups != null)
             {
-                return FindTableItemWithText(text, table.Groups);
+                 tableItem = FindTableItemWithText(text, table.Groups);
             }
-            return null;
+            if (tableItem == null)
+            {
+                if (table.Rows != null)
+                {
+                    foreach (TableRow row in table.Rows)
+                    {
+                        if (row.Text == text)
+                        {
+                            return row;
+                        }
+                    }
+                }
+            }
+            return tableItem;
         }
 
         /// <summary>
@@ -802,7 +825,7 @@ namespace LuaScriptConstructor.Shapes
         /// <param name="text">Text</param>
         /// <param name="groups">Groups</param>
         /// <returns>TableItem or null</returns>
-        private TableItem FindTableItemWithText(string text, TableGroups groups)
+        private static TableItem FindTableItemWithText(string text, TableGroups groups)
         {
             foreach (TableGroup group in groups)
             {
@@ -834,6 +857,30 @@ namespace LuaScriptConstructor.Shapes
 
             return null;
         }
-        
+
+        /// <summary>
+        /// Searches the table for a port with a given name, ignoring the unique indicators.
+        /// </summary>
+        /// <param name="name">Name</param>
+        /// <returns>Port</returns>
+        public Port FindPortWithName(string name)
+        {
+            return FindPortWithName(name, this);
+        }
+
+        /// <summary>
+        /// Searches the table for a port with a given name, ignoring the unique indicators.
+        /// </summary>
+        /// <param name="name">Name</param>
+        /// <param name="table">Port</param>
+        /// <returns>Return</returns>
+        private static Port FindPortWithName(string name, Table table)
+        {
+            foreach(Port port in table.Ports.Values)
+            {
+                if (name == port.Key.Substring(0, port.Key.LastIndexOf("_"))) { return port; }
+            }
+            return null;
+        }
     }
 }
