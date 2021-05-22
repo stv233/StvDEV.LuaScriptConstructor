@@ -12,6 +12,7 @@ namespace LuaScriptConstructor.Forms
     class ConstructorDiagram : Diagram, Saves.IConstructorSerializable
     {
         private Mouse mouse;
+        private ConstructorDiagramTypes type = ConstructorDiagramTypes.None;
 
         /// <summary>
         /// Storage structure of mouse parameters.
@@ -36,8 +37,6 @@ namespace LuaScriptConstructor.Forms
         /// Occurs when the type is changed.
         /// </summary>
         public EventHandler DiagramTypeChanged;
-
-        private ConstructorDiagramTypes type = ConstructorDiagramTypes.None;
 
         /// <summary>
         /// Diagram type.
@@ -78,6 +77,7 @@ namespace LuaScriptConstructor.Forms
                 }
             }
         }
+
 
         /// <summary>
         /// Returns a list of connectors in the diagram.
@@ -175,50 +175,7 @@ namespace LuaScriptConstructor.Forms
             };
             tsmiDelete.Click += (s, e) =>
             {
-                if (this.Model.SelectedElements() != null)
-                {
-                    foreach (var element in this.Model.SelectedElements().Values)
-                    {
-
-                        if (element is Shapes.ConstructorConnector)
-                        {
-                            try
-                            {
-                                Connectors.Remove(element.Key);
-                                this.Model.Lines.Remove(element.Key);
-                            }
-                            catch { }
-                        }
-                        else if (element is Shapes.ConstructorTable)
-                        {
-                            bool script = false;
-                            foreach (var scriptComponent in Components.ScriptСomponents.Functions)
-                            {
-                                try
-                                {
-                                    if ((element as Shapes.ConstructorTable).Function.Prefix == scriptComponent.Prefix)
-                                    {
-                                        script = true;
-                                        break;
-                                    }
-                                }
-                                catch { }
-                            }
-                            if (script) { continue; };
-
-                            try
-                            {
-                                var table = (Shapes.ConstructorTable)element;
-
-                                Tables.Remove(element.Key);
-                                this.Model.Shapes.Remove(element.Key);
-                            }
-                            catch { }
-                        }
-
-                    }
-                    this.Refresh();
-                }
+                DeleteElements();   
             };
             cmsMenu.Items.Add(tsmiDelete);
 
@@ -266,13 +223,12 @@ namespace LuaScriptConstructor.Forms
             {
                 if (e.KeyCode == Keys.Delete)
                 {
-                    tsmiDelete.PerformClick();
+                    DeleteElements();
                 }
             };
 
             this.MouseDown += (s, e) =>
             {
-
                 if (e.Button == MouseButtons.Right)
                 {
                     bool edit = false;
@@ -322,8 +278,6 @@ namespace LuaScriptConstructor.Forms
                     tsmiEdit.Visible = edit;
                     tsmiDelete.Visible = delete;
                 }
-
-                
             };
 
             #endregion
@@ -336,60 +290,6 @@ namespace LuaScriptConstructor.Forms
         public ConstructorDiagram(ConstructorDiagramTypes type) : this()
         {
             Type = type;
-        }
-
-        protected override void OnElementInserted(Crainiate.Diagramming.Element element)
-        {
-            if (element is Shapes.ConstructorTable)
-            {
-                var table = element as Shapes.ConstructorTable;
-                Tables.Add(element.Key, table);
-                
-                if (table.Type == Shapes.ConstructorTable.ConstructorTableTypes.Function)
-                {
-                    try
-                    {
-                        var ownerTable = ((Types.Function)table.Owner).Table;
-                        table.BackColor = ownerTable.BackColor;
-                        table.GradientColor = ownerTable.GradientColor;
-                        table.MinimumSize = ownerTable.MinimumSize;
-                        table.Size = ownerTable.Size;
-                    }
-                    catch 
-                    {
-                        table.BackColor = Color.White;
-                        table.GradientColor = Color.White;
-                    }
-                    table.AllowRenew = true;
-                }
-                else if (table.Type == Shapes.ConstructorTable.ConstructorTableTypes.Variable)
-                {
-                    try
-                    {
-                        table.BackColor = ((Types.Variable)table.Owner).Table.BackColor;
-                        table.GradientColor = ((Types.Variable)table.Owner).Table.GradientColor;
-                    }
-                    catch 
-                    {
-                        table.BackColor = new Types.Variable().Table.BackColor;
-                        table.GradientColor = new Types.Variable().Table.GradientColor;
-                    }
-                }
-                else
-                {
-                    try
-                    {
-                        table.BackColor = table.Owner.Table.BackColor;
-                        table.GradientColor = table.Owner.Table.GradientColor;
-                    }
-                    catch 
-                    {
-                        table.BackColor = new Types.Constant().Table.BackColor;
-                        table.GradientColor = new Types.Constant().Table.GradientColor;
-                    }
-                }
-            }
-            base.OnElementInserted(element);
         }
 
         /// <summary>
@@ -442,7 +342,7 @@ namespace LuaScriptConstructor.Forms
             texbox.SelectionStart = texbox.Text.Length;
             texbox.SelectionLength = 0;
         }
-        
+
         /// <summary>
         /// Build function.
         /// </summary>
@@ -457,7 +357,116 @@ namespace LuaScriptConstructor.Forms
             //form.ProjectFunctions[this.Parent.Text.Replace(" ", "_")] = function;
             //form.RefreshProjectFunction();
         }
-        
+
+        /// <summary>
+        /// Removes the elements selected in the diagram.
+        /// </summary>
+        private void DeleteElements()
+        {
+            if (this.Model.SelectedElements() != null)
+            {
+                foreach (var element in this.Model.SelectedElements().Values)
+                {
+
+                    if (element is Shapes.ConstructorConnector)
+                    {
+                        try
+                        {
+                            Connectors.Remove(element.Key);
+                            this.Model.Lines.Remove(element.Key);
+                        }
+                        catch { }
+                    }
+                    else if (element is Shapes.ConstructorTable)
+                    {
+                        bool script = false;
+                        foreach (var scriptComponent in Components.ScriptСomponents.Functions)
+                        {
+                            try
+                            {
+                                if ((element as Shapes.ConstructorTable).Function.Prefix == scriptComponent.Prefix)
+                                {
+                                    script = true;
+                                    break;
+                                }
+                            }
+                            catch { }
+                        }
+                        if (script) { continue; };
+
+                        try
+                        {
+                            var table = (Shapes.ConstructorTable)element;
+
+                            Tables.Remove(element.Key);
+                            this.Model.Shapes.Remove(element.Key);
+                        }
+                        catch { }
+                    }
+
+                }
+                this.Refresh();
+            }
+        }
+
+        /// <summary>
+        /// On insert new element.
+        /// </summary>
+        /// <param name="element">Element</param>
+        protected override void OnElementInserted(Crainiate.Diagramming.Element element)
+        {
+            if (element is Shapes.ConstructorTable)
+            {
+                var table = element as Shapes.ConstructorTable;
+                Tables.Add(element.Key, table);
+
+                if (table.Type == Shapes.ConstructorTable.ConstructorTableTypes.Function)
+                {
+                    try
+                    {
+                        var ownerTable = ((Types.Function)table.Owner).Table;
+                        table.BackColor = ownerTable.BackColor;
+                        table.GradientColor = ownerTable.GradientColor;
+                        table.MinimumSize = ownerTable.MinimumSize;
+                        table.Size = ownerTable.Size;
+                    }
+                    catch
+                    {
+                        table.BackColor = Color.White;
+                        table.GradientColor = Color.White;
+                    }
+                    table.AllowRenew = true;
+                }
+                else if (table.Type == Shapes.ConstructorTable.ConstructorTableTypes.Variable)
+                {
+                    try
+                    {
+                        table.BackColor = ((Types.Variable)table.Owner).Table.BackColor;
+                        table.GradientColor = ((Types.Variable)table.Owner).Table.GradientColor;
+                    }
+                    catch
+                    {
+                        table.BackColor = new Types.Variable().Table.BackColor;
+                        table.GradientColor = new Types.Variable().Table.GradientColor;
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        table.BackColor = table.Owner.Table.BackColor;
+                        table.GradientColor = table.Owner.Table.GradientColor;
+                    }
+                    catch
+                    {
+                        table.BackColor = new Types.Constant().Table.BackColor;
+                        table.GradientColor = new Types.Constant().Table.GradientColor;
+                    }
+                }
+            }
+            base.OnElementInserted(element);
+        }
+
         /// <summary>
         /// Serialize constructor diagram to string.
         /// </summary>
@@ -626,7 +635,6 @@ namespace LuaScriptConstructor.Forms
             }
             return result;
         }
-
        
     }
 }

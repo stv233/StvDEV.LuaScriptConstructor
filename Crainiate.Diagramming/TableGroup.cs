@@ -17,7 +17,7 @@ namespace Crainiate.Diagramming
 		//Property variables
 		private TableGroups _groups;
 		private TableRows _rows;
-		private bool _expanded;
+		private bool _expanded = true;
 
 		//Working variables
 		
@@ -100,11 +100,11 @@ namespace Crainiate.Diagramming
 			}
 			set
 			{
-				if (_expanded != value)
-				{
-					_expanded = value;
-					OnExpandedChanged(this, value);
-				}
+				//if (_expanded != value)
+				//{
+				//	_expanded = value;
+				//	OnExpandedChanged(this, value);
+				//}
 			}
 		}
 

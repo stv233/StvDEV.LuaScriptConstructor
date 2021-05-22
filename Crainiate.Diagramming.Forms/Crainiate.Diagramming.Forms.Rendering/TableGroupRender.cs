@@ -30,15 +30,17 @@ namespace Crainiate.Diagramming.Forms.Rendering
             SmoothingMode smoothing = graphics.SmoothingMode;
             graphics.SmoothingMode = SmoothingMode.HighQuality;
             RectangleF expander = new RectangleF(4 + group.Indent, group.Rectangle.Top + 4, 11, 11);
-            LinearGradientBrush gradientBrush = new LinearGradientBrush(expander, Color.FromArgb(255, Color.White), Color.FromArgb(255, 166, 176, 185), LinearGradientMode.Vertical);
-            graphics.FillRectangle(gradientBrush, expander); // internal
+            //LinearGradientBrush gradientBrush = new LinearGradientBrush(expander, Color.FromArgb(255, Color.White), Color.FromArgb(255, 166, 176, 185), LinearGradientMode.Vertical);
+
+            graphics.DrawImage(Properties.Resources.RowGroups_16x, expander);
+            //graphics.FillRectangle(gradientBrush, expander); // internal
             Pen pen = new Pen(Color.FromArgb(128, Color.Gray), 1);
-            graphics.DrawRectangle(pen, expander.X, expander.Y, expander.Width, expander.Height); //border
+            //graphics.DrawRectangle(pen, expander.X, expander.Y, expander.Width, expander.Height); //border
             pen.Color = Color.FromArgb(128, Color.Black);
             pen.Width = 2;
-            graphics.DrawLine(pen, expander.X + 2, expander.Y + 5.5F, expander.X + 9, expander.Y + 5.5F); //minus
-            if (!group.Expanded) graphics.DrawLine(pen, expander.X + 5.5F, expander.Y + 2, expander.X + 5.5F, expander.Y + 9); //plus
-            graphics.SmoothingMode = smoothing;
+            //graphics.DrawLine(pen, expander.X + 2, expander.Y + 5.5F, expander.X + 9, expander.Y + 5.5F); //minus
+            //if (!group.Expanded) graphics.DrawLine(pen, expander.X + 5.5F, expander.Y + 2, expander.X + 5.5F, expander.Y + 9); //plus
+            //graphics.SmoothingMode = smoothing;
 
             //Draw text
             RectangleF textRectangle = new RectangleF(20 + group.Indent, group.Rectangle.Top, group.Rectangle.Width - 20 - group.Indent, group.Rectangle.Height);

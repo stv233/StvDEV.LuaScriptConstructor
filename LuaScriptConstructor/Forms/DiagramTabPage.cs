@@ -9,30 +9,36 @@ namespace LuaScriptConstructor.Forms
     /// </summary>
     class DiagramTabPage : TabPage
     {
-       
-        private ConstructorDiagram diagram;
+        private ConstructorDiagram _diagram;
 
+        /// <summary>
+        /// Tab diagram.
+        /// </summary>
         public ConstructorDiagram Diagram
         {
             get
             {
-                return diagram;
+                return _diagram;
             }
             set
             {
-                diagram = value;
+                _diagram = value;
             }
         }
 
+        /// <summary>
+        /// Diagram tab page.
+        /// </summary>
         public DiagramTabPage() : this("") { }
 
         public DiagramTabPage(string name) : base(name)
         {
-            Name = name;
+            #region /// Initialization
 
+            Name = name;
             this.AutoScroll = true;
 
-            diagram = new ConstructorDiagram
+            _diagram = new ConstructorDiagram
             {
                 //AutoScroll = true,
                 Dock = DockStyle.Fill,
@@ -55,13 +61,66 @@ namespace LuaScriptConstructor.Forms
                 Page = 1,
                 WorkspaceColor = System.Drawing.SystemColors.AppWorkspace
             };
-            diagram.Paging = paging;
+            _diagram.Paging = paging;
 
-            diagram.Suspend();
-            diagram.Dock = DockStyle.None;
-            diagram.Width = 2000;
-            diagram.Height = 2000;
-            diagram.Resume();
+            _diagram.Suspend();
+            _diagram.Dock = DockStyle.None;
+            _diagram.Width = 2000;
+            _diagram.Height = 2000;
+            _diagram.Resume();
+
+            #endregion
+
+            #region /// Events
+
+
+            int scrollX = -1;
+            int scrollY = -1;
+            bool scroll = false;
+            Point autoScrollPosition = new Point();
+
+            this.Diagram.MouseDown += (s, e) =>
+            {
+                if (e.Button == MouseButtons.Middle)
+                {
+                    if (!scroll)
+                    {
+                        scrollX = e.X;
+                        scrollY = e.Y;
+                        autoScrollPosition = this.AutoScrollPosition;
+                        scroll = true;
+                        Diagram.Suspend();
+                    }
+                }
+            };
+
+            this.Diagram.MouseUp += (s, e) =>
+            {
+                if (e.Button == MouseButtons.Middle)
+                {
+                    if (scroll)
+                    {
+                        scroll = false;
+                        Diagram.Resume();
+                    }
+                }
+            };
+
+            bool tick = false;
+            this.Diagram.MouseMove += (s, e) => 
+            {
+                tick = !tick;
+                if (scroll && tick)
+                {
+                    this.AutoScrollPosition = new Point(autoScrollPosition.X + (scrollX - e.X), autoScrollPosition.Y + (scrollY - e.Y));
+                }
+            };
+
+            #endregion
+
+
         }
+
+
     }
 }
