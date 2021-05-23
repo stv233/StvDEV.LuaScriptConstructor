@@ -176,6 +176,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Console.ico" />
+    <None Include="Resources\RestoreSnapshot_16x.png" />
+    <None Include="Resources\TakeSnapshot_16x.png" />
+    <None Include="Resources\ViewSnapshots_16x.png" />
+    <None Include="Resources\Redo_16x.png" />
+    <None Include="Resources\Undo_16x.png" />
     <None Include="Resources\RowGroups_16x.png" />
     <None Include="Resources\While_16x.png" />
     <None Include="Resources\DeleteTable_16x.png" />

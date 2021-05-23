@@ -11,8 +11,132 @@ namespace LuaScriptConstructor.Forms
     /// </summary>
     class ConstructorDiagram : Diagram, Saves.IConstructorSerializable
     {
+        string _heading;
+        private ConstructorDiagramTypes _type = ConstructorDiagramTypes.None;
         private Mouse mouse;
-        private ConstructorDiagramTypes type = ConstructorDiagramTypes.None;
+        private Stack<Snapshot> snapshots = new Stack<Snapshot>();
+
+        /// <summary>
+        /// Represents a snapshot record.
+        /// </summary>
+        public class Snapshot
+        {
+            /// <summary>
+            /// Record name.
+            /// </summary>
+            public string Name { get; protected set; }
+
+            /// <summary>
+            /// Recorded state.
+            /// </summary>
+            public string State { get; protected set; }
+
+            /// <summary>
+            /// Represents a snapshot record.
+            /// </summary>
+            /// <param name="name">Record name.</param>
+            /// <param name="state">Recorded state.</param>
+            public Snapshot(string name, string state)
+            {
+                Name = name;
+                State = state;
+            }
+        }
+
+        /// <summary>
+        /// Represents a dialog form for selecting a snapshot.
+        /// </summary>
+        public class SnapshotsDialog : Form
+        {
+            /// <summary>
+            /// Selected snapshot.
+            /// </summary>
+            public Snapshot SelectedSnapshot { get; protected set; }
+
+            /// <summary>
+            /// Snapshot collection.
+            /// </summary>
+            public Stack<Snapshot> Snapshots { get; protected set; }
+
+            /// <summary>
+            /// Represents a dialog form for selecting a snapshot.
+            /// </summary>
+            /// <param name="snapshots"></param>
+            public SnapshotsDialog(ref Stack<Snapshot> snapshots)
+            {
+                #region /// Initialization
+
+                Snapshots = snapshots;
+
+                this.Size = new Size(300, 200);
+                this.StartPosition = FormStartPosition.CenterParent;
+                this.FormBorderStyle = FormBorderStyle.FixedToolWindow;
+                this.Icon = Icon.FromHandle(Properties.Resources.ViewSnapshots_16x.GetHicon());
+
+                var btOk = new Button
+                {
+                    Text = "Restore",
+                    FlatStyle = FlatStyle.Popup,
+                    Dock = DockStyle.Bottom,
+                    Enabled = false,
+                    Parent = this,
+                    //DialogResult = DialogResult.OK,
+                };
+
+                var btCancel = new Button
+                {
+                    Text = "Cancel",
+                    FlatStyle = FlatStyle.Popup,
+                    Dock = DockStyle.Bottom,
+                    Parent = this,
+                    DialogResult = DialogResult.Cancel,
+                };
+
+                var lbSnapshots = new ListBox
+                {
+                    SelectionMode = SelectionMode.One,
+                    DrawMode = DrawMode.Normal,
+                    Dock = DockStyle.Top,
+                    Height = this.Height - btOk.Height - btCancel.Height,
+                    Parent = this
+                };
+                foreach (Snapshot ss in Snapshots)
+                {
+                    lbSnapshots.Items.Add(ss.Name);
+                }
+
+                #endregion
+
+                #region /// Events
+
+                lbSnapshots.DoubleClick += (s, e) =>
+                {
+                    if (lbSnapshots.SelectedItem != null)
+                    {
+                        btOk.PerformClick();
+                    }
+                };
+
+                lbSnapshots.SelectedIndexChanged += (s, e) =>
+                {
+                    btOk.Enabled = (lbSnapshots.SelectedItem != null);
+                };
+
+                btOk.Click += (s, e) =>
+                {
+                    foreach (Snapshot ss in Snapshots)
+                    {
+                        if (ss.Name == (lbSnapshots.SelectedItem as string))
+                        {
+                            SelectedSnapshot = ss;
+                            this.DialogResult = DialogResult.OK;
+                        }
+                    }
+                };
+
+                #endregion
+            }
+        }
 
         /// <summary>
         /// Storage structure of mouse parameters.
@@ -22,6 +146,29 @@ namespace LuaScriptConstructor.Forms
             public int X;
             public int Y;
         }
+
+        /// <summary>
+        /// Represents a class containing data for a <see cref="ConstructorDiagram"/> events.
+        /// </summary>
+        public class DiagramEventArgs : EventArgs
+        {
+            /// <summary>
+            /// Diagram.
+            /// </summary>
+            public ConstructorDiagram Diagram { get; protected set; }
+
+            public DiagramEventArgs(ConstructorDiagram diagram)
+            {
+                Diagram = diagram;
+            }
+        }
+
+        /// <summary>
+        /// Represents a method that handles <see cref="DiagramTypeChanged"/>, <see cref="OnTakeSnapshot"/> and <see cref="OnSnapshotRestored"/> events.
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Event arguments</param>
+        public delegate void ConstructorDiagramEvent(object sender, DiagramEventArgs e);
 
         /// <summary>
         /// Types of constructor diagrams.
@@ -34,9 +181,24 @@ namespace LuaScriptConstructor.Forms
         }
 
         /// <summary>
+        /// Occurs when heading changed. 
+        /// </summary>
+        public event ConstructorDiagramEvent HeadingChanged;
+
+        /// <summary>
+        /// Occurs when a snapshot is loaded.
+        /// </summary>
+        public event ConstructorDiagramEvent OnTakeSnapshot;
+
+        /// <summary>
+        /// Occurs when redo is executed.
+        /// </summary>
+        public event ConstructorDiagramEvent OnSnapshotRestored;
+
+        /// <summary>
         /// Occurs when the type is changed.
         /// </summary>
-        public EventHandler DiagramTypeChanged;
+        public event ConstructorDiagramEvent DiagramTypeChanged;
 
         /// <summary>
         /// Diagram type.
@@ -45,18 +207,19 @@ namespace LuaScriptConstructor.Forms
         {
             get
             {
-                return type;
+                return _type;
             }
             set
             {
-                if (value != type)
+                if (value != _type)
                 {
+
                     this.Clear();
                     Connectors.Clear();
                     Tables.Clear();
-                    type = value;
+                    _type = value;
 
-                    if (type == ConstructorDiagramTypes.Main)
+                    if (_type == ConstructorDiagramTypes.Main)
                     {
                         var mainTable = new Shapes.ConstructorTable(Components.ScriptСomponents.Functions[0].Table);
                         Model.Shapes.Add(mainTable);
@@ -67,14 +230,39 @@ namespace LuaScriptConstructor.Forms
                         Model.Shapes.Add(initTable);
                         Tables[initTable.Key].Location = new PointF(50, 10);
                     }
-                    else if (type == ConstructorDiagramTypes.Regular)
+                    else if (_type == ConstructorDiagramTypes.Regular)
                     {
                         var functionStartTable = new Shapes.ConstructorTable(Components.ScriptСomponents.Functions[2].Table);
-                        functionStartTable.Heading = this.Parent.Text;
+                        functionStartTable.Heading = this.Heading;
                         Model.Shapes.Add(functionStartTable);
                         Tables[functionStartTable.Key].Location = new PointF(200, 10);
                     }
+
+                    if (DiagramTypeChanged != null)
+                    {
+                        DiagramTypeChanged(this, new DiagramEventArgs(this));
+                    }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Diagram heading.
+        /// </summary>
+        public string Heading
+        {
+            get
+            {
+                return _heading;
+            }
+            set
+            {
+                _heading = value;
+                if (HeadingChanged != null)
+                {
+                    HeadingChanged(this, new DiagramEventArgs(this));
+                }
+
             }
         }
 
@@ -224,6 +412,7 @@ namespace LuaScriptConstructor.Forms
                 {
                     DeleteElements();
                 }
+
             };
 
             this.MouseDown += (s, e) =>
@@ -280,6 +469,7 @@ namespace LuaScriptConstructor.Forms
             };
 
             #endregion
+
         }
 
         /// <summary>
@@ -323,7 +513,7 @@ namespace LuaScriptConstructor.Forms
                 {
                     if (table.Function.Prefix == Components.ScriptСomponents.Functions[2].Prefix)
                     {
-                        this.Parent.Text = table.Heading;
+                        Heading = table.Heading;
                     }
                 }
 
@@ -358,10 +548,58 @@ namespace LuaScriptConstructor.Forms
         }
 
         /// <summary>
+        /// Takes a snapshot of the current state of the diagram.
+        /// </summary>
+        public virtual void TakeSnapshot()
+        {
+            snapshots.Push(new Snapshot(DateTime.Now.ToString(), SerializeToString()));
+            if (OnTakeSnapshot != null)
+            {
+                OnTakeSnapshot(this, new DiagramEventArgs(this));
+            }
+        }
+
+        /// <summary>
+        /// Restores state to the last recorded snapshot.
+        /// </summary>
+        public virtual void RestoreLastSnapshot()
+        {
+           if (snapshots.Count > 0)
+            {
+                Snapshot snapshot = snapshots.Pop();
+                snapshots.Push(snapshot);
+                DeserializeFromString(snapshot.State);
+                if (OnSnapshotRestored != null)
+                {
+                    OnSnapshotRestored(this, new DiagramEventArgs(this));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calls a dialog with a list of snapshots and then restores the state of the selected.
+        /// </summary>
+        public virtual void RestoreSnapshot()
+        {
+            using (SnapshotsDialog snapshotsDialog = new SnapshotsDialog(ref snapshots) { Text = "Restore snapshot"})
+            {
+                if (snapshotsDialog.ShowDialog() == DialogResult.OK)
+                {
+                    DeserializeFromString(snapshotsDialog.SelectedSnapshot.State);
+                    if (OnSnapshotRestored != null)
+                    {
+                        OnSnapshotRestored(this, new DiagramEventArgs(this));
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Removes the elements selected in the diagram.
         /// </summary>
         private void DeleteElements()
         {
+
             if (this.Model.SelectedElements() != null)
             {
                 foreach (var element in this.Model.SelectedElements().Values)
@@ -492,6 +730,7 @@ namespace LuaScriptConstructor.Forms
                         table.GradientColor = new Types.Constant().Table.GradientColor;
                     }
                 }
+
             }
             base.OnElementInserted(element);
         }
@@ -503,7 +742,8 @@ namespace LuaScriptConstructor.Forms
         public string SerializeToString()
         {
             string result = "{";
-            result += "Type=" + type + ";";
+            result += "Heading=∴Heading=>" + Heading + "<=Heading∴;";
+            result += "Type=" + Type + ";";
             result += "Tables=" + SerializeTables(Tables.Values) + ";";
             result += "Connectors=" + SerializeConnectors(Connectors.Values) + ";";
             result += "}";
@@ -548,6 +788,10 @@ namespace LuaScriptConstructor.Forms
         /// <param name="serializedDiagram">Serialized diagram</param>
         public void DeserializeFromString(string serializedDiagram)
         {
+            this.Tables.Clear();
+            this.Connectors.Clear();
+            this.Model.Clear();
+
             serializedDiagram = serializedDiagram.Substring(1, serializedDiagram.Length - 2);
             while (serializedDiagram.Length > 0)
             {
@@ -556,18 +800,22 @@ namespace LuaScriptConstructor.Forms
                 int delimiter = Saves.Saves.FindPropertyDelemiter(serializedDiagram, propertySign);
                 switch (propertyName)
                 {
+                    case "Heading":
+                        this.Heading = (serializedDiagram.Substring(propertySign + 1, delimiter - (propertySign + 1)).Replace("∴Heading=>", "").Replace("<=Heading∴", ""));
+                        serializedDiagram = serializedDiagram.Substring(delimiter + 1);
+                        break;
                     case "Type":
                         string typeString = (serializedDiagram.Substring(propertySign + 1, delimiter - (propertySign + 1)));
                         switch (typeString)
                         {
                             case "Main":
-                                type = ConstructorDiagramTypes.Main;
+                                _type = ConstructorDiagramTypes.Main;
                                 break;
                             case "None":
-                                type = ConstructorDiagramTypes.None;
+                                _type = ConstructorDiagramTypes.None;
                                 break;
                             case "Regular":
-                                type = ConstructorDiagramTypes.Regular;
+                                _type = ConstructorDiagramTypes.Regular;
                                 break;
                         }
                         serializedDiagram = serializedDiagram.Substring(delimiter + 1);
@@ -585,10 +833,10 @@ namespace LuaScriptConstructor.Forms
                         Dictionary<string, Shapes.ConstructorConnector>.ValueCollection connectorsValues = DeserializeConnectors(connectors).Values;
                         foreach (Shapes.ConstructorConnector connector in connectorsValues)
                         {
-                            
-                            foreach(var table in Tables.Values)
+
+                            foreach (var table in Tables.Values)
                             {
-                                foreach(Crainiate.Diagramming.Port port in table.Ports.Values)
+                                foreach (Crainiate.Diagramming.Port port in table.Ports.Values)
                                 {
                                     if ((connector.StartPort != null) && (connector.StartPort.Key == port.Key))
                                     {
@@ -600,13 +848,14 @@ namespace LuaScriptConstructor.Forms
                                     }
                                 }
                             }
-                            Connectors.Add(connector.Key,connector);
+                            Connectors.Add(connector.Key, connector);
                             this.Model.Lines.Add(connector);
                         }
                         serializedDiagram = serializedDiagram.Substring(delimiter + 1);
                         break;
                 }
             }
+
         }
 
         /// <summary>

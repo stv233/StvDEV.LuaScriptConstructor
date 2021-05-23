@@ -42,6 +42,7 @@ namespace LuaScriptConstructor.Forms
             {
                 //AutoScroll = true,
                 Dock = DockStyle.Fill,
+                Heading = name,
                 Parent = this
             };
 
@@ -69,6 +70,11 @@ namespace LuaScriptConstructor.Forms
             _diagram.Height = 2000;
             _diagram.Resume();
 
+            _diagram.HeadingChanged += (s, e) =>
+            {
+                this.Text = _diagram.Heading;
+            }
+            ;
             #endregion
 
             #region /// Events

@@ -12,6 +12,8 @@ namespace LuaScriptConstructor.Shapes
     class ConstructorTable : Table, Saves.IConstructorSerializable
     {
         private System.Drawing.Image _icon;
+        private bool _allowRenew = false;
+        public Types.Function _function;
 
         /// <summary>
         /// Represents exceptions when using a <see cref="ConstructorTable"/> with an unsuitable type.
@@ -61,7 +63,28 @@ namespace LuaScriptConstructor.Shapes
         /// </summary>
         public ConstructorTableTypes Type { get; set; }
 
-        private bool _allowRenew = false;
+        public class TableEventArgs : EventArgs
+        {
+            /// <summary>
+            /// Table.
+            /// </summary>
+            public ConstructorTable Table { get; protected set; }
+
+            public TableEventArgs(ConstructorTable table)
+            {
+                Table = table;
+            }
+        }
+
+        public delegate void TableEvents(object sender, TableEventArgs e);
+
+        public event TableEvents BeforeSzieChanged;
+
+        public event TableEvents SizeChanged;
+
+        public event TableEvents BeforeLocationChanged;
+
+        public event TableEvents LocationChanged;
 
         /// <summary>
         /// Sets or returns permission to renew a table.
@@ -77,8 +100,6 @@ namespace LuaScriptConstructor.Shapes
                 _allowRenew = value;
             }
         }
-
-        public Types.Function _function;
 
         /// <summary>
         /// Table function.
@@ -188,6 +209,26 @@ namespace LuaScriptConstructor.Shapes
             }
         }
 
+        public override PointF Location
+        {
+            get
+            {
+                return base.Location;
+            }
+            set
+            {
+                if (BeforeLocationChanged != null)
+                {
+                    BeforeLocationChanged(this, new TableEventArgs(this));
+                }
+                base.Location = value;
+                if (LocationChanged != null)
+                {
+                    LocationChanged(this, new TableEventArgs(this));
+                }
+            }
+        }
+
         /// <summary>
         /// Table size.
         /// </summary>
@@ -212,7 +253,17 @@ namespace LuaScriptConstructor.Shapes
                     height = MinimumSize.Height;
                 }
 
+                if (BeforeSzieChanged != null)
+                {
+                    BeforeSzieChanged(this, new TableEventArgs(this));
+                }
+
                 base.Size = new SizeF(width, height);
+
+                if (SizeChanged != null)
+                {
+                    SizeChanged(this, new TableEventArgs(this));
+                }
             }
         }
 

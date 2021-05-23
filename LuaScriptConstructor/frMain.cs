@@ -170,6 +170,43 @@ namespace LuaScriptConstructor
 
             #endregion
 
+            #region /// Edit
+
+            var tsmiEdit = new ToolStripMenuItem
+            {
+                Text = "Edit"
+            };
+            msMain.Items.Add(tsmiEdit);
+
+            var tsmiTakeSnapshot = new ToolStripMenuItem
+            {
+                Text = "Take snapshot",
+                ShortcutKeyDisplayString = "F5",
+                ShortcutKeys = Keys.F5,
+                Image = Properties.Resources.TakeSnapshot_16x
+            };
+            tsmiEdit.DropDownItems.Add(tsmiTakeSnapshot);
+
+            var tsmiRestoreLastSnapshot = new ToolStripMenuItem
+            {
+                Text = "Restore last snapshot",
+                ShortcutKeyDisplayString = "F6",
+                ShortcutKeys = Keys.F6,
+                Image = Properties.Resources.RestoreSnapshot_16x
+            };
+            tsmiEdit.DropDownItems.Add(tsmiRestoreLastSnapshot);
+
+            var tsmiSnapshots = new ToolStripMenuItem
+            {
+                Text = "Snapshots...",
+                ShortcutKeyDisplayString = "Shift+F6",
+                ShortcutKeys = Keys.Shift | Keys.F6,
+                Image = Properties.Resources.ViewSnapshots_16x
+            };
+            tsmiEdit.DropDownItems.Add(tsmiSnapshots);
+
+            #endregion
+
             #region /// Build
 
             var tsmiBuild = new ToolStripMenuItem
@@ -213,25 +250,6 @@ namespace LuaScriptConstructor
                 ShortcutKeys = Keys.Control | Keys.G
             };
             tsmiFunctions.DropDownItems.Add(tsmiAddFunction);
-            tsmiAddFunction.Click += (s, e) =>
-            {
-                functionsCounter++;
-                var tabPage = new DiagramTabPage("Function " + functionsCounter.ToString());
-                tabPage.Diagram.Type = ConstructorDiagram.ConstructorDiagramTypes.Regular;
-                var function = new Types.Function(tabPage.Text.Replace(" ", "_"));
-                function.AccessType = Types.Variable.VariableAccessTypes.InputOutput;
-                function.Description = "User function";
-                function.Diagram = tabPage.Diagram;
-                projectFunctions[tabPage.Name] = function;
-                tcMain.TabPages.Add(tabPage);
-                tcMain.SelectedTab = tabPage;
-                tabPage.TextChanged += (se, ev) =>
-                {
-                    function.Name = tabPage.Text.Replace(" ", "_");
-                    RefreshProjectFunction();
-                };
-                RefreshProjectFunction();
-            };
 
             var tsmiRemoveFunction = new ToolStripMenuItem
             {
@@ -296,6 +314,39 @@ namespace LuaScriptConstructor
             };
             tsbSave.Click += (s, e) => { tsmiSave.PerformClick(); };
             tsMenu.Items.Add(tsbSave);
+
+            #endregion
+
+            #region /// Edit
+
+            tsMenu.Items.Add(new ToolStripSeparator());
+
+            var tsbTakeSnapshot = new ToolStripButton
+            {
+                DisplayStyle = ToolStripItemDisplayStyle.Image,
+                Image = tsmiTakeSnapshot.Image,
+                ToolTipText = tsmiTakeSnapshot.Text
+            };
+            tsbTakeSnapshot.Click += (s, e) => { tsmiTakeSnapshot.PerformClick(); };
+            tsMenu.Items.Add(tsbTakeSnapshot);
+
+            var tsbRestoreLastSnapshot = new ToolStripButton
+            {
+                DisplayStyle = ToolStripItemDisplayStyle.Image,
+                Image = tsmiRestoreLastSnapshot.Image,
+                ToolTipText = tsmiRestoreLastSnapshot.Text
+            };
+            tsbRestoreLastSnapshot.Click += (s, e) => { tsmiRestoreLastSnapshot.PerformClick(); };
+            tsMenu.Items.Add(tsbRestoreLastSnapshot);
+
+            var tsbShapshots = new ToolStripButton
+            {
+                DisplayStyle = ToolStripItemDisplayStyle.Image,
+                Image = tsmiSnapshots.Image,
+                ToolTipText = tsmiSnapshots.Text
+            };
+            tsbShapshots.Click += (s, e) => { tsmiSnapshots.PerformClick(); };
+            tsMenu.Items.Add(tsbShapshots);
 
             #endregion
 
@@ -395,7 +446,6 @@ namespace LuaScriptConstructor
                 Dock = DockStyle.Top,  
                 Parent = scMain.Panel1
             };
-
 
             #region /// Tree view
 
@@ -536,11 +586,12 @@ namespace LuaScriptConstructor
                 Parent = scWorkArea.Panel1
             };
 
-            var tpMain = new DiagramTabPage()
-            {
-                Text = "Main",
-            };
+            var tpMain = new DiagramTabPage("Main");
             tpMain.Diagram.Type = ConstructorDiagram.ConstructorDiagramTypes.Main;
+            tpMain.Diagram.OnSnapshotRestored += (s, e) =>
+            {
+                ReconnectDiagramTables(tpMain.Diagram);
+            };
             tcMain.TabPages.Add(tpMain);
 
             #endregion
@@ -671,6 +722,21 @@ namespace LuaScriptConstructor
                 }
             };
 
+            tsmiTakeSnapshot.Click += (s, e) =>
+            {
+                (tcMain.SelectedTab as DiagramTabPage).Diagram.TakeSnapshot();
+            };
+
+            tsmiRestoreLastSnapshot.Click += (s, e) =>
+            {
+                (tcMain.SelectedTab as DiagramTabPage).Diagram.RestoreLastSnapshot();
+            };
+
+            tsmiSnapshots.Click += (s, e) =>
+            {
+                (tcMain.SelectedTab as DiagramTabPage).Diagram.RestoreSnapshot();
+            };
+
             tsmiBuildFunction.Click += (s, e) =>
             {
                 (tcMain.SelectedTab as DiagramTabPage).Diagram.Build();
@@ -685,6 +751,30 @@ namespace LuaScriptConstructor
                         BuildAll(sfd.FileName);
                     }
                 }
+            };
+
+            tsmiAddFunction.Click += (s, e) =>
+            {
+                functionsCounter++;
+                var tabPage = new DiagramTabPage("Function " + functionsCounter.ToString());
+                tabPage.Diagram.Type = ConstructorDiagram.ConstructorDiagramTypes.Regular;
+                var function = new Types.Function(tabPage.Text.Replace(" ", "_"));
+                function.AccessType = Types.Variable.VariableAccessTypes.InputOutput;
+                function.Description = "User function";
+                function.Diagram = tabPage.Diagram;
+                projectFunctions[tabPage.Name] = function;
+                tcMain.TabPages.Add(tabPage);
+                tcMain.SelectedTab = tabPage;
+                tabPage.TextChanged += (se, ev) =>
+                {
+                    function.Name = tabPage.Text.Replace(" ", "_");
+                    RefreshProjectFunction();
+                };
+                tabPage.Diagram.OnSnapshotRestored += (se, ev) =>
+                {
+                    ReconnectDiagramTables(tabPage.Diagram);
+                };
+                RefreshProjectFunction();
             };
 
             htbSearch.TextChanged += (s, e) =>
@@ -746,6 +836,14 @@ namespace LuaScriptConstructor
                     {
                         function.Name = tabPage.Text.Replace(" ", "_");
                         RefreshProjectFunction();
+                    };
+                    tabPage.Diagram.OnTakeSnapshot += (s, e) =>
+                    {
+                        ReconnectDiagramTables(tabPage.Diagram);
+                    };
+                    tabPage.Diagram.OnSnapshotRestored += (s, e) =>
+                    {
+                        ReconnectDiagramTables(tabPage.Diagram);
                     };
                 }
             }
