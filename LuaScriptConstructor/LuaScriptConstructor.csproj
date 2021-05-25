@@ -45,6 +45,10 @@
     <Reference Include="Kesoft.Windows.Forms.Win7StyleTreeView, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Kesoft.Windows.Forms.Win7StyleTreeView.1.0.0.1\lib\net20\Kesoft.Windows.Forms.Win7StyleTreeView.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
@@ -85,10 +89,15 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Forms\Rendering\ConctructorTableRender.cs" />
+    <Compile Include="Forms\Rendering\ConstructorMenuStripRender.cs" />
+    <Compile Include="Forms\Rendering\ConstructorToolStripRender.cs" />
     <Compile Include="frMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Components\MathematicalComponents.cs" />
+    <Compile Include="frSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Saves\IConstructorSerializable.cs" />
@@ -99,6 +108,7 @@
     <Compile Include="Types\ProgrammaticallyDefinedFunction.cs" />
     <Compile Include="Types\Function.cs" />
     <Compile Include="Types\Variable.cs" />
+    <Compile Include="UserSettings.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -176,6 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Console.ico" />
+    <None Include="Resources\Settings_16x.png" />
     <None Include="Resources\RestoreSnapshot_16x.png" />
     <None Include="Resources\TakeSnapshot_16x.png" />
     <None Include="Resources\ViewSnapshots_16x.png" />

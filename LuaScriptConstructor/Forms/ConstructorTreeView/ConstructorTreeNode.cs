@@ -53,6 +53,9 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
         /// <param name="table">Constructor table</param>
         public ConstructorTreeNode(Types.Constant type)
         {
+            this.BackColor = UserSettings.ColorScheme.SecondaryColor;
+            this.ForeColor = UserSettings.ColorScheme.ForeColor;
+
             nodeObject = type;
             if (type.Table.Label != null)
             {

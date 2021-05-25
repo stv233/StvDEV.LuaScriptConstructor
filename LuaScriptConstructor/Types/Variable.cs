@@ -82,10 +82,26 @@ namespace LuaScriptConstructor.Types
                     Type = ConstructorTable.ConstructorTableTypes.Variable,
                     BackColor = System.Drawing.Color.Aquamarine,
                     GradientColor = System.Drawing.Color.Aquamarine,
+                    Forecolor = UserSettings.ColorScheme.ForeColor,
+                    BorderColor = UserSettings.ColorScheme.ForeColor,
                     CanEditHeading = true,
                     Icon = Properties.Resources.LocalVariable_16x,
                     Variable = this
                 };
+                if (UserSettings.ColorScheme.Name == "Blueberry")
+                {
+                    table.BackColor = System.Drawing.Color.DarkTurquoise;
+                    table.GradientColor = System.Drawing.Color.DarkTurquoise;
+                    table.Forecolor = UserSettings.ColorScheme.ForeColor;
+                    table.BorderColor = UserSettings.ColorScheme.ForeColor;
+                }
+                else
+                {
+                    table.BackColor = System.Drawing.Color.Aquamarine;
+                    table.GradientColor = System.Drawing.Color.Aquamarine;
+                    table.Forecolor = UserSettings.ColorScheme.ForeColor;
+                    table.BorderColor = UserSettings.ColorScheme.ForeColor;
+                }
                 table.SetKey(Prefix + "_" + Name + "_" + DateTime.Now.GetHashCode());
 
                 if ((InteractionType == ValueInteractionTypes.Set) || (InteractionType == ValueInteractionTypes.GetSet))
@@ -95,12 +111,13 @@ namespace LuaScriptConstructor.Types
                         Direction = Crainiate.Diagramming.Direction.In,
                         Orientation = Crainiate.Diagramming.PortOrientation.Left,
                         Style = Crainiate.Diagramming.PortStyle.Input,
+                        BackColor = UserSettings.ColorScheme.MainColor,
+                        GradientColor = UserSettings.ColorScheme.MainColor,
+                        BorderColor = UserSettings.ColorScheme.ForeColor,
                         AllowMove = false
                     };
                     argument.SetKey("argument_" + Prefix + "_" + Name + "_" + DateTime.Now.GetHashCode());
                     table.Ports.Add(argument);
-
-
                     
                 }
 
@@ -111,6 +128,9 @@ namespace LuaScriptConstructor.Types
                         Direction = Crainiate.Diagramming.Direction.Out,
                         Orientation = Crainiate.Diagramming.PortOrientation.Right,
                         Style = Crainiate.Diagramming.PortStyle.Output,
+                        BackColor = UserSettings.ColorScheme.MainColor,
+                        GradientColor = UserSettings.ColorScheme.MainColor,
+                        BorderColor = UserSettings.ColorScheme.ForeColor,
                         AllowMove = false
                     };
                     @return.SetKey("return_" + Prefix + "_" + Name + "_" + DateTime.Now.GetHashCode());
@@ -124,6 +144,9 @@ namespace LuaScriptConstructor.Types
                         Direction = Crainiate.Diagramming.Direction.In,
                         Orientation = Crainiate.Diagramming.PortOrientation.Top,
                         Style = Crainiate.Diagramming.PortStyle.Simple,
+                        BackColor = UserSettings.ColorScheme.MainColor,
+                        GradientColor = UserSettings.ColorScheme.MainColor,
+                        BorderColor = UserSettings.ColorScheme.ForeColor,
                         AllowMove = false
                     };
                     input.SetKey("input_" + Prefix + "_" + Name + "_" + DateTime.Now.GetHashCode());
@@ -137,6 +160,9 @@ namespace LuaScriptConstructor.Types
                         Direction = Crainiate.Diagramming.Direction.Out,
                         Orientation = Crainiate.Diagramming.PortOrientation.Bottom,
                         Style = Crainiate.Diagramming.PortStyle.Simple,
+                        BackColor = UserSettings.ColorScheme.MainColor,
+                        GradientColor = UserSettings.ColorScheme.MainColor,
+                        BorderColor = UserSettings.ColorScheme.ForeColor,
                         AllowMove = false
                     };
                     output.SetKey("output_" + Prefix + "_" + Name + "_" + DateTime.Now.GetHashCode());

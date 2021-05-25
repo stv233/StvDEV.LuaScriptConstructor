@@ -53,7 +53,7 @@ namespace LuaScriptConstructor.Components
                     e.Table.Label = new Crainiate.Diagramming.Label(addition.Name);
                     e.Table.Function = addition;
                     e.Table.Heading = addition.Name;
-                    e.Table.GradientColor = System.Drawing.Color.White;
+                    //e.Table.GradientColor = System.Drawing.Color.White;
                     e.Table.SubHeading = addition.Description;
                     e.Table.MinimumSize = new System.Drawing.SizeF(250, 150);
                     e.Table.Size = e.Table.MinimumSize;
@@ -94,7 +94,7 @@ namespace LuaScriptConstructor.Components
                     e.Table.Label = new Crainiate.Diagramming.Label(subtraction.Name);
                     e.Table.Function = subtraction;
                     e.Table.Heading = subtraction.Name;
-                    e.Table.GradientColor = System.Drawing.Color.White;
+                    //e.Table.GradientColor = System.Drawing.Color.White;
                     e.Table.SubHeading = subtraction.Description;
                     e.Table.MinimumSize = new System.Drawing.SizeF(250, 150);
                     e.Table.Size = e.Table.MinimumSize;
@@ -136,7 +136,7 @@ namespace LuaScriptConstructor.Components
                     e.Table.Label = new Crainiate.Diagramming.Label(multiplication.Name);
                     e.Table.Function = multiplication;
                     e.Table.Heading = multiplication.Name;
-                    e.Table.GradientColor = System.Drawing.Color.White;
+                    //e.Table.GradientColor = System.Drawing.Color.White;
                     e.Table.SubHeading = multiplication.Description;
                     e.Table.MinimumSize = new System.Drawing.SizeF(250, 150);
                     e.Table.Size = e.Table.MinimumSize;
@@ -178,7 +178,7 @@ namespace LuaScriptConstructor.Components
                     e.Table.Label = new Crainiate.Diagramming.Label(division.Name);
                     e.Table.Function = division;
                     e.Table.Heading = division.Name;
-                    e.Table.GradientColor = System.Drawing.Color.White;
+                    //e.Table.GradientColor = System.Drawing.Color.White;
                     e.Table.SubHeading = division.Description;
                     e.Table.MinimumSize = new System.Drawing.SizeF(250, 150);
                     e.Table.Size = e.Table.MinimumSize;
@@ -220,7 +220,7 @@ namespace LuaScriptConstructor.Components
                     e.Table.Label = new Crainiate.Diagramming.Label(modulo.Name);
                     e.Table.Function = modulo;
                     e.Table.Heading = modulo.Name;
-                    e.Table.GradientColor = System.Drawing.Color.White;
+                    //e.Table.GradientColor = System.Drawing.Color.White;
                     e.Table.SubHeading = modulo.Description;
                     e.Table.MinimumSize = new System.Drawing.SizeF(250, 150);
                     e.Table.Size = e.Table.MinimumSize;

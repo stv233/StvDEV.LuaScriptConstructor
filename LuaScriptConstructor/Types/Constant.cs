@@ -69,6 +69,8 @@ namespace LuaScriptConstructor.Types
                     CanEditHeading = true,
                     GradientColor = System.Drawing.Color.LightCoral,
                     BackColor = System.Drawing.Color.LightCoral,
+                    BorderColor = UserSettings.ColorScheme.ForeColor,
+                    Forecolor = UserSettings.ColorScheme.ForeColor,
                     Icon = Properties.Resources.Constant_16x,
                     Constant = this
                 };
@@ -80,6 +82,9 @@ namespace LuaScriptConstructor.Types
                     Direction = Crainiate.Diagramming.Direction.Out,
                     Orientation = Crainiate.Diagramming.PortOrientation.Right,
                     Style = Crainiate.Diagramming.PortStyle.Output,
+                    BackColor = UserSettings.ColorScheme.MainColor,
+                    GradientColor = UserSettings.ColorScheme.MainColor,
+                    BorderColor = UserSettings.ColorScheme.ForeColor,
                     AllowMove = false
                 };
                 @return.SetKey("return_" + Prefix + "_Constant" + "_" + DateTime.Now.GetHashCode());

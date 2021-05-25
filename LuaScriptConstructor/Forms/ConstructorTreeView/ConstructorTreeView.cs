@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace LuaScriptConstructor.Forms.ConstructorTreeView
 {
@@ -14,7 +15,39 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
         /// <summary>
         /// Tree for displaying a list of constructor items
         /// </summary>
-        public ConstructorTreeView() : base() {}
+        public ConstructorTreeView() : base() 
+        {
+            this.DrawMode = TreeViewDrawMode.OwnerDrawText;
+            toolTip.BackColor = UserSettings.ColorScheme.MainColor;
+            toolTip.ForeColor = UserSettings.ColorScheme.ForeColor;
+            toolTip.OwnerDraw = true;
+            toolTip.Draw += (s, e) =>
+            {
+                e.DrawBackground();
+                e.DrawBorder();
+                e.DrawText();
+            };
+        }
+
+        protected override void OnDrawNode(DrawTreeNodeEventArgs e)
+        {
+            TreeNodeStates state = e.State;
+            Font font = e.Node.NodeFont ?? e.Node.TreeView.Font;
+            Color fore = e.Node.ForeColor;
+            if (fore == Color.Empty)
+                fore = e.Node.TreeView.ForeColor;
+            if ((e.State & TreeNodeStates.Hot) == TreeNodeStates.Hot)
+            {
+                //e.Graphics.FillRectangle(new SolidBrush(UserSettings.ColorScheme.MainColor), e.Bounds);
+                //ControlPaint.DrawFocusRectangle(e.Graphics, e.Bounds, fore, UserSettings.ColorScheme.MainColor);
+                TextRenderer.DrawText(e.Graphics, e.Node.Text, font, e.Bounds, fore, TextFormatFlags.GlyphOverhangPadding);
+            }
+            else
+            {
+                e.Graphics.FillRectangle(new SolidBrush(BackColor), e.Bounds);
+                TextRenderer.DrawText(e.Graphics, e.Node.Text, font, e.Bounds, fore, TextFormatFlags.GlyphOverhangPadding);
+            }
+        }
 
         /// <summary>
         /// Adds node.
@@ -262,7 +295,10 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
                 Search(target, node.Nodes);
                 if (!localResult)
                 {
-                    node.ForeColor = System.Drawing.Color.LightGray;
+                    
+                    node.ForeColor = Color.FromArgb(((UserSettings.ColorScheme.SecondaryColor.R > 128) ? UserSettings.ColorScheme.SecondaryColor.R - 40 : UserSettings.ColorScheme.SecondaryColor.R + 40),
+                        ((UserSettings.ColorScheme.SecondaryColor.G > 128) ? UserSettings.ColorScheme.SecondaryColor.G - 40 : UserSettings.ColorScheme.SecondaryColor.G + 40),
+                        ((UserSettings.ColorScheme.SecondaryColor.B > 128) ? UserSettings.ColorScheme.SecondaryColor.B - 40 : UserSettings.ColorScheme.SecondaryColor.B + 40));
                 }
                 else
                 {
@@ -270,7 +306,7 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
                     {
                         node.EnsureVisible();
                     }
-                    node.ForeColor = System.Drawing.Color.Black;//FromArgb(28, 196, 247);
+                    node.ForeColor = UserSettings.ColorScheme.ForeColor;//FromArgb(28, 196, 247);
                 }
             }
 

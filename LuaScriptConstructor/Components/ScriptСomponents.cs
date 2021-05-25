@@ -45,7 +45,10 @@ namespace LuaScriptConstructor.Components
                     Type = Shapes.ConstructorTable.ConstructorTableTypes.Function,
                     Function = main,
                     Heading = main.Name,
-                    GradientColor = System.Drawing.Color.White,
+                    BackColor = UserSettings.ColorScheme.MainColor,
+                    GradientColor = UserSettings.ColorScheme.MainColor,
+                    Forecolor = UserSettings.ColorScheme.ForeColor,
+                    BorderColor = UserSettings.ColorScheme.ForeColor,
                     SubHeading = "Main script function"
                 };
                 mainTable.SetKey(main.Prefix + "_" + main.Name + Math.Abs(DateTime.Now.GetHashCode()).ToString());
@@ -54,7 +57,10 @@ namespace LuaScriptConstructor.Components
                 {
                     AllowMove = false,
                     Direction = Crainiate.Diagramming.Direction.Out,
-                    Orientation = Crainiate.Diagramming.PortOrientation.Bottom
+                    Orientation = Crainiate.Diagramming.PortOrientation.Bottom,
+                    BackColor = UserSettings.ColorScheme.MainColor,
+                    GradientColor = UserSettings.ColorScheme.MainColor,
+                    BorderColor = UserSettings.ColorScheme.ForeColor,
                 };
                 mainPort.SetKey("mainoutput_" + Math.Abs(DateTime.Now.GetHashCode()).ToString());
                 mainTable.Ports.Add(mainPort);
@@ -80,7 +86,10 @@ namespace LuaScriptConstructor.Components
                     Type = Shapes.ConstructorTable.ConstructorTableTypes.Function,
                     Function = init,
                     Heading = init.Name,
-                    GradientColor = System.Drawing.Color.White,
+                    BackColor = UserSettings.ColorScheme.MainColor,
+                    GradientColor = UserSettings.ColorScheme.MainColor,
+                    Forecolor = UserSettings.ColorScheme.ForeColor,
+                    BorderColor = UserSettings.ColorScheme.ForeColor,
                     SubHeading = "Init script function"
                 };
                 initTable.SetKey(init.Prefix + "_" + init.Name + Math.Abs(DateTime.Now.GetHashCode()).ToString());
@@ -89,7 +98,10 @@ namespace LuaScriptConstructor.Components
                 {
                     AllowMove = false,
                     Direction = Crainiate.Diagramming.Direction.Out,
-                    Orientation = Crainiate.Diagramming.PortOrientation.Bottom
+                    Orientation = Crainiate.Diagramming.PortOrientation.Bottom,
+                    BackColor = UserSettings.ColorScheme.MainColor,
+                    GradientColor = UserSettings.ColorScheme.MainColor,
+                    BorderColor = UserSettings.ColorScheme.ForeColor,
                 };
                 initPort.SetKey("initoutput_" + Math.Abs(DateTime.Now.GetHashCode()).ToString());
                 initTable.Ports.Add(initPort);
@@ -116,7 +128,10 @@ namespace LuaScriptConstructor.Components
                     Function = start,
                     Heading = start.Name,
                     CanEditHeading = true,
-                    GradientColor = System.Drawing.Color.White,
+                    BackColor = UserSettings.ColorScheme.MainColor,
+                    GradientColor = UserSettings.ColorScheme.MainColor,
+                    Forecolor = UserSettings.ColorScheme.ForeColor,
+                    BorderColor = UserSettings.ColorScheme.ForeColor,
                     SubHeading = "Function start"
                 };
                 startTable.SetKey(start.Prefix + "_" + start.Name + Math.Abs(DateTime.Now.GetHashCode()).ToString());
@@ -125,7 +140,10 @@ namespace LuaScriptConstructor.Components
                 {
                     AllowMove = false,
                     Direction = Crainiate.Diagramming.Direction.Out,
-                    Orientation = Crainiate.Diagramming.PortOrientation.Bottom
+                    Orientation = Crainiate.Diagramming.PortOrientation.Bottom,
+                    BackColor = UserSettings.ColorScheme.MainColor,
+                    GradientColor = UserSettings.ColorScheme.MainColor,
+                    BorderColor = UserSettings.ColorScheme.ForeColor,
                 };
                 startPort.SetKey("startoutput_" + Math.Abs(DateTime.Now.GetHashCode()).ToString());
                 startTable.Ports.Add(startPort);

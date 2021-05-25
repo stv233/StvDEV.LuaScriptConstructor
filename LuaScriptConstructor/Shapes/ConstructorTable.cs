@@ -298,8 +298,13 @@ namespace LuaScriptConstructor.Shapes
                     clone.Orientation = tablePort.Orientation;
                     clone.Alignment = tablePort.Alignment;
                     clone.Style = tablePort.Style;
+                    clone.BackColor = tablePort.BackColor;
+                    clone.GradientColor = tablePort.GradientColor;
+                    clone.BorderColor = tablePort.BorderColor;
+                    clone.BorderStyle = tablePort.BorderStyle;
                     Ports.Add(port.Key, clone);
                     clone.Location = tablePort.Location;
+                    LocatePort(clone);
                 }
                 else
                 {

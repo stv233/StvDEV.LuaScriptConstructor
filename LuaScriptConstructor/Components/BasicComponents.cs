@@ -59,7 +59,7 @@ namespace LuaScriptConstructor.Components
 
                     e.Table.Groups.Clear();
 
-                    var argumentRow = new Crainiate.Diagramming.TableRow("Condition");
+                    var argumentRow = new Crainiate.Diagramming.TableRow("Condition") { Forecolor = e.Table.Forecolor};
                     e.Table.Rows.Add(argumentRow);
 
                     foreach (string key in e.Table.Ports.Keys)
@@ -67,6 +67,8 @@ namespace LuaScriptConstructor.Components
                         if (e.Table.Ports[key].Key.Contains("argument"))
                         {
                             (e.Table.Ports[key] as Crainiate.Diagramming.TablePort).TableItem = argumentRow;
+                            e.Table.Ports[key].BackColor = e.Table.BackColor;
+                            e.Table.Ports[key].GradientColor = e.Table.BackColor;
                             e.Table.LocatePort(e.Table.Ports[key]);
                             break;
                         }
@@ -84,6 +86,7 @@ namespace LuaScriptConstructor.Components
                     {
                         BackColor = System.Drawing.Color.Green,
                         GradientColor = System.Drawing.Color.Green,
+                        BorderColor = e.Table.BorderColor,
                         Orientation = Crainiate.Diagramming.PortOrientation.Bottom,
                         Direction = Crainiate.Diagramming.Direction.Out,
                         //Style = Crainiate.Diagramming.PortStyle.Input
@@ -125,7 +128,7 @@ namespace LuaScriptConstructor.Components
 
                     e.Table.Groups.Clear();
 
-                    var argumentRow = new Crainiate.Diagramming.TableRow("Condition");
+                    var argumentRow = new Crainiate.Diagramming.TableRow("Condition") { Forecolor = e.Table.Forecolor};
                     e.Table.Rows.Add(argumentRow);
 
                     foreach (string key in e.Table.Ports.Keys)
@@ -133,6 +136,8 @@ namespace LuaScriptConstructor.Components
                         if (e.Table.Ports[key].Key.Contains("argument"))
                         {
                             (e.Table.Ports[key] as Crainiate.Diagramming.TablePort).TableItem = argumentRow;
+                            e.Table.Ports[key].BackColor = e.Table.BackColor;
+                            e.Table.Ports[key].GradientColor = e.Table.BackColor;
                             e.Table.LocatePort(e.Table.Ports[key]);
                             break;
                         }
@@ -150,6 +155,7 @@ namespace LuaScriptConstructor.Components
                     {
                         BackColor = System.Drawing.Color.Green,
                         GradientColor = System.Drawing.Color.Green,
+                        BorderColor = e.Table.BorderColor,
                         Orientation = Crainiate.Diagramming.PortOrientation.Bottom,
                         Direction = Crainiate.Diagramming.Direction.Out,
                         //Style = Crainiate.Diagramming.PortStyle.Input

@@ -10,11 +10,12 @@ namespace LuaScriptConstructor.Forms
     class DiagramTabPage : TabPage
     {
         private ConstructorDiagram _diagram;
+        private HScrollBar hScrollBar = new HScrollBar();
 
         /// <summary>
         /// Tab diagram.
         /// </summary>
-        public ConstructorDiagram Diagram
+            public ConstructorDiagram Diagram
         {
             get
             {
@@ -33,6 +34,8 @@ namespace LuaScriptConstructor.Forms
 
         public DiagramTabPage(string name) : base(name)
         {
+
+
             #region /// Initialization
 
             Name = name;
@@ -41,6 +44,9 @@ namespace LuaScriptConstructor.Forms
             _diagram = new ConstructorDiagram
             {
                 //AutoScroll = true,
+                BackColor = UserSettings.ColorScheme.SecondaryColor,
+                ForeColor = UserSettings.ColorScheme.SecondaryColor,
+                GridColor = UserSettings.ColorScheme.GridColor,
                 Dock = DockStyle.Fill,
                 Heading = name,
                 Parent = this
@@ -66,8 +72,8 @@ namespace LuaScriptConstructor.Forms
 
             _diagram.Suspend();
             _diagram.Dock = DockStyle.None;
-            _diagram.Width = 2000;
-            _diagram.Height = 2000;
+            _diagram.Width = UserSettings.DiagramSize;
+            _diagram.Height = UserSettings.DiagramSize;
             _diagram.Resume();
 
             _diagram.HeadingChanged += (s, e) =>

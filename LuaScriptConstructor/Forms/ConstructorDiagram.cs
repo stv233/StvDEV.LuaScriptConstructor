@@ -96,7 +96,10 @@ namespace LuaScriptConstructor.Forms
                 {
                     SelectionMode = SelectionMode.One,
                     DrawMode = DrawMode.Normal,
+                    BackColor = UserSettings.ColorScheme.SecondaryColor,
+                    ForeColor = UserSettings.ColorScheme.ForeColor,
                     Dock = DockStyle.Top,
+                    BorderStyle = BorderStyle.None,
                     Height = this.Height - btOk.Height - btCancel.Height,
                     Parent = this
                 };
@@ -292,10 +295,12 @@ namespace LuaScriptConstructor.Forms
 
             #region /// Menu
 
-            var cmsMenu = new ContextMenuStrip();
+            var cmsMenu = new ContextMenuStrip() { BackColor = UserSettings.ColorScheme.MainColor, ForeColor = UserSettings.ColorScheme.MainColor, Renderer = new Forms.Rendering.ConstructorMenuStripRender()};
             var tsmiConnector = new ToolStripMenuItem
             {
                 Text = "Add connector",
+                BackColor = UserSettings.ColorScheme.MainColor,
+                ForeColor = UserSettings.ColorScheme.ForeColor,
                 Image = Properties.Resources.Connector_16x
             };
             tsmiConnector.Click += (s, e) =>
@@ -318,6 +323,8 @@ namespace LuaScriptConstructor.Forms
             {
                 ShortcutKeyDisplayString = "F2",
                 ShortcutKeys = Keys.F2,
+                BackColor = UserSettings.ColorScheme.MainColor,
+                ForeColor = UserSettings.ColorScheme.ForeColor,
                 Visible = false,
                 Image = Properties.Resources.EditLabel_16x
             };
@@ -346,6 +353,8 @@ namespace LuaScriptConstructor.Forms
             { 
                 Text = "Build function", 
                 Image = Properties.Resources.BuildSelection_16x,
+                BackColor = UserSettings.ColorScheme.MainColor,
+                ForeColor = UserSettings.ColorScheme.ForeColor,
                 ShortcutKeyDisplayString = "Shift+F6",
                 ShortcutKeys = Keys.Shift | Keys.F6
             };
@@ -356,6 +365,8 @@ namespace LuaScriptConstructor.Forms
             {
                 Text = "Delete",
                 Image = Properties.Resources.DeleteTable_16x,
+                BackColor = UserSettings.ColorScheme.MainColor,
+                ForeColor = UserSettings.ColorScheme.ForeColor,
                 Visible = false,
                 ShortcutKeyDisplayString = "Delete",
                 ShortcutKeys = Keys.Delete
@@ -581,7 +592,8 @@ namespace LuaScriptConstructor.Forms
         /// </summary>
         public virtual void RestoreSnapshot()
         {
-            using (SnapshotsDialog snapshotsDialog = new SnapshotsDialog(ref snapshots) { Text = "Restore snapshot"})
+            using (SnapshotsDialog snapshotsDialog = new SnapshotsDialog(ref snapshots) 
+                { Text = "Restore snapshot", BackColor = UserSettings.ColorScheme.MainColor, ForeColor = UserSettings.ColorScheme.ForeColor})
             {
                 if (snapshotsDialog.ShowDialog() == DialogResult.OK)
                 {

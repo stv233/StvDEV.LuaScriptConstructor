@@ -278,14 +278,20 @@ namespace LuaScriptConstructor.Types
             Returns = new List<string>();
             List<string> IgnoreList = new List<string>();
 
-            Shapes.ConstructorTable table = new Shapes.ConstructorTable();
-            table.Heading = Name;
-            table.SubHeading = Description;
-            table.Label = new Crainiate.Diagramming.Label(Name.Replace("_", " "));
-            table.Type = Shapes.ConstructorTable.ConstructorTableTypes.Function;
-            table.Size = new System.Drawing.SizeF(100f, 100f);
-            table.Icon = Properties.Resources.UserFunction_16x;
-            table.Function = this;
+            Shapes.ConstructorTable table = new Shapes.ConstructorTable
+            {
+                Heading = Name,
+                SubHeading = Description,
+                BackColor = UserSettings.ColorScheme.MainColor,
+                GradientColor = UserSettings.ColorScheme.MainColor,
+                Forecolor = UserSettings.ColorScheme.ForeColor,
+                BorderColor = UserSettings.ColorScheme.ForeColor,
+                Label = new Crainiate.Diagramming.Label(Name.Replace("_", " ")),
+                Type = Shapes.ConstructorTable.ConstructorTableTypes.Function,
+                Size = new System.Drawing.SizeF(100f, 100f),
+                Icon = Properties.Resources.UserFunction_16x,
+                Function = this
+            };
             table.SetKey(Prefix + "_" + Name + "_" + Math.Abs(DateTime.Now.GetHashCode()).ToString());
 
             if ((AccessType == VariableAccessTypes.Input) || (AccessType == VariableAccessTypes.InputOutput))
@@ -295,7 +301,10 @@ namespace LuaScriptConstructor.Types
                     Direction = Crainiate.Diagramming.Direction.In,
                     Orientation = Crainiate.Diagramming.PortOrientation.Top,
                     Style = Crainiate.Diagramming.PortStyle.Default,
-                    AllowMove = false
+                    BackColor = UserSettings.ColorScheme.MainColor,
+                    GradientColor = UserSettings.ColorScheme.MainColor,
+                    BorderColor = UserSettings.ColorScheme.ForeColor,
+                    AllowMove = false,
                 };
                 input.SetKey("input_" + Prefix + "_" + Name + "_" + Math.Abs(DateTime.Now.GetHashCode()).ToString());
                 table.Ports.Add(input);
@@ -308,7 +317,10 @@ namespace LuaScriptConstructor.Types
                     Direction = Crainiate.Diagramming.Direction.Out,
                     Orientation = Crainiate.Diagramming.PortOrientation.Bottom,
                     Style = Crainiate.Diagramming.PortStyle.Default,
-                    AllowMove = false
+                    BackColor = UserSettings.ColorScheme.MainColor,
+                    GradientColor = UserSettings.ColorScheme.MainColor,
+                    BorderColor = UserSettings.ColorScheme.ForeColor,
+                    AllowMove = false,
                 };
                 output.SetKey("output_" + Prefix + "_" + Name + "_" + Math.Abs(DateTime.Now.GetHashCode()).ToString());
                 table.Ports.Add(output);
@@ -357,30 +369,42 @@ namespace LuaScriptConstructor.Types
                 }
             }
 
-            Crainiate.Diagramming.TableGroup arguments = new Crainiate.Diagramming.TableGroup("Arguments");
+            Crainiate.Diagramming.TableGroup arguments = new Crainiate.Diagramming.TableGroup("Arguments") { Forecolor = UserSettings.ColorScheme.ForeColor};
 
             foreach (var argument in Arguments)
             {
-                Crainiate.Diagramming.TableRow row = new Crainiate.Diagramming.TableRow(argument.Replace("argument-", "").Replace("_", " ")) { Backcolor = table.BackColor };
-                Crainiate.Diagramming.TablePort port = new Crainiate.Diagramming.TablePort(row);
-                port.Orientation = Crainiate.Diagramming.PortOrientation.Left;
-                port.Direction = Crainiate.Diagramming.Direction.In;
-                port.Style = Crainiate.Diagramming.PortStyle.Input;
+                Crainiate.Diagramming.TableRow row = new Crainiate.Diagramming.TableRow(argument.Replace("argument-", "").Replace("_", " ")) 
+                    { Backcolor = table.BackColor, Forecolor = UserSettings.ColorScheme.ForeColor };
+                Crainiate.Diagramming.TablePort port = new Crainiate.Diagramming.TablePort(row)
+                {
+                    Orientation = Crainiate.Diagramming.PortOrientation.Left,
+                    Direction = Crainiate.Diagramming.Direction.In,
+                    Style = Crainiate.Diagramming.PortStyle.Input,
+                    BackColor = UserSettings.ColorScheme.MainColor,
+                    GradientColor = UserSettings.ColorScheme.MainColor,
+                    BorderColor = UserSettings.ColorScheme.ForeColor,
+                };
                 port.SetKey(argument + "_" + Math.Abs(DateTime.Now.GetHashCode()).ToString());
                 arguments.Rows.Add(row);
                 table.Ports.Add(port);
             }
             table.Groups.Add(arguments);
 
-            Crainiate.Diagramming.TableGroup returns = new Crainiate.Diagramming.TableGroup("Returns");
+            Crainiate.Diagramming.TableGroup returns = new Crainiate.Diagramming.TableGroup("Returns") { Forecolor = UserSettings.ColorScheme.ForeColor };
 
             foreach (var @return in Returns)
             {
-                Crainiate.Diagramming.TableRow row = new Crainiate.Diagramming.TableRow(@return.Replace("return-", "").Replace("_", " ")) { Backcolor = table.BackColor};
-                Crainiate.Diagramming.TablePort port = new Crainiate.Diagramming.TablePort(row);
-                port.Orientation = Crainiate.Diagramming.PortOrientation.Left;
-                port.Direction = Crainiate.Diagramming.Direction.Out;
-                port.Style = Crainiate.Diagramming.PortStyle.Output;
+                Crainiate.Diagramming.TableRow row = new Crainiate.Diagramming.TableRow(@return.Replace("return-", "").Replace("_", " ")) 
+                    { Backcolor = table.BackColor, Forecolor = UserSettings.ColorScheme.ForeColor };
+                Crainiate.Diagramming.TablePort port = new Crainiate.Diagramming.TablePort(row)
+                {
+                    Orientation = Crainiate.Diagramming.PortOrientation.Left,
+                    Direction = Crainiate.Diagramming.Direction.Out,
+                    Style = Crainiate.Diagramming.PortStyle.Output,
+                    BackColor = UserSettings.ColorScheme.MainColor,
+                    GradientColor = UserSettings.ColorScheme.MainColor,
+                    BorderColor = UserSettings.ColorScheme.ForeColor,
+                };
                 port.SetKey(@return + "_" + Math.Abs(DateTime.Now.GetHashCode()).ToString());
                 returns.Rows.Add(row);
                 table.Ports.Add(port);

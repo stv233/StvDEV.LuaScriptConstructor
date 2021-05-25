@@ -30,6 +30,7 @@ namespace LuaScriptConstructor.Forms.Rendering
                     renderer.RenderElement(table.Label, graphics, render);
                 }
             }
+
         }
         
     }

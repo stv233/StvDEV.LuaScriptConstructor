@@ -13,7 +13,6 @@ namespace LuaScriptConstructor
         private TradeWright.UI.Forms.TabControlExtra tcMain;
         private int functionsCounter = 0;
         private string projectPath = "";
-
         private static ToolStripLabel tslStatus;
 
         #region /// Console
@@ -91,8 +90,38 @@ namespace LuaScriptConstructor
 
             #region /// Form
 
-            this.Size = new System.Drawing.Size(800, 600);
+            this.Size = UserSettings.Size;
+            this.SizeChanged += (s, e) =>
+            {
+                UserSettings.Size = this.Size;
+            };
+            this.Location = UserSettings.Location;
+            this.LocationChanged += (s, e) =>
+            {
+                UserSettings.Location = this.Location;
+            };
             this.Text = Application.ProductName;
+            this.BackColor = UserSettings.ColorScheme.MainColor;
+            this.ForeColor = UserSettings.ColorScheme.ForeColor;
+
+            #endregion
+
+            #region /// Auto snapshots
+
+            var tmSnapshotTimer = new Timer { Interval = UserSettings.AutoSnapshotDelay * 60 * 1000 };
+            tmSnapshotTimer.Tick += (s, e) =>
+            {
+                if (UserSettings.AutoSnapshot)
+                {
+                    foreach (DiagramTabPage tabPage in tcMain.TabPages)
+                    {
+                        tabPage.Diagram.TakeSnapshot();
+                    }
+
+                    tmSnapshotTimer.Interval = UserSettings.AutoSnapshotDelay * 60 * 1000;
+                }
+            };
+            tmSnapshotTimer.Start();
 
             #endregion
 
@@ -112,19 +141,25 @@ namespace LuaScriptConstructor
 
             var msMain = new MenuStrip
             {
+                BackColor = UserSettings.ColorScheme.MainColor,
+                ForeColor = UserSettings.ColorScheme.ForeColor,
                 Parent = this
             };
+            msMain.Renderer = new Forms.Rendering.ConstructorMenuStripRender();
 
             #region /// File
 
             var tsmiFile = new ToolStripMenuItem
             {
+                BackColor = UserSettings.ColorScheme.MainColor,
+                ForeColor = UserSettings.ColorScheme.ForeColor,
                 Text = "File"
             };
             msMain.Items.Add(tsmiFile);
 
             var tsmiNew = new ToolStripMenuItem
             {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
                 Text = "New",
                 ShortcutKeyDisplayString = "Ctrl+N",
                 ShortcutKeys = Keys.Control | Keys.N,
@@ -134,6 +169,7 @@ namespace LuaScriptConstructor
 
             var tsmiOpen = new ToolStripMenuItem
             {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
                 Text = "Open...",
                 ShortcutKeyDisplayString = "Ctrl+O",
                 ShortcutKeys = Keys.Control | Keys.O,
@@ -143,6 +179,7 @@ namespace LuaScriptConstructor
 
             var tsmiSave = new ToolStripMenuItem
             {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
                 Text = "Save",
                 ShortcutKeyDisplayString = "Ctrl+S",
                 ShortcutKeys = Keys.Control | Keys.S,
@@ -152,6 +189,7 @@ namespace LuaScriptConstructor
 
             var tsmiSaveAs = new ToolStripMenuItem
             {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
                 Text = "Save as...",
                 Image = Properties.Resources.SaveAs_16x
             };
@@ -161,6 +199,7 @@ namespace LuaScriptConstructor
 
             var tsmiClose = new ToolStripMenuItem
             {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
                 Text = "Close",
                 ShortcutKeyDisplayString = "Alt+F4",
                 ShortcutKeys = Keys.Alt | Keys.F4,
@@ -180,6 +219,7 @@ namespace LuaScriptConstructor
 
             var tsmiTakeSnapshot = new ToolStripMenuItem
             {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
                 Text = "Take snapshot",
                 ShortcutKeyDisplayString = "F5",
                 ShortcutKeys = Keys.F5,
@@ -189,18 +229,20 @@ namespace LuaScriptConstructor
 
             var tsmiRestoreLastSnapshot = new ToolStripMenuItem
             {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
                 Text = "Restore last snapshot",
-                ShortcutKeyDisplayString = "F6",
-                ShortcutKeys = Keys.F6,
+                ShortcutKeyDisplayString = "F9",
+                ShortcutKeys = Keys.F9,
                 Image = Properties.Resources.RestoreSnapshot_16x
             };
             tsmiEdit.DropDownItems.Add(tsmiRestoreLastSnapshot);
 
             var tsmiSnapshots = new ToolStripMenuItem
             {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
                 Text = "Snapshots...",
-                ShortcutKeyDisplayString = "Shift+F6",
-                ShortcutKeys = Keys.Shift | Keys.F6,
+                ShortcutKeyDisplayString = "Shift+F9",
+                ShortcutKeys = Keys.Shift | Keys.F9,
                 Image = Properties.Resources.ViewSnapshots_16x
             };
             tsmiEdit.DropDownItems.Add(tsmiSnapshots);
@@ -217,6 +259,7 @@ namespace LuaScriptConstructor
 
             var tsmiBuildFunction = new ToolStripMenuItem
             {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
                 Text = "Build function",
                 ShortcutKeyDisplayString = "Shift+F6",
                 Image = Properties.Resources.BuildSelection_16x
@@ -225,6 +268,7 @@ namespace LuaScriptConstructor
 
             var tsmiBuildAll = new ToolStripMenuItem
             {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
                 Text = "Build all...",
                 ShortcutKeyDisplayString = "F6",
                 ShortcutKeys = Keys.F6,
@@ -244,6 +288,7 @@ namespace LuaScriptConstructor
 
             var tsmiAddFunction = new ToolStripMenuItem
             {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
                 Text = "New function graph",
                 Image = Properties.Resources.NewGraph_16x,
                 ShortcutKeyDisplayString = "Ctrl+G",
@@ -253,6 +298,7 @@ namespace LuaScriptConstructor
 
             var tsmiRemoveFunction = new ToolStripMenuItem
             {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
                 Text = "Close function graph",
                 Image = Properties.Resources.Close_red_16x,
                 ShortcutKeyDisplayString = "Ctrl+Shift+G",
@@ -275,13 +321,36 @@ namespace LuaScriptConstructor
 
             #endregion
 
+            #region /// Options
+
+            var tsmiProgram = new ToolStripMenuItem
+            {
+                Text = "Options"
+            };
+            msMain.Items.Add(tsmiProgram);
+
+            var tsmiSettings = new ToolStripMenuItem
+            {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
+                Text = "Settings...",
+                Image = Properties.Resources.Settings_16x
+            };
+            tsmiProgram.DropDownItems.Add(tsmiSettings);
+
+            #endregion
+
             #endregion
 
             #region /// MenuToolStrip
 
             var tsMenu = new ToolStrip
             {
-                LayoutStyle = ToolStripLayoutStyle.StackWithOverflow,
+                AutoSize = false,
+                ShowItemToolTips = true,
+                GripStyle = ToolStripGripStyle.Hidden,
+                BackColor = UserSettings.ColorScheme.MainColor,
+                ForeColor = UserSettings.ColorScheme.ForeColor,
+                Renderer = new Forms.Rendering.ConstructorToolStripRender(),
                 Parent = this
             };
             tsMenu.BringToFront();
@@ -292,7 +361,7 @@ namespace LuaScriptConstructor
             {
                 DisplayStyle = ToolStripItemDisplayStyle.Image,
                 Image = tsmiNew.Image,
-                ToolTipText = tsmiNew.Text
+                ToolTipText = tsmiNew.Text + " (" + tsmiNew.ShortcutKeyDisplayString + ")"
             };
             tsbNew.Click += (s, e) => { tsmiNew.PerformClick(); };
             tsMenu.Items.Add(tsbNew);
@@ -301,7 +370,7 @@ namespace LuaScriptConstructor
             {
                 DisplayStyle = ToolStripItemDisplayStyle.Image,
                 Image = tsmiOpen.Image,
-                ToolTipText = tsmiOpen.Text
+                ToolTipText = tsmiOpen.Text + " (" + tsmiOpen.ShortcutKeyDisplayString + ")"
             };
             tsbOpen.Click += (s, e) => { tsmiOpen.PerformClick(); };
             tsMenu.Items.Add(tsbOpen);
@@ -310,7 +379,7 @@ namespace LuaScriptConstructor
             {
                 DisplayStyle = ToolStripItemDisplayStyle.Image,
                 Image = tsmiSave.Image,
-                ToolTipText = tsmiSave.Text
+                ToolTipText = tsmiSave.Text + " (" + tsmiSave.ShortcutKeyDisplayString + ")"
             };
             tsbSave.Click += (s, e) => { tsmiSave.PerformClick(); };
             tsMenu.Items.Add(tsbSave);
@@ -325,7 +394,7 @@ namespace LuaScriptConstructor
             {
                 DisplayStyle = ToolStripItemDisplayStyle.Image,
                 Image = tsmiTakeSnapshot.Image,
-                ToolTipText = tsmiTakeSnapshot.Text
+                ToolTipText = tsmiTakeSnapshot.Text + " (" + tsmiTakeSnapshot.ShortcutKeyDisplayString + ")"
             };
             tsbTakeSnapshot.Click += (s, e) => { tsmiTakeSnapshot.PerformClick(); };
             tsMenu.Items.Add(tsbTakeSnapshot);
@@ -334,7 +403,7 @@ namespace LuaScriptConstructor
             {
                 DisplayStyle = ToolStripItemDisplayStyle.Image,
                 Image = tsmiRestoreLastSnapshot.Image,
-                ToolTipText = tsmiRestoreLastSnapshot.Text
+                ToolTipText = tsmiRestoreLastSnapshot.Text  + " (" + tsmiRestoreLastSnapshot.ShortcutKeyDisplayString + ")"
             };
             tsbRestoreLastSnapshot.Click += (s, e) => { tsmiRestoreLastSnapshot.PerformClick(); };
             tsMenu.Items.Add(tsbRestoreLastSnapshot);
@@ -343,7 +412,7 @@ namespace LuaScriptConstructor
             {
                 DisplayStyle = ToolStripItemDisplayStyle.Image,
                 Image = tsmiSnapshots.Image,
-                ToolTipText = tsmiSnapshots.Text
+                ToolTipText = tsmiSnapshots.Text + " (" + tsmiSnapshots.ShortcutKeyDisplayString + ")"
             };
             tsbShapshots.Click += (s, e) => { tsmiSnapshots.PerformClick(); };
             tsMenu.Items.Add(tsbShapshots);
@@ -358,7 +427,7 @@ namespace LuaScriptConstructor
             {
                 DisplayStyle = ToolStripItemDisplayStyle.Image,
                 Image = tsmiBuildFunction.Image,
-                ToolTipText = tsmiBuildFunction.Text,
+                ToolTipText = tsmiBuildFunction.Text + " (" + tsmiBuildFunction.ShortcutKeyDisplayString + ")",
             };
             tsbBuildFunction.Click += (s, e) => { tsmiBuildFunction.PerformClick(); };
             tsMenu.Items.Add(tsbBuildFunction);
@@ -367,7 +436,7 @@ namespace LuaScriptConstructor
             {
                 DisplayStyle = ToolStripItemDisplayStyle.Image,
                 Image = tsmiBuildAll.Image,
-                ToolTipText = tsmiBuildAll.Text
+                ToolTipText = tsmiBuildAll.Text + " (" + tsmiBuildAll.ShortcutKeyDisplayString + ")"
             };
             tsbBuildAll.Click += (s, e) => { tsmiBuildAll.PerformClick(); };
             tsMenu.Items.Add(tsbBuildAll);
@@ -383,7 +452,7 @@ namespace LuaScriptConstructor
             {
                 DisplayStyle = ToolStripItemDisplayStyle.Image,
                 Image = tsmiAddFunction.Image,
-                ToolTipText = tsmiAddFunction.Text,
+                ToolTipText = tsmiAddFunction.Text + " (" + tsmiAddFunction.ShortcutKeyDisplayString + ")"
             };
             tsbAddFunction.Click += (s, e) => { tsmiAddFunction.PerformClick(); };
             tsMenu.Items.Add(tsbAddFunction);
@@ -392,7 +461,7 @@ namespace LuaScriptConstructor
             {
                 DisplayStyle = ToolStripItemDisplayStyle.Image,
                 Image = tsmiRemoveFunction.Image,
-                ToolTipText = tsmiRemoveFunction.Text,
+                ToolTipText = tsmiRemoveFunction.Text + " (" + tsmiRemoveFunction.ShortcutKeyDisplayString + ")"
             };
             tsbRemoveFunction.Click += (s, e) => { tsmiRemoveFunction.PerformClick(); };
             tsMenu.Items.Add(tsbRemoveFunction);
@@ -405,9 +474,12 @@ namespace LuaScriptConstructor
 
             var tsStatus = new ToolStrip
             {
+                BackColor = UserSettings.ColorScheme.MainColor,
+                ForeColor = UserSettings.ColorScheme.ForeColor,
                 Parent = this,
                 AutoSize = false,
                 GripStyle = ToolStripGripStyle.Hidden,
+                Renderer = new Forms.Rendering.ConstructorToolStripRender(),
                 Dock = DockStyle.Bottom,
             };
 
@@ -436,11 +508,18 @@ namespace LuaScriptConstructor
                 SplitterDistance = this.ClientSize.Width / 10 * 4,
                 Left = 0,
                 Top = msMain.Height + tsMenu.Height,
+                BackColor = UserSettings.ColorScheme.MainColor,
+                ForeColor = UserSettings.ColorScheme.ForeColor,
                 Parent = this
             };
 
             var htbSearch = new Windows.Forms.HintTextBox
             {
+                BorderStyle = BorderStyle.FixedSingle,
+                BackColor = UserSettings.ColorScheme.SecondaryColor,
+                ForeColor = UserSettings.ColorScheme.ForeColor,
+                TextForeColor = UserSettings.ColorScheme.ForeColor,
+                HintColor = UserSettings.ColorScheme.GridColor,
                 HintValue = "⁣S⁣e⁣a⁣r⁣c⁣h⁣",
                 Height = 5,
                 Dock = DockStyle.Top,  
@@ -451,6 +530,9 @@ namespace LuaScriptConstructor
 
             ctvMain = new Forms.ConstructorTreeView.ConstructorTreeView
             {
+                BackColor = UserSettings.ColorScheme.SecondaryColor,
+                ForeColor = UserSettings.ColorScheme.ForeColor,
+                LineColor = UserSettings.ColorScheme.ForeColor,
                 Width = scMain.Panel1.ClientSize.Width,
                 Height = scMain.Panel1.ClientSize.Height - htbSearch.Height + 1,
                 Top = htbSearch.Height - 1,
@@ -569,6 +651,8 @@ namespace LuaScriptConstructor
 
             var scWorkArea = new SplitContainer
             {
+                BackColor = UserSettings.ColorScheme.MainColor,
+                ForeColor = UserSettings.ColorScheme.ForeColor,
                 BorderStyle = BorderStyle.None,
                 Orientation = Orientation.Horizontal,
                 SplitterDistance = scMain.Panel2.Height / 3 * 2,
@@ -585,6 +669,16 @@ namespace LuaScriptConstructor
                 Height = scWorkArea.Panel1.ClientSize.Height,
                 Parent = scWorkArea.Panel1
             };
+            tcMain.DisplayStyleProvider.TabColorFocused1 = UserSettings.ColorScheme.SecondaryColor;
+            tcMain.DisplayStyleProvider.TabColorHighLighted1 = UserSettings.ColorScheme.MainColor;
+            tcMain.DisplayStyleProvider.TabColorHighLighted2 = UserSettings.ColorScheme.SecondaryColor;
+            tcMain.DisplayStyleProvider.TextColorFocused = UserSettings.ColorScheme.ForeColor;
+            tcMain.DisplayStyleProvider.TextColorSelected = UserSettings.ColorScheme.ForeColor;
+            tcMain.DisplayStyleProvider.TextColorUnselected = UserSettings.ColorScheme.ForeColor;
+            tcMain.DisplayStyleProvider.TextColorHighlighted = UserSettings.ColorScheme.ForeColor;
+            //tcMain.DisplayStyleProvider.TabColorDisabled1 = UserSettings.ColorScheme.MainColor;
+            tcMain.DisplayStyleProvider.TabColorSelected1 = UserSettings.ColorScheme.MainColor;
+            tcMain.DisplayStyleProvider.TabColorUnSelected1 = UserSettings.ColorScheme.MainColor;
 
             var tpMain = new DiagramTabPage("Main");
             tpMain.Diagram.Type = ConstructorDiagram.ConstructorDiagramTypes.Main;
@@ -592,6 +686,7 @@ namespace LuaScriptConstructor
             {
                 ReconnectDiagramTables(tpMain.Diagram);
             };
+
             tcMain.TabPages.Add(tpMain);
 
             #endregion
@@ -601,7 +696,8 @@ namespace LuaScriptConstructor
             ConstructorConsole = new ConsoleControl.ConsoleControl
             {
                 BorderStyle = BorderStyle.None,
-                BackColor = System.Drawing.Color.White,
+                BackColor = UserSettings.ColorScheme.SecondaryColor,
+                ForeColor = UserSettings.ColorScheme.ForeColor,
                 IsInputEnabled = false,
                 Width = scWorkArea.Panel2.ClientSize.Width - 2,
                 Height = scWorkArea.Panel2.ClientSize.Height,
@@ -692,7 +788,9 @@ namespace LuaScriptConstructor
             {
                 using (var sfd = new SaveFileDialog
                 {
-                    FileName = projectPath,
+                    RestoreDirectory = true,
+                    InitialDirectory = ((!String.IsNullOrEmpty(projectPath)) ? Path.GetDirectoryName(projectPath) : UserSettings.GameGuruPath + "\\Files"),
+                    FileName = ((!String.IsNullOrEmpty(projectPath)) ? Path.GetFileName(projectPath) : "NewLuaSctiptProject"),
                     Filter = "Lua script project (*.LUASP)|*.luasp|All files (*.*)|*.*"
                 })
                 {
@@ -709,10 +807,12 @@ namespace LuaScriptConstructor
             {
                 using (var ofd = new OpenFileDialog
                 {
-                    FileName = projectPath,
+                    RestoreDirectory = true,
+                    InitialDirectory = ((!String.IsNullOrEmpty(projectPath)) ? Path.GetDirectoryName(projectPath) : Path.GetFullPath(UserSettings.GameGuruPath + "\\Files")),
                     Filter = "Lua script project (*.LUASP)|*.luasp|All files (*.*)|*.*"
                 })
                 {
+                   
                     if (ofd.ShowDialog() == DialogResult.OK)
                     {
                         projectPath = ofd.FileName;
@@ -775,6 +875,11 @@ namespace LuaScriptConstructor
                     ReconnectDiagramTables(tabPage.Diagram);
                 };
                 RefreshProjectFunction();
+            };
+
+            tsmiSettings.Click += (s, e) =>
+            {
+                new frSettings().ShowDialog();
             };
 
             htbSearch.TextChanged += (s, e) =>
@@ -883,24 +988,34 @@ namespace LuaScriptConstructor
                         table.Function = function;
                         table.BackColor = function.Table.BackColor;
                         table.GradientColor = function.Table.GradientColor;
+                        table.BorderColor = function.Table.BorderColor;
+                        table.Forecolor = function.Table.Forecolor;
                         foreach (Crainiate.Diagramming.TableGroup tableGroup in table.Groups)
                         {
-                            tableGroup.Backcolor = functionTable.FindTableItemWithText(tableGroup.Text).Backcolor;
+                            Crainiate.Diagramming.TableGroup functionTableGroup = functionTable.FindTableItemWithText(tableGroup.Text) as Crainiate.Diagramming.TableGroup;
+                            tableGroup.Backcolor = functionTableGroup.Backcolor;
+                            tableGroup.Forecolor = functionTableGroup.Forecolor;
                             foreach (Crainiate.Diagramming.TableRow tableRow in tableGroup.Rows)
                             {
-                                tableRow.Backcolor = functionTable.FindTableItemWithText(tableRow.Text).Backcolor;
+                                Crainiate.Diagramming.TableRow functionTableRow = functionTable.FindTableItemWithText(tableRow.Text) as Crainiate.Diagramming.TableRow;
+                                tableRow.Backcolor = functionTableRow.Backcolor;
+                                tableRow.Forecolor = functionTableRow.Forecolor;
                             }
                         }
                         foreach (Crainiate.Diagramming.TableRow tableRow in table.Rows)
                         {
+                            Crainiate.Diagramming.TableRow functionTableRow = functionTable.FindTableItemWithText(tableRow.Text) as Crainiate.Diagramming.TableRow;
                             tableRow.Backcolor = functionTable.FindTableItemWithText(tableRow.Text).Backcolor;
+                            tableRow.Forecolor = functionTable.FindTableItemWithText(tableRow.Text).Forecolor;
                         }
                         foreach (Crainiate.Diagramming.Port port in table.Ports.Values)
                         {
                             try
                             {
-                                port.BackColor = functionTable.FindPortWithName(port.Key.Substring(0, port.Key.LastIndexOf("_"))).BackColor;
-                                port.GradientColor = functionTable.FindPortWithName(port.Key.Substring(0, port.Key.LastIndexOf("_"))).GradientColor;
+                                Crainiate.Diagramming.Port functionPort = functionTable.FindPortWithName(port.Key.Substring(0, port.Key.LastIndexOf("_"))) as Crainiate.Diagramming.Port;
+                                port.BackColor = functionPort.BackColor;
+                                port.GradientColor = functionPort.GradientColor;
+                                port.BorderColor = functionPort.BorderColor;
                             }
                             catch { }
                         }
@@ -915,13 +1030,27 @@ namespace LuaScriptConstructor
                         {
                             table.Variable = Components.FunctionComponents.Variables[0];
                             table.BackColor = table.GradientColor = table.Variable.Table.BackColor;
+                            table.BackColor = table.GradientColor = table.Variable.Table.BackColor;
+                            table.Forecolor = table.BorderColor = table.Variable.Table.Forecolor;
                         }
                         else
                         {
-                            table.Variable = Components.FunctionComponents.Variables[0];
+                            table.Variable = Components.FunctionComponents.Variables[1];
                             table.BackColor = table.GradientColor = table.Variable.Table.BackColor;
+                            table.Forecolor = table.BorderColor = table.Variable.Table.Forecolor;
                         }
                         diagram.Refresh();
+                    }
+
+                    foreach (Crainiate.Diagramming.Port port in table.Ports.Values)
+                    {
+                        try
+                        {
+                            port.BackColor = UserSettings.ColorScheme.MainColor;
+                            port.GradientColor = UserSettings.ColorScheme.MainColor;
+                            port.BorderColor = UserSettings.ColorScheme.ForeColor;
+                        }
+                        catch { }
                     }
                 }
             }
