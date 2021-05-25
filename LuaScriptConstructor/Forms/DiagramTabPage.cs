@@ -52,28 +52,17 @@ namespace LuaScriptConstructor.Forms
                 Parent = this
             };
 
-            var margin = new Crainiate.Diagramming.Forms.Margin
-            {
-                Bottom = 0F,
-                Left = 0F,
-                Right = 0F,
-                Top = 0F
-            };
-
             var paging = new Crainiate.Diagramming.Forms.Paging
             {
                 Enabled = false,
-                Margin = margin,
-                Padding = new System.Drawing.SizeF(0, 0),
-                Page = 1,
-                WorkspaceColor = System.Drawing.SystemColors.AppWorkspace
             };
             _diagram.Paging = paging;
 
             _diagram.Suspend();
             _diagram.Dock = DockStyle.None;
-            _diagram.Width = UserSettings.DiagramSize;
-            _diagram.Height = UserSettings.DiagramSize;
+            _diagram.MaximumSize = new Size(UserSettings.DiagramSize, UserSettings.DiagramSize);
+            _diagram.Size = new Size(UserSettings.DiagramSize, UserSettings.DiagramSize);
+            _diagram.Model.SetSize(new Size(UserSettings.DiagramSize, UserSettings.DiagramSize));
             _diagram.Resume();
 
             _diagram.HeadingChanged += (s, e) =>
