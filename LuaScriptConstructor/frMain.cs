@@ -722,6 +722,25 @@ namespace LuaScriptConstructor
 
             #endregion
 
+            #region /// Types
+
+            foreach (Types.Constant constant in Components.TypesComponents.Constants)
+            {
+                ctvMain.Add("Basic\\Types", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
+            }
+
+            foreach (Types.Constant constant in Components.TypesComponents.Variables)
+            {
+                ctvMain.Add("Basic\\Types", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
+            }
+
+            foreach (Types.Constant constant in Components.TypesComponents.Functions)
+            {
+                ctvMain.Add("Basic\\Types", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
+            }
+
+            #endregion
+
             #region /// Function components
 
             foreach (Types.Variable variable in Components.FunctionComponents.Constants)
@@ -1258,7 +1277,7 @@ namespace LuaScriptConstructor
         /// Opens a project from a file.
         /// </summary>
         /// <param name="path">Path</param>
-        public void Open(string path)
+        public void Open(string path) 
         {
             try
             {
@@ -1537,6 +1556,14 @@ namespace LuaScriptConstructor
             }
 
             foreach (var function in Components.LogicalComponents.Functions)
+            {
+                if (function.Name == name)
+                {
+                    return function;
+                }
+            }
+
+            foreach (var function in Components.TypesComponents.Functions)
             {
                 if (function.Name == name)
                 {

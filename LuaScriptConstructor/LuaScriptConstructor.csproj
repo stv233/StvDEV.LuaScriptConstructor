@@ -75,6 +75,7 @@
     <Compile Include="Components\ComparisonComponents.cs" />
     <Compile Include="Components\LogicalComponents.cs" />
     <Compile Include="Components\ScriptСomponents.cs" />
+    <Compile Include="Components\TypesComponents.cs" />
     <Compile Include="Components\ValuesComponents.cs" />
     <Compile Include="Favorites.cs" />
     <Compile Include="Forms\ConstructorDiagram.cs">
@@ -189,6 +190,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Console.ico" />
+    <None Include="Resources\Double_16x.png" />
+    <None Include="Resources\String_16x.png" />
     <None Include="Resources\TrueFalse_16x.png" />
     <None Include="Resources\Open_16x.png" />
     <None Include="Resources\AddFavorite_16x.png" />
