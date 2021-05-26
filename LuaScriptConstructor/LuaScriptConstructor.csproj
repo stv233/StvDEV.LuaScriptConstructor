@@ -75,6 +75,7 @@
     <Compile Include="Components\ComparisonComponents.cs" />
     <Compile Include="Components\ScriptСomponents.cs" />
     <Compile Include="Components\ValuesComponents.cs" />
+    <Compile Include="Favorites.cs" />
     <Compile Include="Forms\ConstructorDiagram.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -186,6 +187,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Console.ico" />
+    <None Include="Resources\Open_16x.png" />
+    <None Include="Resources\AddFavorite_16x.png" />
+    <None Include="Resources\Favorite_16x.png" />
     <None Include="Resources\Settings_16x.png" />
     <None Include="Resources\RestoreSnapshot_16x.png" />
     <None Include="Resources\TakeSnapshot_16x.png" />

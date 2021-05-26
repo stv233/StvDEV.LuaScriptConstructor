@@ -305,19 +305,95 @@ namespace LuaScriptConstructor
                 ShortcutKeys = Keys.Control | Keys.Shift | Keys.G
             };
             tsmiFunctions.DropDownItems.Add(tsmiRemoveFunction);
-            tsmiRemoveFunction.Click += (s, e) =>
+
+            var tsmiAddFavorite = new ToolStripMenuItem
             {
-                if (((DiagramTabPage)tcMain.SelectedTab).Diagram.Type != ConstructorDiagram.ConstructorDiagramTypes.Main)
+                ForeColor = UserSettings.ColorScheme.ForeColor,
+                Text = "Add function graph to favorites",
+                Image = Properties.Resources.AddFavorite_16x,
+                ShortcutKeyDisplayString = "Ctrl+F",
+                ShortcutKeys = Keys.Control | Keys.F,
+                Enabled = false
+            };
+            tsmiFunctions.DropDownItems.Add(tsmiAddFavorite);
+
+            var tsmiFavorites = new ToolStripMenuItem
+            {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
+                Text = "Favorites graphs",
+                Image = Properties.Resources.Favorite_16x,
+                Visible = (Favorites.Dictionary.Count > 0)
+            };
+            tsmiFunctions.DropDownItems.Add(tsmiFavorites);
+            Favorites.FavoritesRefreshed += (e) =>
+            {
+                tsmiFavorites.Visible = (Favorites.Dictionary.Count > 0);
+                tsmiFavorites.DropDownItems.Clear();
+                foreach (string key in Favorites.Dictionary.Keys)
                 {
-                    if (MessageBox.Show("Are you sure you want to close the function graph? This action cannot be undone.",
-                        "Close function graph",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
+                    var tsmiFavorite = new ToolStripMenuItem
                     {
-                        projectFunctions.Remove(tcMain.SelectedTab.Text);
-                        tcMain.TabPages.Remove(tcMain.SelectedTab);
-                        RefreshProjectFunction();
-                    }
+                        ForeColor = UserSettings.ColorScheme.ForeColor,
+                        Text = key,
+                        Image = Properties.Resources.UserFunction_16x,
+                    };
+                    tsmiFavorites.DropDownItems.Add(tsmiFavorite);
+
+                    var tsmiLoad = new ToolStripMenuItem
+                    {
+                        ForeColor = UserSettings.ColorScheme.ForeColor,
+                        Text = "Open",
+                        Image = Properties.Resources.Open_16x,
+                    };
+                    tsmiLoad.Click += (s, ev) =>
+                    {
+                        if (projectFunctions.ContainsKey(key))
+                        {
+                            if (MessageBox.Show("The project already contains a function with the given name. Rewrite it?",
+                                "Open favorite graph", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                            {
+                                foreach (DiagramTabPage tabPage in tcMain.TabPages)
+                                {
+                                    if (tabPage.Text == key)
+                                    {
+                                        tabPage.Diagram.DeserializeFromString(Favorites.Dictionary[key]);
+                                        ReconnectDiagramTables(tabPage.Diagram);
+                                        break;
+                                    }
+                                }
+                                return;
+                            }
+                            else { return; }
+                        }
+                        else
+                        {
+                            var tabPage = NewFunctionTabPage();
+                            tabPage.Diagram.DeserializeFromString(Favorites.Dictionary[key]);
+                            ReconnectDiagramTables(tabPage.Diagram);
+                        }
+                    };
+                    tsmiFavorite.DropDownItems.Add(tsmiLoad);
+
+                    var tsmiRemove = new ToolStripMenuItem
+                    {
+                        ForeColor = UserSettings.ColorScheme.ForeColor,
+                        Text = "Remove",
+                        Image = Properties.Resources.Close_red_16x
+                    };
+                    tsmiRemove.Click += (s, ev) =>
+                    {
+                        if (!(MessageBox.Show("Are you sure you want to remove the function graph from your favorites? This action cannot be undone.",
+                            "Remove from favorites", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
+                        {
+                            return;
+                        }
+
+                        Favorites.Remove(key);
+                    };
+                    tsmiFavorite.DropDownItems.Add(tsmiRemove);
                 }
             };
+            Favorites.Refresh();
 
             #endregion
 
@@ -465,6 +541,16 @@ namespace LuaScriptConstructor
             };
             tsbRemoveFunction.Click += (s, e) => { tsmiRemoveFunction.PerformClick(); };
             tsMenu.Items.Add(tsbRemoveFunction);
+
+            var tsbAddFavorite = new ToolStripButton
+            {
+                DisplayStyle = ToolStripItemDisplayStyle.Image,
+                Image = tsmiAddFavorite.Image,
+                ToolTipText = tsmiAddFavorite.Text + " (" + tsmiAddFavorite.ShortcutKeyDisplayString + ")",
+                Enabled = tsmiAddFavorite.Enabled
+            };
+            tsbAddFavorite.Click += (s, e) => { tsmiAddFavorite.PerformClick(); };
+            tsMenu.Items.Add(tsbAddFavorite);
 
             #endregion
 
@@ -762,6 +848,11 @@ namespace LuaScriptConstructor
                 ConsoleMessage(Application.ProductName + " is loaded and ready to go\n", System.Drawing.Color.Blue);
             };
 
+            tcMain.SelectedIndexChanged += (s, e) =>
+            {
+                tsmiAddFavorite.Enabled = tsbAddFavorite.Enabled = (tcMain.SelectedIndex != 0);
+            };
+
             tsmiNew.Click += (s, e) =>
             {
                 if (MessageBox.Show("Are you sure you want to create a new project?", "New project?",
@@ -855,26 +946,26 @@ namespace LuaScriptConstructor
 
             tsmiAddFunction.Click += (s, e) =>
             {
-                functionsCounter++;
-                var tabPage = new DiagramTabPage("Function " + functionsCounter.ToString());
-                tabPage.Diagram.Type = ConstructorDiagram.ConstructorDiagramTypes.Regular;
-                var function = new Types.Function(tabPage.Text.Replace(" ", "_"));
-                function.AccessType = Types.Variable.VariableAccessTypes.InputOutput;
-                function.Description = "User function";
-                function.Diagram = tabPage.Diagram;
-                projectFunctions[tabPage.Name] = function;
-                tcMain.TabPages.Add(tabPage);
-                tcMain.SelectedTab = tabPage;
-                tabPage.TextChanged += (se, ev) =>
+                NewFunctionTabPage();
+            };
+
+            tsmiRemoveFunction.Click += (s, e) =>
+            {
+                if (((DiagramTabPage)tcMain.SelectedTab).Diagram.Type != ConstructorDiagram.ConstructorDiagramTypes.Main)
                 {
-                    function.Name = tabPage.Text.Replace(" ", "_");
-                    RefreshProjectFunction();
-                };
-                tabPage.Diagram.OnSnapshotRestored += (se, ev) =>
-                {
-                    ReconnectDiagramTables(tabPage.Diagram);
-                };
-                RefreshProjectFunction();
+                    if (MessageBox.Show("Are you sure you want to close the function graph? This action cannot be undone.",
+                        "Close function graph", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        projectFunctions.Remove(tcMain.SelectedTab.Text);
+                        tcMain.TabPages.Remove(tcMain.SelectedTab);
+                        RefreshProjectFunction();
+                    }
+                }
+            };
+
+            tsmiAddFavorite.Click += (s, e) =>
+            {
+                Favorites.Add(tcMain.SelectedTab.Text, (tcMain.SelectedTab as DiagramTabPage).Diagram.SerializeToString());
             };
 
             tsmiSettings.Click += (s, e) =>
@@ -1054,6 +1145,36 @@ namespace LuaScriptConstructor
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Creates a new function tab page
+        /// </summary>
+        /// <returns>Function tab page</returns>
+        private DiagramTabPage NewFunctionTabPage()
+        {
+            functionsCounter++;
+            var tabPage = new DiagramTabPage("Function " + functionsCounter.ToString());
+            tabPage.Diagram.Type = ConstructorDiagram.ConstructorDiagramTypes.Regular;
+            var function = new Types.Function(tabPage.Text.Replace(" ", "_"));
+            function.AccessType = Types.Variable.VariableAccessTypes.InputOutput;
+            function.Description = "User function";
+            function.Diagram = tabPage.Diagram;
+            projectFunctions[tabPage.Name] = function;
+            tcMain.TabPages.Add(tabPage);
+            tcMain.SelectedTab = tabPage;
+            tabPage.TextChanged += (se, ev) =>
+            {
+                function.Name = tabPage.Text.Replace(" ", "_");
+                RefreshProjectFunction();
+            };
+            tabPage.Diagram.OnSnapshotRestored += (se, ev) =>
+            {
+                ReconnectDiagramTables(tabPage.Diagram);
+            };
+            RefreshProjectFunction();
+
+            return tabPage;
         }
 
         /// <summary>

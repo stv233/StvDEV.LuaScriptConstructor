@@ -83,6 +83,16 @@ namespace LuaScriptConstructor.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap AddFavorite_16x {
+            get {
+                object obj = ResourceManager.GetObject("AddFavorite_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BuildSelection_16x {
             get {
                 object obj = ResourceManager.GetObject("BuildSelection_16x", resourceCulture);
@@ -173,6 +183,16 @@ namespace LuaScriptConstructor.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Favorite_16x {
+            get {
+                object obj = ResourceManager.GetObject("Favorite_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap GreaterLessEqua_16x {
             get {
                 object obj = ResourceManager.GetObject("GreaterLessEqua_16x", resourceCulture);
@@ -216,6 +236,16 @@ namespace LuaScriptConstructor.Properties {
         internal static System.Drawing.Bitmap NewGraph_16x {
             get {
                 object obj = ResourceManager.GetObject("NewGraph_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Open_16x {
+            get {
+                object obj = ResourceManager.GetObject("Open_16x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
