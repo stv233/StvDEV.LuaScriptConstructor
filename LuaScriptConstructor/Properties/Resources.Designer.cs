@@ -73,6 +73,16 @@ namespace LuaScriptConstructor.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Byte[].
         /// </summary>
+        internal static byte[] _1in1out {
+            get {
+                object obj = ResourceManager.GetObject("_1in1out", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
         internal static byte[] _2in1out {
             get {
                 object obj = ResourceManager.GetObject("_2in1out", resourceCulture);
@@ -326,6 +336,16 @@ namespace LuaScriptConstructor.Properties {
         internal static System.Drawing.Bitmap TakeSnapshot_16x {
             get {
                 object obj = ResourceManager.GetObject("TakeSnapshot_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TrueFalse_16x {
+            get {
+                object obj = ResourceManager.GetObject("TrueFalse_16x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

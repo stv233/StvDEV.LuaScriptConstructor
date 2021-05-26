@@ -73,6 +73,7 @@
     <Compile Include="Components\BasicComponents.cs" />
     <Compile Include="Components\FunctionComponents.cs" />
     <Compile Include="Components\ComparisonComponents.cs" />
+    <Compile Include="Components\LogicalComponents.cs" />
     <Compile Include="Components\ScriptСomponents.cs" />
     <Compile Include="Components\ValuesComponents.cs" />
     <Compile Include="Favorites.cs" />
@@ -131,6 +132,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="Resources\1in0out" />
+    <None Include="Resources\1in1out" />
     <None Include="Resources\2in1out" />
     <None Include="StvDEVScriptConstructor.lua" />
   </ItemGroup>
@@ -187,6 +189,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Console.ico" />
+    <None Include="Resources\TrueFalse_16x.png" />
     <None Include="Resources\Open_16x.png" />
     <None Include="Resources\AddFavorite_16x.png" />
     <None Include="Resources\Favorite_16x.png" />

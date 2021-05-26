@@ -703,6 +703,25 @@ namespace LuaScriptConstructor
 
             #endregion
 
+            #region /// Logical
+
+            foreach (Types.Constant constant in Components.LogicalComponents.Constants)
+            {
+                ctvMain.Add("Basic\\Logical", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
+            }
+
+            foreach (Types.Constant constant in Components.LogicalComponents.Variables)
+            {
+                ctvMain.Add("Basic\\Logical", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
+            }
+
+            foreach (Types.Constant constant in Components.LogicalComponents.Functions)
+            {
+                ctvMain.Add("Basic\\Logical", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
+            }
+
+            #endregion
+
             #region /// Function components
 
             foreach (Types.Variable variable in Components.FunctionComponents.Constants)
@@ -1502,6 +1521,14 @@ namespace LuaScriptConstructor
             }
 
             foreach (var function in Components.ValuesComponents.Functions)
+            {
+                if (function.Name == name)
+                {
+                    return function;
+                }
+            }
+
+            foreach (var function in Components.LogicalComponents.Functions)
             {
                 if (function.Name == name)
                 {
