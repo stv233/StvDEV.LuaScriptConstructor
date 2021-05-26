@@ -503,21 +503,26 @@ namespace LuaScriptConstructor.Forms
                 return;
             }
 
-            var texbox = new System.Windows.Forms.TextBox
+            var textBox = new System.Windows.Forms.TextBox
             {
                 Text = table.Heading,
-                Left = -100,
-                Tag = table.FontName,
+                Left = (int)(table.X - (this.Parent as DiagramTabPage).HorizontalScroll.Value + 4),
+                Top = (int)(table.Y - (this.Parent as DiagramTabPage).VerticalScroll.Value + 6),
+                Width = (int)table.Width - 8,
+                BackColor = table.BackColor,
+                ForeColor = table.Forecolor,
+                BorderStyle = BorderStyle.None,
+                Font = new Font("Consolas", 17,FontStyle.Regular),
                 Parent = this.Parent
 
             };
+            textBox.BringToFront();
 
-            table.FontName = "Consolas";
-            this.Refresh();
+            //this.Refresh();
 
-            texbox.TextChanged += (s, e) =>
+            textBox.TextChanged += (s, e) =>
             {
-                table.Heading = texbox.Text;
+                table.Heading = textBox.Text;
 
                 // If this is a function start table, then rename the title along with it.
                 if (table.Type == Shapes.ConstructorTable.ConstructorTableTypes.Function)
@@ -528,19 +533,18 @@ namespace LuaScriptConstructor.Forms
                     }
                 }
 
-                this.Refresh();
+                //this.Refresh();
             };
-            texbox.LostFocus += (s, e) =>
+            textBox.LostFocus += (s, e) =>
             {
-                table.FontName = texbox.Tag.ToString();
                 this.Refresh();
-                texbox.Dispose();
-                texbox = null;
+                textBox.Dispose();
+                textBox = null;
             };
 
-            texbox.Focus();
-            texbox.SelectionStart = texbox.Text.Length;
-            texbox.SelectionLength = 0;
+            textBox.Focus();
+            textBox.SelectionStart = textBox.Text.Length;
+            textBox.SelectionLength = 0;
         }
 
         /// <summary>
