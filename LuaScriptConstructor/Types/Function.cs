@@ -9,6 +9,7 @@ namespace LuaScriptConstructor.Types
     class Function : Variable, Saves.IConstructorSerializable
     {
         private int unicBuildCounter = 10;
+        private bool _needEntityId = true;
 
         /// <summary>
         /// Structure of writing connectors when building a function code
@@ -151,6 +152,21 @@ namespace LuaScriptConstructor.Types
             get
             {
                 return Name;
+            }
+        }
+
+        /// <summary>
+        /// Sets or returns whether the entity ID should be passed to the function.
+        /// </summary>
+        public bool NeedEntityId
+        {
+            get
+            {
+                return _needEntityId;
+            }
+            set
+            {
+                _needEntityId = value;
             }
         }
 
@@ -684,14 +700,16 @@ namespace LuaScriptConstructor.Types
                     code += " = ";
                 }
 
-                code += table.Function.Identifier + "(e";
+                code += table.Function.Identifier + (NeedEntityId ? "(e" : "(");
 
                 if (table.ArgumentsValues.Count > 0)
                 {
+                    bool comma = (NeedEntityId ? true : false);
                     foreach (string argument in table.ArgumentsValues.Values)
                     {
-                        code += ","; 
+                        if (comma) { code += ","; }; 
                         code += argument;
+                        comma = true;
                     }
                 }
 

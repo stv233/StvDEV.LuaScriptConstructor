@@ -1102,14 +1102,22 @@ namespace LuaScriptConstructor
                         table.Forecolor = function.Table.Forecolor;
                         foreach (Crainiate.Diagramming.TableGroup tableGroup in table.Groups)
                         {
-                            Crainiate.Diagramming.TableGroup functionTableGroup = functionTable.FindTableItemWithText(tableGroup.Text) as Crainiate.Diagramming.TableGroup;
-                            tableGroup.Backcolor = functionTableGroup.Backcolor;
-                            tableGroup.Forecolor = functionTableGroup.Forecolor;
+                            try
+                            {
+                                Crainiate.Diagramming.TableGroup functionTableGroup = functionTable.FindTableItemWithText(tableGroup.Text) as Crainiate.Diagramming.TableGroup;
+                                tableGroup.Backcolor = functionTableGroup.Backcolor;
+                                tableGroup.Forecolor = functionTableGroup.Forecolor;
+                            }
+                            catch { }
                             foreach (Crainiate.Diagramming.TableRow tableRow in tableGroup.Rows)
                             {
                                 Crainiate.Diagramming.TableRow functionTableRow = functionTable.FindTableItemWithText(tableRow.Text) as Crainiate.Diagramming.TableRow;
-                                tableRow.Backcolor = functionTableRow.Backcolor;
-                                tableRow.Forecolor = functionTableRow.Forecolor;
+                                try
+                                {
+                                    tableRow.Backcolor = functionTableRow.Backcolor;
+                                    tableRow.Forecolor = functionTableRow.Forecolor;
+                                }
+                                catch { }
                             }
                         }
                         foreach (Crainiate.Diagramming.TableRow tableRow in table.Rows)
@@ -1294,7 +1302,7 @@ namespace LuaScriptConstructor
                 Status = "Opening completed";
                 ConstructorConsole.ClearOutput();
                 ConsoleMessage("Project " + path + " loaded and ready to go\n", System.Drawing.Color.Blue);
-            }
+        }
             catch (Exception e)
             {
                 MessageBox.Show("Failed to open file.\n" + e.Message, "Failed to open file!",
@@ -1302,7 +1310,7 @@ namespace LuaScriptConstructor
                 Status = "Failed to open file";
             }
 
-        }
+}
 
         /// <summary>
         /// Builds the entire project into a file.
