@@ -38,7 +38,7 @@ namespace LuaScriptConstructor
         /// <param name="log">Log</param>
         public static void ConsoleLog(string log)
         {
-            ConsoleMessage(log + "\n", System.Drawing.Color.Black);
+            ConsoleMessage(log + "\n", UserSettings.ColorScheme.ForeColor);
         }
 
         /// <summary>
@@ -412,6 +412,14 @@ namespace LuaScriptConstructor
                 Image = Properties.Resources.Settings_16x
             };
             tsmiProgram.DropDownItems.Add(tsmiSettings);
+
+            var tsmiInstallLibrary = new ToolStripMenuItem
+            {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
+                Text = "Install script constructor library...",
+                Image = Properties.Resources.Library_16x
+            };
+            tsmiProgram.DropDownItems.Add(tsmiInstallLibrary);
 
             #endregion
 
@@ -1009,6 +1017,31 @@ namespace LuaScriptConstructor
             tsmiSettings.Click += (s, e) =>
             {
                 new frSettings().ShowDialog();
+            };
+
+            tsmiInstallLibrary.Click += (s, e) =>
+            {
+                if (!(MessageBox.Show("The script constructor library contains the functions necessary for the " +
+                    "functioning of scripts assembled on the constructor. You can find it along the path " + UserSettings.GameGuruPath +
+                    "\\Files\\scriptbank\\StvDEVScriptConstructor.bin . " +
+                    "Do not forget to copy it to the standalone version of your project. " +
+                    "\nContinue with the installation?", "Installing the library", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
+                {
+                    return;
+                }
+
+                try
+                {
+                    ConsoleLog("Installing the library ...");
+                    Directory.CreateDirectory(UserSettings.GameGuruPath + "\\Files\\scriptbank");
+                    File.WriteAllBytes(UserSettings.GameGuruPath + "\\Files\\scriptbank\\StvDEVScriptConstructor.bin", Properties.Resources.StvDEVScriptConstructor);
+                    ConsoleLog("The library has been successfully installed in path " + UserSettings.GameGuruPath + "\\Files\\scriptbank\\StvDEVScriptConstructor.bin");
+                }
+                catch (Exception ex)
+                {
+                    ConsoleError("Failed to install library: " + ex.Message);
+                }
+
             };
 
             htbSearch.TextChanged += (s, e) =>
