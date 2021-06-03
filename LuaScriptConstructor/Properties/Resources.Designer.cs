@@ -83,9 +83,39 @@ namespace LuaScriptConstructor.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Byte[].
         /// </summary>
+        internal static byte[] _2in0out {
+            get {
+                object obj = ResourceManager.GetObject("_2in0out", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
         internal static byte[] _2in1out {
             get {
                 object obj = ResourceManager.GetObject("_2in1out", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] _4in0out {
+            get {
+                object obj = ResourceManager.GetObject("_4in0out", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] _7in0out {
+            get {
+                object obj = ResourceManager.GetObject("_7in0out", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -206,6 +236,16 @@ namespace LuaScriptConstructor.Properties {
         internal static System.Drawing.Bitmap Favorite_16x {
             get {
                 object obj = ResourceManager.GetObject("Favorite_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GG_16x {
+            get {
+                object obj = ResourceManager.GetObject("GG_16x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

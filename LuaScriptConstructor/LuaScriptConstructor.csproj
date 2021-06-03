@@ -73,6 +73,7 @@
     <Compile Include="Components\BasicComponents.cs" />
     <Compile Include="Components\FunctionComponents.cs" />
     <Compile Include="Components\ComparisonComponents.cs" />
+    <Compile Include="Components\GlobalComponents\Text.cs" />
     <Compile Include="Components\LogicalComponents.cs" />
     <Compile Include="Components\ScriptСomponents.cs" />
     <Compile Include="Components\TypesComponents.cs" />
@@ -134,7 +135,10 @@
     </Compile>
     <None Include="Resources\1in0out" />
     <None Include="Resources\1in1out" />
+    <None Include="Resources\2in0out" />
     <None Include="Resources\2in1out" />
+    <None Include="Resources\4in0out" />
+    <None Include="Resources\7in0out" />
     <None Include="Resources\StvDEVScriptConstructor.bin" />
     <None Include="StvDEVScriptConstructor.lua" />
   </ItemGroup>
@@ -191,6 +195,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Console.ico" />
+    <None Include="Resources\GG_16x.png" />
     <None Include="Resources\Library_16x.png" />
     <None Include="Resources\Double_16x.png" />
     <None Include="Resources\String_16x.png" />

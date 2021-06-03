@@ -154,6 +154,9 @@
   <data name="Favorite_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Favorite_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="GG_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GG_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="GreaterLessEqua_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GreaterLessEqua_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -226,7 +229,16 @@
   <data name="_1in1out" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\1in1out;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="_2in0out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\2in0out;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="_2in1out" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\2in1out;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_4in0out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\4in0out;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_7in0out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\7in0out;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

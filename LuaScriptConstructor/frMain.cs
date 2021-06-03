@@ -768,6 +768,29 @@ namespace LuaScriptConstructor
 
             #endregion
 
+            #region /// Global
+
+            #region /// Text
+
+            foreach (Types.Variable variable in Components.GlobalComponents.Text.Constants)
+            {
+                ctvMain.Add("GameGuru global\\Text", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            foreach (Types.Variable variable in Components.GlobalComponents.Text.Variables)
+            {
+                ctvMain.Add("GameGuru global\\Text", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            foreach (Types.Variable variable in Components.GlobalComponents.Text.Functions)
+            {
+                ctvMain.Add("GameGuru global\\Text", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            #endregion
+
+            #endregion
+
             foreach (var functionObject in projectFunctions.Values)
             {
                 if (functionObject is Types.Function)
@@ -1597,6 +1620,14 @@ namespace LuaScriptConstructor
             }
 
             foreach (var function in Components.TypesComponents.Functions)
+            {
+                if (function.Name == name)
+                {
+                    return function;
+                }
+            }
+
+            foreach (var function in Components.GlobalComponents.Text.Functions)
             {
                 if (function.Name == name)
                 {
