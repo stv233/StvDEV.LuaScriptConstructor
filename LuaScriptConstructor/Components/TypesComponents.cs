@@ -14,22 +14,22 @@ namespace LuaScriptConstructor.Components
         /// <summary>
         /// Constants.
         /// </summary>
-        public static List<Types.Constant> Constants { get { return new List<Types.Constant>(); } }
+        public static Dictionary<string, Types.Constant> Constants { get { return new Dictionary<string, Types.Constant>(); } }
 
         /// <summary>
         /// Variables.
         /// </summary>
-        public static List<Types.Variable> Variables { get { return new List<Types.Variable>(); } }
+        public static Dictionary<string, Types.Variable> Variables { get { return new Dictionary<string, Types.Variable>(); } }
 
 
         /// <summary>
         /// Functions.
         /// </summary>
-        public static List<Types.Function> Functions
+        public static Dictionary<string, Types.Function> Functions
         {
             get
             {
-                List<Types.Function> functions = new List<Types.Function>();
+                Dictionary<string, Types.Function> functions = new Dictionary<string, Types.Function>();
 
                 #region /// ToString
 
@@ -70,7 +70,7 @@ namespace LuaScriptConstructor.Components
                     }
                 };
 
-                functions.Add(toString);
+                functions.Add(toString.Name, toString);
 
 
                 #endregion
@@ -113,7 +113,7 @@ namespace LuaScriptConstructor.Components
                     }
                 };
 
-                functions.Add(toNumber);
+                functions.Add(toNumber.Name, toNumber);
 
 
                 #endregion

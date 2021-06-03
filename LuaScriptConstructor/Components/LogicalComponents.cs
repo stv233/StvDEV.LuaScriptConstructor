@@ -14,22 +14,22 @@ namespace LuaScriptConstructor.Components
         /// <summary>
         /// Constants.
         /// </summary>
-        public static List<Types.Constant> Constants { get { return new List<Types.Constant>(); } }
+        public static Dictionary<string, Types.Constant> Constants { get { return new Dictionary<string, Types.Constant>(); } }
 
         /// <summary>
         /// Variables.
         /// </summary>
-        public static List<Types.Variable> Variables { get { return new List<Types.Variable>(); } }
+        public static Dictionary<string, Types.Variable> Variables { get { return new Dictionary<string, Types.Variable>(); } }
 
 
         /// <summary>
         /// Functions.
         /// </summary>
-        public static List<Types.Function> Functions
+        public static Dictionary<string, Types.Function> Functions
         {
             get
             {
-                List<Types.Function> functions = new List<Types.Function>();
+                Dictionary<string, Types.Function> functions = new Dictionary<string, Types.Function>();
 
                 #region /// And
 
@@ -68,7 +68,7 @@ namespace LuaScriptConstructor.Components
                     }
                 };
 
-                functions.Add(and);
+                functions.Add(and.Name, and);
 
                 #endregion
 
@@ -110,14 +110,14 @@ namespace LuaScriptConstructor.Components
                     }
                 };
 
-                functions.Add(or);
+                functions.Add(or.Name, or);
 
 
                 #endregion
 
                 #region /// Not
 
-                var Not = new Types.ProgrammaticallyDefinedFunction
+                var not = new Types.ProgrammaticallyDefinedFunction
                 {
                     Name = "Not",
                     Prefix = "not",
@@ -129,16 +129,16 @@ namespace LuaScriptConstructor.Components
                     Type = Types.Function.FuntionTypes.Regular,
                     AccessType = Types.Variable.VariableAccessTypes.InputOutput
                 };
-                Not.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._1in1out));
-                Not.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
+                not.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._1in1out));
+                not.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
                 {
                     e.Table.Icon = Properties.Resources.TrueFalse_16x;
                     e.Table.Type = Shapes.ConstructorTable.ConstructorTableTypes.Function;
-                    e.Table.Label = new Crainiate.Diagramming.Label(Not.Name);
-                    e.Table.Function = Not;
-                    e.Table.Heading = Not.Name;
+                    e.Table.Label = new Crainiate.Diagramming.Label(not.Name);
+                    e.Table.Function = not;
+                    e.Table.Heading = not.Name;
                     //e.Table.GradientColor = System.Drawing.Color.White;
-                    e.Table.SubHeading = Not.Description;
+                    e.Table.SubHeading = not.Description;
                     e.Table.MinimumSize = new System.Drawing.SizeF(250, 130);
                     e.Table.Size = e.Table.MinimumSize;
 
@@ -152,7 +152,7 @@ namespace LuaScriptConstructor.Components
                     }
                 };
 
-                functions.Add(Not);
+                functions.Add(not.Name, not);
 
 
                 #endregion

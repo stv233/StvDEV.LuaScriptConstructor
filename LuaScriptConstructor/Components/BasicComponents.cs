@@ -14,21 +14,21 @@ namespace LuaScriptConstructor.Components
         /// <summary>
         /// Constants.
         /// </summary>
-        public static List<Types.Constant> Constants { get { return new List<Types.Constant>(); } }
+        public static Dictionary<string, Types.Constant> Constants { get { return new Dictionary<string, Types.Constant>(); } }
 
         /// <summary>
         /// Variables.
         /// </summary>
-        public static List<Types.Variable> Variables { get { return new List<Types.Variable>(); } }
+        public static Dictionary<string, Types.Variable> Variables { get { return new Dictionary<string ,Types.Variable>(); } }
 
         /// <summary>
         /// Functions.
         /// </summary>
-        public static List<Types.Function> Functions
+        public static Dictionary<string, Types.Function> Functions
         {
             get
             {
-                var functions = new List<Types.Function>();
+                var functions = new Dictionary<string, Types.Function>();
 
                 #region // If
 
@@ -97,7 +97,7 @@ namespace LuaScriptConstructor.Components
 
                 };
 
-                functions.Add(@if);
+                functions.Add(@if.Name, @if);
 
                 #endregion
 
@@ -166,7 +166,7 @@ namespace LuaScriptConstructor.Components
 
                 };
 
-                functions.Add(@while);
+                functions.Add(@while.Name, @while);
 
                 return functions;
             }

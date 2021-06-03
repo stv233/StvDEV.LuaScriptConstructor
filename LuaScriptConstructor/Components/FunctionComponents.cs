@@ -11,16 +11,16 @@ namespace LuaScriptConstructor.Components
         /// <summary>
         /// Constants.
         /// </summary>
-        public static List<Types.Constant> Constants { get { return new List<Types.Constant>(); } }
+        public static Dictionary<string, Types.Constant> Constants { get { return new Dictionary<string, Types.Constant>(); } }
 
         /// <summary>
         /// Variables.
         /// </summary>
-        public static List<Types.Variable> Variables
+        public static Dictionary<string, Types.Variable> Variables
         {
             get
             {
-                var variables = new List<Types.Variable>();
+                var variables = new Dictionary<string, Types.Variable>();
 
                 var input = new Types.Variable
                 {
@@ -34,7 +34,8 @@ namespace LuaScriptConstructor.Components
                     e.Table.SubHeading = "Argument";
                     e.Table.BackColor = e.Table.GradientColor = System.Drawing.Color.DeepSkyBlue;
                 };
-                variables.Add(input);
+
+                variables.Add(input.Name, input);
 
                 var output = new Types.Variable
                 {
@@ -48,7 +49,8 @@ namespace LuaScriptConstructor.Components
                     e.Table.SubHeading = "Return";
                     e.Table.BackColor = e.Table.GradientColor = System.Drawing.Color.DeepSkyBlue;
                 };
-                variables.Add(output);
+
+                variables.Add(output.Name, output);
 
                 return variables;
             }
@@ -57,6 +59,6 @@ namespace LuaScriptConstructor.Components
         /// <summary>
         /// Functions.
         /// </summary>
-        public static List<Types.Function> Functions { get { return new List<Types.Function>(); } }
+        public static Dictionary<string, Types.Function> Functions { get { return new Dictionary<string, Types.Function>(); } }
     }
 }

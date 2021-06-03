@@ -224,18 +224,18 @@ namespace LuaScriptConstructor.Forms
 
                     if (_type == ConstructorDiagramTypes.Main)
                     {
-                        var mainTable = new Shapes.ConstructorTable(Components.ScriptСomponents.Functions[0].Table);
+                        var mainTable = new Shapes.ConstructorTable(Components.ScriptСomponents.Functions["Main"].Table);
                         Model.Shapes.Add(mainTable);
                         Tables[mainTable.Key].Location = new PointF(200, 10);
                         Tables[mainTable.Key].Width = Tables[mainTable.Key].Width + 6;
 
-                        var initTable = new Shapes.ConstructorTable(Components.ScriptСomponents.Functions[1].Table);
+                        var initTable = new Shapes.ConstructorTable(Components.ScriptСomponents.Functions["Init"].Table);
                         Model.Shapes.Add(initTable);
                         Tables[initTable.Key].Location = new PointF(50, 10);
                     }
                     else if (_type == ConstructorDiagramTypes.Regular)
                     {
-                        var functionStartTable = new Shapes.ConstructorTable(Components.ScriptСomponents.Functions[2].Table);
+                        var functionStartTable = new Shapes.ConstructorTable(Components.ScriptСomponents.Functions["Function start"].Table);
                         functionStartTable.Heading = this.Heading;
                         Model.Shapes.Add(functionStartTable);
                         Tables[functionStartTable.Key].Location = new PointF(200, 10);
@@ -458,7 +458,7 @@ namespace LuaScriptConstructor.Forms
                         {
                             foreach(var shape in Model.SelectedShapes().Values)
                             {
-                                foreach (var scriptComponent in Components.ScriptСomponents.Functions)
+                                foreach (var scriptComponent in Components.ScriptСomponents.Functions.Values)
                                 {
                                     try
                                     {
@@ -527,7 +527,7 @@ namespace LuaScriptConstructor.Forms
                 // If this is a function start table, then rename the title along with it.
                 if (table.Type == Shapes.ConstructorTable.ConstructorTableTypes.Function)
                 {
-                    if (table.Function.Prefix == Components.ScriptСomponents.Functions[2].Prefix)
+                    if (table.Function.Prefix == Components.ScriptСomponents.Functions["Function start"].Prefix)
                     {
                         Heading = table.Heading;
                     }
@@ -648,7 +648,7 @@ namespace LuaScriptConstructor.Forms
                     else if (element is Shapes.ConstructorTable)
                     {
                         bool script = false;
-                        foreach (var scriptComponent in Components.ScriptСomponents.Functions)
+                        foreach (var scriptComponent in Components.ScriptСomponents.Functions.Values)
                         {
                             try
                             {

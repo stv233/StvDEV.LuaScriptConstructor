@@ -14,17 +14,17 @@ namespace LuaScriptConstructor.Components
         /// <summary>
         /// Constants.
         /// </summary>
-        public static List<Types.Constant> Constants 
+        public static Dictionary<string, Types.Constant> Constants 
         {
             get
             {
-                var constants = new List<Types.Constant>();
+                var constants = new Dictionary<string, Types.Constant>();
 
                 var constant = new Types.Constant
                 {
                     Value = "Constant"
                 };
-                constants.Add(constant);
+                constants.Add("constant", constant);
 
                 return constants;
             }
@@ -33,11 +33,11 @@ namespace LuaScriptConstructor.Components
         /// <summary>
         /// Variables.
         /// </summary>
-        public static List<Types.Variable> Variables
+        public static Dictionary<string, Types.Variable> Variables
         {
             get
             {
-                var variables = new List<Types.Variable>();
+                var variables = new Dictionary<string, Types.Variable>();
 
                 var get = new Types.Variable
                 {
@@ -52,7 +52,7 @@ namespace LuaScriptConstructor.Components
                     e.Table.SubHeading = "Variable";
                     e.Table.Label = new Crainiate.Diagramming.Label("Get");
                 };
-                variables.Add(get);
+                variables.Add(get.Name, get);
 
                 return variables;
             }
@@ -61,11 +61,11 @@ namespace LuaScriptConstructor.Components
         /// <summary>
         /// Functions.
         /// </summary>
-        public static List<Types.Function> Functions
+        public static Dictionary<string, Types.Function> Functions
         {
             get
             {
-                var functions = new List<Types.Function>();
+                var functions = new Dictionary<string, Types.Function>();
 
                 var set = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -114,7 +114,7 @@ namespace LuaScriptConstructor.Components
 
                 };
 
-                functions.Add(set);
+                functions.Add(set.Name, set);
 
                 return functions;
             }

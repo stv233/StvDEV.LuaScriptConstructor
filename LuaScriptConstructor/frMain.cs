@@ -637,17 +637,17 @@ namespace LuaScriptConstructor
 
             #region /// Basic
 
-            foreach (Types.Constant constant in Components.BasicComponents.Constants)
+            foreach (Types.Constant constant in Components.BasicComponents.Constants.Values)
             {
                 ctvMain.Add("Basic", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
             }
 
-            foreach (Types.Constant constant in Components.BasicComponents.Variables)
+            foreach (Types.Constant constant in Components.BasicComponents.Variables.Values)
             {
                 ctvMain.Add("Basic", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
             }
 
-            foreach (Types.Constant constant in Components.BasicComponents.Functions)
+            foreach (Types.Constant constant in Components.BasicComponents.Functions.Values)
             {
                 ctvMain.Add("Basic", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
             }
@@ -656,17 +656,17 @@ namespace LuaScriptConstructor
 
             #region /// Values
 
-            foreach (Types.Constant constant in Components.ValuesComponents.Constants)
+            foreach (Types.Constant constant in Components.ValuesComponents.Constants.Values)
             {
                 ctvMain.Add("Basic\\Values", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
             }
 
-            foreach (Types.Constant constant in Components.ValuesComponents.Variables)
+            foreach (Types.Constant constant in Components.ValuesComponents.Variables.Values)
             {
                 ctvMain.Add("Basic\\Values\\Variables", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
             }
 
-            foreach (Types.Constant constant in Components.ValuesComponents.Functions)
+            foreach (Types.Constant constant in Components.ValuesComponents.Functions.Values)
             {
                 ctvMain.Add("Basic\\Values\\Variables", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
             }
@@ -675,17 +675,17 @@ namespace LuaScriptConstructor
 
             #region /// Math
 
-            foreach (Types.Constant constant in Components.MathematicalComponents.Constants)
+            foreach (Types.Constant constant in Components.MathematicalComponents.Constants.Values)
             {
                 ctvMain.Add("Basic\\Calculations", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
             }
 
-            foreach (Types.Constant constant in Components.MathematicalComponents.Variables)
+            foreach (Types.Constant constant in Components.MathematicalComponents.Variables.Values)
             {
                 ctvMain.Add("Basic\\Calculations", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
             }
 
-            foreach (Types.Constant constant in Components.MathematicalComponents.Functions)
+            foreach (Types.Constant constant in Components.MathematicalComponents.Functions.Values)
             {
                 ctvMain.Add("Basic\\Calculations", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
             }
@@ -694,17 +694,17 @@ namespace LuaScriptConstructor
 
             #region /// Comparison
 
-            foreach (Types.Constant constant in Components.ComparisonComponents.Constants)
+            foreach (Types.Constant constant in Components.ComparisonComponents.Constants.Values)
             {
                 ctvMain.Add("Basic\\Comparisons", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
             }
 
-            foreach (Types.Constant constant in Components.ComparisonComponents.Variables)
+            foreach (Types.Constant constant in Components.ComparisonComponents.Variables.Values)
             {
                 ctvMain.Add("Basic\\Comparisons", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
             }
 
-            foreach (Types.Constant constant in Components.ComparisonComponents.Functions)
+            foreach (Types.Constant constant in Components.ComparisonComponents.Functions.Values)
             {
                 ctvMain.Add("Basic\\Comparisons", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
             }
@@ -713,17 +713,17 @@ namespace LuaScriptConstructor
 
             #region /// Logical
 
-            foreach (Types.Constant constant in Components.LogicalComponents.Constants)
+            foreach (Types.Constant constant in Components.LogicalComponents.Constants.Values)
             {
                 ctvMain.Add("Basic\\Logical", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
             }
 
-            foreach (Types.Constant constant in Components.LogicalComponents.Variables)
+            foreach (Types.Constant constant in Components.LogicalComponents.Variables.Values)
             {
                 ctvMain.Add("Basic\\Logical", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
             }
 
-            foreach (Types.Constant constant in Components.LogicalComponents.Functions)
+            foreach (Types.Constant constant in Components.LogicalComponents.Functions.Values)
             {
                 ctvMain.Add("Basic\\Logical", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
             }
@@ -732,17 +732,17 @@ namespace LuaScriptConstructor
 
             #region /// Types
 
-            foreach (Types.Constant constant in Components.TypesComponents.Constants)
+            foreach (Types.Constant constant in Components.TypesComponents.Constants.Values)
             {
                 ctvMain.Add("Basic\\Types", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
             }
 
-            foreach (Types.Constant constant in Components.TypesComponents.Variables)
+            foreach (Types.Constant constant in Components.TypesComponents.Variables.Values)
             {
                 ctvMain.Add("Basic\\Types", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
             }
 
-            foreach (Types.Constant constant in Components.TypesComponents.Functions)
+            foreach (Types.Constant constant in Components.TypesComponents.Functions.Values)
             {
                 ctvMain.Add("Basic\\Types", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
             }
@@ -751,17 +751,17 @@ namespace LuaScriptConstructor
 
             #region /// Function components
 
-            foreach (Types.Variable variable in Components.FunctionComponents.Constants)
+            foreach (Types.Variable variable in Components.FunctionComponents.Constants.Values)
             {
                 ctvMain.Add("Function components", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
             }
 
-            foreach (Types.Variable variable in Components.FunctionComponents.Variables)
+            foreach (Types.Variable variable in Components.FunctionComponents.Variables.Values)
             {
                  ctvMain.Add("Function components", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
             }
 
-            foreach (Types.Variable variable in Components.FunctionComponents.Functions)
+            foreach (Types.Variable variable in Components.FunctionComponents.Functions.Values)
             {
                 ctvMain.Add("Function components", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
             }
@@ -772,17 +772,17 @@ namespace LuaScriptConstructor
 
             #region /// Text
 
-            foreach (Types.Variable variable in Components.GlobalComponents.Text.Constants)
+            foreach (Types.Variable variable in Components.GlobalComponents.Text.Constants.Values)
             {
                 ctvMain.Add("GameGuru global\\Text", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
             }
 
-            foreach (Types.Variable variable in Components.GlobalComponents.Text.Variables)
+            foreach (Types.Variable variable in Components.GlobalComponents.Text.Variables.Values)
             {
                 ctvMain.Add("GameGuru global\\Text", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
             }
 
-            foreach (Types.Variable variable in Components.GlobalComponents.Text.Functions)
+            foreach (Types.Variable variable in Components.GlobalComponents.Text.Functions.Values)
             {
                 ctvMain.Add("GameGuru global\\Text", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
             }
@@ -1221,14 +1221,14 @@ namespace LuaScriptConstructor
                     {
                         if (table.SubHeading.Contains("Argument"))
                         {
-                            table.Variable = Components.FunctionComponents.Variables[0];
+                            table.Variable = Components.FunctionComponents.Variables["Argument"];
                             table.BackColor = table.GradientColor = table.Variable.Table.BackColor;
                             table.BackColor = table.GradientColor = table.Variable.Table.BackColor;
                             table.Forecolor = table.BorderColor = table.Variable.Table.Forecolor;
                         }
                         else
                         {
-                            table.Variable = Components.FunctionComponents.Variables[1];
+                            table.Variable = Components.FunctionComponents.Variables["Return"];
                             table.BackColor = table.GradientColor = table.Variable.Table.BackColor;
                             table.Forecolor = table.BorderColor = table.Variable.Table.Forecolor;
                         }
@@ -1571,68 +1571,44 @@ namespace LuaScriptConstructor
         /// <returns>Function</returns>
         private Types.Function FindFunctionByName(string name)
         {
-            foreach(var function in Components.FunctionComponents.Functions)
+            if (Components.FunctionComponents.Functions.ContainsKey(name))
             {
-                if (name == function.Name)
-                {
-                    return function;
-                };
+                return Components.FunctionComponents.Functions[name];
             }
 
-            foreach(var function in Components.ScriptСomponents.Functions)
+            if (Components.ScriptСomponents.Functions.ContainsKey(name))
             {
-                if(name == function.Name)
-                {
-                    return function;
-                }
+                return Components.ScriptСomponents.Functions[name];
             }
 
-            foreach (var function in Components.BasicComponents.Functions)
+            if (Components.BasicComponents.Functions.ContainsKey(name))
             {
-                if (name == function.Name)
-                {
-                    return function;
-                }
+                return Components.BasicComponents.Functions[name];
             }
 
-            foreach (var function in Components.MathematicalComponents.Functions)
+            if (Components.MathematicalComponents.Functions.ContainsKey(name))
             {
-                if (function.Name == name)
-                {
-                    return function;
-                }
+                return Components.MathematicalComponents.Functions[name];
             }
 
-            foreach (var function in Components.ValuesComponents.Functions)
+            if (Components.ValuesComponents.Functions.ContainsKey(name))
             {
-                if (function.Name == name)
-                {
-                    return function;
-                }
+                return Components.ValuesComponents.Functions[name];
             }
 
-            foreach (var function in Components.LogicalComponents.Functions)
+            if (Components.LogicalComponents.Functions.ContainsKey(name))
             {
-                if (function.Name == name)
-                {
-                    return function;
-                }
+                return Components.LogicalComponents.Functions[name];
             }
 
-            foreach (var function in Components.TypesComponents.Functions)
+            if (Components.TypesComponents.Functions.ContainsKey(name))
             {
-                if (function.Name == name)
-                {
-                    return function;
-                }
+                return Components.TypesComponents.Functions[name];
             }
 
-            foreach (var function in Components.GlobalComponents.Text.Functions)
+            if (Components.GlobalComponents.Text.Functions.ContainsKey(name))
             {
-                if (function.Name == name)
-                {
-                    return function;
-                }
+                return Components.GlobalComponents.Text.Functions[name];
             }
 
             foreach (var function in projectFunctions.Values)
@@ -1642,7 +1618,6 @@ namespace LuaScriptConstructor
                     return function;
                 }
             }
-
             
 
             return null;

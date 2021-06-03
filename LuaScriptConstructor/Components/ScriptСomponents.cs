@@ -14,21 +14,21 @@ namespace LuaScriptConstructor.Components
         /// <summary>
         /// Constants.
         /// </summary>
-        public static List<Types.Constant> Constants { get { return new List<Types.Constant>(); } }
+        public static Dictionary<string, Types.Constant> Constants { get { return new Dictionary<string, Types.Constant>(); } }
 
         /// <summary>
         /// Variables.
         /// </summary>
-        public static List<Types.Variable> Variables { get { return new List<Types.Variable>(); } }
+        public static Dictionary<string, Types.Variable> Variables { get { return new Dictionary<string, Types.Variable>(); } }
 
         /// <summary>
         /// Functions.
         /// </summary>
-        public static List<Types.Function> Functions
+        public static Dictionary<string, Types.Function> Functions
         {
             get
             {
-                List<Types.Function> functions = new List<Types.Function>();
+                Dictionary<string, Types.Function> functions = new Dictionary<string, Types.Function>();
 
                 #region /// Main
 
@@ -67,7 +67,7 @@ namespace LuaScriptConstructor.Components
 
                 main.Table = mainTable;
 
-                functions.Add(main);
+                functions.Add(main.Name, main);
 
                 #endregion
 
@@ -108,7 +108,7 @@ namespace LuaScriptConstructor.Components
 
                 init.Table = initTable;
 
-                functions.Add(init);
+                functions.Add(init.Name, init);
 
                 #endregion
 
@@ -150,7 +150,7 @@ namespace LuaScriptConstructor.Components
 
                 start.Table = startTable;
 
-                functions.Add(start);
+                functions.Add(start.Name, start);
 
                 return functions;
 

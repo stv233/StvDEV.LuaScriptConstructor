@@ -14,22 +14,22 @@ namespace LuaScriptConstructor.Components
         /// <summary>
         /// Constants.
         /// </summary>
-        public static List<Types.Constant> Constants { get { return new List<Types.Constant>(); } }
+        public static Dictionary<string, Types.Constant> Constants { get { return new Dictionary<string, Types.Constant>(); } }
 
         /// <summary>
         /// Variables.
         /// </summary>
-        public static List<Types.Variable> Variables { get { return new List<Types.Variable>(); } }
+        public static Dictionary<string, Types.Variable> Variables { get { return new Dictionary<string, Types.Variable>(); } }
 
 
         /// <summary>
         /// Functions.
         /// </summary>
-        public static List<Types.Function> Functions
+        public static Dictionary<string, Types.Function> Functions
         {
             get
             {
-                List<Types.Function> functions = new List<Types.Function>();
+                Dictionary<string, Types.Function> functions = new Dictionary<string, Types.Function>();
 
                 #region /// Addition
 
@@ -68,7 +68,7 @@ namespace LuaScriptConstructor.Components
                     }
                 };
 
-                functions.Add(addition);
+                functions.Add(addition.Name, addition);
 
                 #endregion
 
@@ -109,7 +109,7 @@ namespace LuaScriptConstructor.Components
                     }
                 };
 
-                functions.Add(subtraction);
+                functions.Add(subtraction.Name, subtraction);
 
 
                 #endregion
@@ -151,7 +151,7 @@ namespace LuaScriptConstructor.Components
                     }
                 };
 
-                functions.Add(multiplication);
+                functions.Add(multiplication.Name, multiplication);
 
 
                 #endregion
@@ -193,7 +193,7 @@ namespace LuaScriptConstructor.Components
                     }
                 };
 
-                functions.Add(division);
+                functions.Add(division.Name, division);
 
 
                 #endregion
@@ -235,7 +235,7 @@ namespace LuaScriptConstructor.Components
                     }
                 };
 
-                functions.Add(modulo);
+                functions.Add(modulo.Name, modulo);
 
                 #endregion
 

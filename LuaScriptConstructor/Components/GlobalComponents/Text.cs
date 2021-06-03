@@ -14,21 +14,21 @@ namespace LuaScriptConstructor.Components.GlobalComponents
         /// <summary>
         /// Constants.
         /// </summary>
-        public static List<Types.Constant> Constants { get { return new List<Types.Constant>(); } }
+        public static Dictionary<string, Types.Constant> Constants { get { return new Dictionary<string, Types.Constant>(); } }
 
         /// <summary>
         /// Variables.
         /// </summary>
-        public static List<Types.Variable> Variables { get { return new List<Types.Variable>(); } }
+        public static Dictionary<string, Types.Variable> Variables { get { return new Dictionary<string, Types.Variable>(); } }
 
         /// <summary>
         /// Functions.
         /// </summary>
-        public static List<Types.Function> Functions
+        public static Dictionary<string, Types.Function> Functions
         {
             get
             {
-                var functions = new List<Types.Function>();
+                var functions = new Dictionary<string, Types.Function>();
 
                 #region // Prompt
 
@@ -60,7 +60,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
                     e.Table.Groups.Remove(e.Table.Groups[1]);
                 };
 
-                functions.Add(prompt);
+                functions.Add(prompt.Name, prompt);
 
                 #endregion
 
@@ -95,7 +95,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
                     e.Table.Groups.Remove(e.Table.Groups[1]);
                 };
 
-                functions.Add(promptDuration);
+                functions.Add(promptDuration.Name, promptDuration);
 
                 #endregion
 
@@ -129,7 +129,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
                     e.Table.Groups.Remove(e.Table.Groups[1]);
                 };
 
-                functions.Add(promptTextSize);
+                functions.Add(promptTextSize.Name, promptTextSize);
 
                 #endregion
 
@@ -163,7 +163,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
                     e.Table.Groups.Remove(e.Table.Groups[1]);
                 };
 
-                functions.Add(promptLocal);
+                functions.Add(promptLocal.Name, promptLocal);
 
                 #endregion
 
@@ -200,7 +200,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
                     e.Table.Groups.Remove(e.Table.Groups[1]);
                 };
 
-                functions.Add(text);
+                functions.Add(text.Name, text);
 
                 #endregion
 
@@ -237,7 +237,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
                     e.Table.Groups.Remove(e.Table.Groups[1]);
                 };
 
-                functions.Add(textCenterOnX);
+                functions.Add(textCenterOnX.Name, textCenterOnX);
 
                 #endregion
 
@@ -277,7 +277,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
                     e.Table.Groups.Remove(e.Table.Groups[1]);
                 };
 
-                functions.Add(textColor);
+                functions.Add(textColor.Name, textColor);
 
                 #endregion
 
@@ -317,7 +317,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
                     e.Table.Groups.Remove(e.Table.Groups[1]);
                 };
 
-                functions.Add(textCenterOnXColor);
+                functions.Add(textCenterOnXColor.Name, textCenterOnXColor);
 
                 #endregion
 
