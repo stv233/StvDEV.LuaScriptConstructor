@@ -1571,56 +1571,24 @@ namespace LuaScriptConstructor
         /// <returns>Function</returns>
         private Types.Function FindFunctionByName(string name)
         {
-            if (Components.FunctionComponents.Functions.ContainsKey(name))
+            Types.Function value = null;
+            
+            if (Components.Components.Functions.TryGetValue(name, out value))
             {
-                return Components.FunctionComponents.Functions[name];
+                return value;
             }
-
-            if (Components.ScriptСomponents.Functions.ContainsKey(name))
+            else
             {
-                return Components.ScriptСomponents.Functions[name];
-            }
-
-            if (Components.BasicComponents.Functions.ContainsKey(name))
-            {
-                return Components.BasicComponents.Functions[name];
-            }
-
-            if (Components.MathematicalComponents.Functions.ContainsKey(name))
-            {
-                return Components.MathematicalComponents.Functions[name];
-            }
-
-            if (Components.ValuesComponents.Functions.ContainsKey(name))
-            {
-                return Components.ValuesComponents.Functions[name];
-            }
-
-            if (Components.LogicalComponents.Functions.ContainsKey(name))
-            {
-                return Components.LogicalComponents.Functions[name];
-            }
-
-            if (Components.TypesComponents.Functions.ContainsKey(name))
-            {
-                return Components.TypesComponents.Functions[name];
-            }
-
-            if (Components.GlobalComponents.Text.Functions.ContainsKey(name))
-            {
-                return Components.GlobalComponents.Text.Functions[name];
-            }
-
-            foreach (var function in projectFunctions.Values)
-            {
-                if (function.Name == name)
+                foreach (var function in projectFunctions.Values)
                 {
-                    return function;
+                    if (function.Name == name)
+                    {
+                        return function;
+                    }
                 }
             }
-            
 
-            return null;
+            return value;
         }
     }
 }

@@ -28,6 +28,9 @@ namespace LuaScriptConstructor
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            Components.Components.ManualActivation();
+
             Application.Run(new frMain());
         }
     }

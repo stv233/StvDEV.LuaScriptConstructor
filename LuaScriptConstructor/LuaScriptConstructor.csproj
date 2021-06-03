@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\BasicComponents.cs" />
+    <Compile Include="Components\Components.cs" />
     <Compile Include="Components\FunctionComponents.cs" />
     <Compile Include="Components\ComparisonComponents.cs" />
     <Compile Include="Components\GlobalComponents\Text.cs" />
