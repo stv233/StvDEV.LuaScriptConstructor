@@ -75,6 +75,7 @@
     <Compile Include="Components\FunctionComponents.cs" />
     <Compile Include="Components\ComparisonComponents.cs" />
     <Compile Include="Components\GlobalComponents\LevelControl.cs" />
+    <Compile Include="Components\GlobalComponents\PlayerControl.cs" />
     <Compile Include="Components\GlobalComponents\Text.cs" />
     <Compile Include="Components\GlobalComponents\Visuals.cs" />
     <Compile Include="Components\GlobalComponents\World.cs" />

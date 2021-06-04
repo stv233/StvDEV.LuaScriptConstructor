@@ -815,17 +815,17 @@ namespace LuaScriptConstructor
 
             foreach (Types.Variable variable in Components.GlobalComponents.LevelControl.Constants.Values)
             {
-                ctvMain.Add("GameGuru\\Global\\Level Control", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+                ctvMain.Add("GameGuru\\Global\\Level control", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
             }
 
             foreach (Types.Variable variable in Components.GlobalComponents.LevelControl.Variables.Values)
             {
-                ctvMain.Add("GameGuru\\Global\\Level Control", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+                ctvMain.Add("GameGuru\\Global\\Level control", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
             }
 
             foreach (Types.Variable variable in Components.GlobalComponents.LevelControl.Functions.Values)
             {
-                ctvMain.Add("GameGuru\\Global\\Level Control", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+                ctvMain.Add("GameGuru\\Global\\Level control", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
             }
 
             #endregion
@@ -845,6 +845,25 @@ namespace LuaScriptConstructor
             foreach (Types.Variable variable in Components.GlobalComponents.World.Functions.Values)
             {
                 ctvMain.Add("GameGuru\\Global\\World", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            #endregion
+
+            #region /// PlayerControl
+
+            foreach (Types.Variable variable in Components.GlobalComponents.PlayerControl.Constants.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Player control", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            foreach (Types.Variable variable in Components.GlobalComponents.PlayerControl.Variables.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Player control", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            foreach (Types.Variable variable in Components.GlobalComponents.PlayerControl.Functions.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Player control", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
             }
 
             #endregion

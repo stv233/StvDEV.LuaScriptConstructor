@@ -280,6 +280,25 @@ namespace LuaScriptConstructor.Components
 
             #endregion
 
+            #region /// PlayerControl
+
+            foreach (var key in GlobalComponents.PlayerControl.Constants.Keys)
+            {
+                _constants[key] = GlobalComponents.PlayerControl.Constants[key];
+            }
+
+            foreach (var key in GlobalComponents.PlayerControl.Variables.Keys)
+            {
+                _variables[key] = GlobalComponents.PlayerControl.Variables[key];
+            }
+
+            foreach (var key in GlobalComponents.PlayerControl.Functions.Keys)
+            {
+                _functions[key] = GlobalComponents.PlayerControl.Functions[key];
+            }
+
+            #endregion
+
             #endregion
 
         }
