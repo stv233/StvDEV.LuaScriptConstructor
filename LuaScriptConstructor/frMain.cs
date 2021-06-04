@@ -769,24 +769,47 @@ namespace LuaScriptConstructor
 
             #endregion
 
+            #region /// GameGuru
+
             #region /// Global
 
             #region /// Text
 
             foreach (Types.Variable variable in Components.GlobalComponents.Text.Constants.Values)
             {
-                ctvMain.Add("GameGuru global\\Text", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+                ctvMain.Add("GameGur\\Global\\Text", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
             }
 
             foreach (Types.Variable variable in Components.GlobalComponents.Text.Variables.Values)
             {
-                ctvMain.Add("GameGuru global\\Text", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+                ctvMain.Add("GameGuru\\Global\\Text", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
             }
 
             foreach (Types.Variable variable in Components.GlobalComponents.Text.Functions.Values)
             {
-                ctvMain.Add("GameGuru global\\Text", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+                ctvMain.Add("GameGuru\\Global\\Text", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
             }
+
+            #endregion
+
+            #region /// Visuals
+
+            foreach (Types.Variable variable in Components.GlobalComponents.Visuals.Constants.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Visuals", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            foreach (Types.Variable variable in Components.GlobalComponents.Visuals.Variables.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Visuals", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            foreach (Types.Variable variable in Components.GlobalComponents.Visuals.Functions.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Visuals", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            #endregion
 
             #endregion
 

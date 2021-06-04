@@ -223,6 +223,25 @@ namespace LuaScriptConstructor.Components
 
             #endregion;
 
+            #region /// Visuals
+
+            foreach (var key in GlobalComponents.Visuals.Constants.Keys)
+            {
+                _constants[key] = GlobalComponents.Visuals.Constants[key];
+            }
+
+            foreach (var key in GlobalComponents.Visuals.Variables.Keys)
+            {
+                _variables[key] = GlobalComponents.Visuals.Variables[key];
+            }
+
+            foreach (var key in GlobalComponents.Visuals.Functions.Keys)
+            {
+                _functions[key] = GlobalComponents.Visuals.Functions[key];
+            }
+
+            #endregion;
+
             #endregion
 
         }
