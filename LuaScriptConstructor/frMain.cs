@@ -868,6 +868,25 @@ namespace LuaScriptConstructor
 
             #endregion
 
+            #region /// Particles
+
+            foreach (Types.Variable variable in Components.GlobalComponents.Particles.Constants.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Particles", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            foreach (Types.Variable variable in Components.GlobalComponents.Particles.Variables.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Particles", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            foreach (Types.Variable variable in Components.GlobalComponents.Particles.Functions.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Particles", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            #endregion
+
             #endregion
 
             #endregion
