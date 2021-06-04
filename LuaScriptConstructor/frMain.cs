@@ -811,6 +811,25 @@ namespace LuaScriptConstructor
 
             #endregion
 
+            #region /// LevelControl
+
+            foreach (Types.Variable variable in Components.GlobalComponents.LevelControl.Constants.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Level Control", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            foreach (Types.Variable variable in Components.GlobalComponents.LevelControl.Variables.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Level Control", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            foreach (Types.Variable variable in Components.GlobalComponents.LevelControl.Functions.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Level Control", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            #endregion
+
             #endregion
 
             #endregion

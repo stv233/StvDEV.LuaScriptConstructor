@@ -240,7 +240,26 @@ namespace LuaScriptConstructor.Components
                 _functions[key] = GlobalComponents.Visuals.Functions[key];
             }
 
-            #endregion;
+            #endregion
+
+            #region /// LevelControl
+
+            foreach (var key in GlobalComponents.LevelControl.Constants.Keys)
+            {
+                _constants[key] = GlobalComponents.LevelControl.Constants[key];
+            }
+
+            foreach (var key in GlobalComponents.LevelControl.Variables.Keys)
+            {
+                _variables[key] = GlobalComponents.LevelControl.Variables[key];
+            }
+
+            foreach (var key in GlobalComponents.LevelControl.Functions.Keys)
+            {
+                _functions[key] = GlobalComponents.LevelControl.Functions[key];
+            }
+
+            #endregion
 
             #endregion
 

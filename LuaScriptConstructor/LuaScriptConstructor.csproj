@@ -74,6 +74,7 @@
     <Compile Include="Components\Components.cs" />
     <Compile Include="Components\FunctionComponents.cs" />
     <Compile Include="Components\ComparisonComponents.cs" />
+    <Compile Include="Components\GlobalComponents\LevelControl.cs" />
     <Compile Include="Components\GlobalComponents\Text.cs" />
     <Compile Include="Components\GlobalComponents\Visuals.cs" />
     <Compile Include="Components\LogicalComponents.cs" />
@@ -135,6 +136,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\0in0out" />
     <None Include="Resources\1in0out" />
     <None Include="Resources\1in1out" />
     <None Include="Resources\2in0out" />
