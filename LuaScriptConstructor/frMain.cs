@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using LuaScriptConstructor.Forms;
@@ -1284,8 +1285,8 @@ namespace LuaScriptConstructor
         /// </summary>
         public void New()
         {
-            System.Diagnostics.Process.Start(System.Reflection.Assembly.GetExecutingAssembly().Location,"-skiplast");
-            Application.Exit();
+            Program.Restart = true;
+            this.Close();
         }
 
         /// <summary>

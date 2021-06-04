@@ -18,6 +18,8 @@ namespace LuaScriptConstructor
             }
         }
 
+        public static bool Restart { get; set; }
+
         /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>
@@ -32,6 +34,12 @@ namespace LuaScriptConstructor
             Components.Components.ManualActivation();
 
             Application.Run(new frMain());
+
+            while(Restart)
+            {
+                Restart = false;
+                new frMain().ShowDialog();
+            }
         }
     }
 }
