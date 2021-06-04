@@ -52,7 +52,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
                     e.Table.Function = jumpToLevelIfUsed;
                     e.Table.Heading = e.Table.Function.Name;
                     e.Table.SubHeading = e.Table.Function.Description;
-                    e.Table.MinimumSize = new System.Drawing.SizeF(e.Table.Size.Width + 40, 100);
+                    e.Table.MinimumSize = new System.Drawing.SizeF(e.Table.Size.Width + 40, 40);
                     e.Table.Size = e.Table.MinimumSize;
 
                     e.Table.Groups.Remove(e.Table.Groups[0]);
@@ -85,7 +85,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
                     e.Table.Function = jumpToLevel;
                     e.Table.Heading = e.Table.Function.Name;
                     e.Table.SubHeading = e.Table.Function.Description;
-                    e.Table.MinimumSize = new System.Drawing.SizeF(e.Table.Size.Width + 40, 100);
+                    e.Table.MinimumSize = new System.Drawing.SizeF(e.Table.Size.Width + 40, 80);
                     e.Table.Size = e.Table.MinimumSize;
 
                     e.Table.Groups[0].Rows[0].Text = e.Table.Groups[0].Rows[0].Text.Replace("Argument", "levelname");
@@ -119,7 +119,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
                     e.Table.Function = finishLevel;
                     e.Table.Heading = e.Table.Function.Name;
                     e.Table.SubHeading = e.Table.Function.Description;
-                    e.Table.MinimumSize = new System.Drawing.SizeF(e.Table.Size.Width + 40, 100);
+                    e.Table.MinimumSize = new System.Drawing.SizeF(e.Table.Size.Width + 40, 40);
                     e.Table.Size = e.Table.MinimumSize;
 
                     e.Table.Groups.Remove(e.Table.Groups[0]);
