@@ -887,6 +887,25 @@ namespace LuaScriptConstructor
 
             #endregion
 
+            #region /// EntityControl
+
+            foreach (Types.Variable variable in Components.GlobalComponents.EntityControl.Constants.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Entity control", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            foreach (Types.Variable variable in Components.GlobalComponents.EntityControl.Variables.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Entity control", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            foreach (Types.Variable variable in Components.GlobalComponents.EntityControl.Functions.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Entity control", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            #endregion
+
             #endregion
 
             #endregion

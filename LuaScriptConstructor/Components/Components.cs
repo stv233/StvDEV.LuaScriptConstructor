@@ -318,6 +318,25 @@ namespace LuaScriptConstructor.Components
 
             #endregion
 
+            #region /// EntityControl
+
+            foreach (var key in GlobalComponents.EntityControl.Constants.Keys)
+            {
+                _constants[key] = GlobalComponents.EntityControl.Constants[key];
+            }
+
+            foreach (var key in GlobalComponents.EntityControl.Variables.Keys)
+            {
+                _variables[key] = GlobalComponents.EntityControl.Variables[key];
+            }
+
+            foreach (var key in GlobalComponents.EntityControl.Functions.Keys)
+            {
+                _functions[key] = GlobalComponents.EntityControl.Functions[key];
+            }
+
+            #endregion
+
             #endregion
 
         }

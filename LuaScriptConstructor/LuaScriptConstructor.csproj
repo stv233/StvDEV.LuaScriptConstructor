@@ -74,6 +74,7 @@
     <Compile Include="Components\Components.cs" />
     <Compile Include="Components\FunctionComponents.cs" />
     <Compile Include="Components\ComparisonComponents.cs" />
+    <Compile Include="Components\GlobalComponents\EntityControl.cs" />
     <Compile Include="Components\GlobalComponents\LevelControl.cs" />
     <Compile Include="Components\GlobalComponents\Particles.cs" />
     <Compile Include="Components\GlobalComponents\PlayerControl.cs" />
@@ -140,10 +141,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="Resources\0in0out" />
+    <None Include="Resources\0in1out" />
     <None Include="Resources\1in0out" />
     <None Include="Resources\1in1out" />
     <None Include="Resources\2in0out" />
     <None Include="Resources\2in1out" />
+    <None Include="Resources\3in0out" />
     <None Include="Resources\4in0out" />
     <None Include="Resources\7in0out" />
     <None Include="Resources\StvDEVScriptConstructor.bin" />
