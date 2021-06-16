@@ -925,6 +925,25 @@ namespace LuaScriptConstructor
 
             #endregion
 
+            #region /// CharacterAndAIControl
+
+            foreach (Types.Variable variable in Components.GlobalComponents.CharacterAndAIControl.Constants.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Character and AI control", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            foreach (Types.Variable variable in Components.GlobalComponents.CharacterAndAIControl.Variables.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Character and AI control", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            foreach (Types.Variable variable in Components.GlobalComponents.CharacterAndAIControl.Functions.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Character and AI control", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            #endregion
+
             #endregion
 
             #endregion

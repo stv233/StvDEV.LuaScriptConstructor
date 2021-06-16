@@ -74,6 +74,7 @@
     <Compile Include="Components\Components.cs" />
     <Compile Include="Components\FunctionComponents.cs" />
     <Compile Include="Components\ComparisonComponents.cs" />
+    <Compile Include="Components\GlobalComponents\CharacterAndAIControl.cs" />
     <Compile Include="Components\GlobalComponents\EntityControl.cs" />
     <Compile Include="Components\GlobalComponents\LevelControl.cs" />
     <Compile Include="Components\GlobalComponents\Particles.cs" />

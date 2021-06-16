@@ -216,6 +216,16 @@ namespace LuaScriptConstructor.Components
 
             #endregion
 
+            #region /// CharacterAndAIControl
+
+            _constants = _constants.Concat(GlobalComponents.CharacterAndAIControl.Constants).ToDictionary(x => x.Key, x => x.Value);
+
+            _variables = _variables.Concat(GlobalComponents.CharacterAndAIControl.Variables).ToDictionary(x => x.Key, x => x.Value);
+
+            _functions = _functions.Concat(GlobalComponents.CharacterAndAIControl.Functions).ToDictionary(x => x.Key, x => x.Value);
+
+            #endregion
+
             #endregion
 
         }
