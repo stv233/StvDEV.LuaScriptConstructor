@@ -6,31 +6,31 @@ using System.Threading.Tasks;
 
 namespace LuaScriptConstructor.Components.GlobalComponents
 {
-    /// <summary>
-    /// Represent gameguru global entitys control components.
-    /// </summary>
+    //// <summary>
+    //// Represent gameguru global entitys control components.
+    //// </summary>
     static class EntityControl
     {
-        /// <summary>
-        /// Constants.
-        /// </summary>
+        //// <summary>
+        //// Constants.
+        //// </summary>
         public static Dictionary<string, Types.Constant> Constants { get { return new Dictionary<string, Types.Constant>(); } }
 
-        /// <summary>
-        /// Variables.
-        /// </summary>
+        //// <summary>
+        //// Variables.
+        //// </summary>
         public static Dictionary<string, Types.Variable> Variables { get { return new Dictionary<string, Types.Variable>(); } }
 
-        /// <summary>
-        /// Functions.
-        /// </summary>
+        //// <summary>
+        //// Functions.
+        //// </summary>
         public static Dictionary<string, Types.Function> Functions
         {
             get
             {
                 var functions = new Dictionary<string, Types.Function>();
 
-                #region // SetEntityHealth
+                #region /// SetEntityHealth
 
                 var setEntityHealth = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -64,7 +64,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
 
                 #endregion
 
-                #region // StartTimer
+                #region /// StartTimer
 
                 var startTimer = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -97,7 +97,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
 
                 #endregion
 
-                #region // GetTimer
+                #region /// GetTimer
 
                 var getTimer = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -128,7 +128,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
 
                 #endregion
 
-                #region // Destroy
+                #region /// Destroy
 
                 var destroy = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -161,7 +161,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
 
                 #endregion
 
-                #region // CollisionOn
+                #region /// CollisionOn
 
                 var collisionOn = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -194,7 +194,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
 
                 #endregion
 
-                #region // CollisionOff
+                #region /// CollisionOff
 
                 var collisionOff = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -227,7 +227,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
 
                 #endregion
 
-                #region // GravityOff
+                #region /// GravityOff
 
                 var gravityOff = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -260,7 +260,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
 
                 #endregion
 
-                #region // GravityOn
+                #region /// GravityOn
 
                 var gravityOn = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -293,7 +293,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
 
                 #endregion
 
-                #region // LookAtPlayer
+                #region /// LookAtPlayer
 
                 var lookAtPlayer = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -326,7 +326,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
 
                 #endregion
 
-                #region // RotateToPlayer
+                #region /// RotateToPlayer
 
                 var rotateToPlayer = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -359,7 +359,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
 
                 #endregion
 
-                #region // RotateToPlayerSlowly
+                #region /// RotateToPlayerSlowly
 
                 var rotateToPlayerSlowly = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -393,7 +393,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
 
                 #endregion
 
-                #region // Hide
+                #region /// Hide
 
                 var hide = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -426,7 +426,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
 
                 #endregion
 
-                #region // Show
+                #region /// Show
 
                 var show = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -459,7 +459,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
 
                 #endregion
 
-                #region // Spawn
+                #region /// Spawn
 
                 var spawn = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -492,7 +492,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
 
                 #endregion
 
-                #region // SetActivated
+                #region /// SetActivated
 
                 var setActivated = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -526,7 +526,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
 
                 #endregion
 
-                #region // ActivateIfUsed
+                #region /// ActivateIfUsed
 
                 var activateIfUsed = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -559,7 +559,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
 
                 #endregion
 
-                #region // Collected
+                #region /// Collected
 
                 var collected = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -592,7 +592,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
 
                 #endregion
 
-                #region // MoveUp
+                #region /// MoveUp
 
                 var moveUp = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -626,7 +626,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
 
                 #endregion
 
-                #region // MoveForward
+                #region /// MoveForward
 
                 var moveForward = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -660,7 +660,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
 
                 #endregion
 
-                #region // MoveBackward
+                #region /// MoveBackward
 
                 var moveBackward = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -694,7 +694,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
 
                 #endregion
 
-                #region // SetPosition
+                #region /// SetPosition
 
                 var setPosition = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -730,7 +730,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
 
                 #endregion
 
-                #region // ResetPosition
+                #region /// ResetPosition
 
                 var resetPosition = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -766,7 +766,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
 
                 #endregion
 
-                #region // setRotation
+                #region /// SetRotation
 
                 var setRotation = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -799,6 +799,477 @@ namespace LuaScriptConstructor.Components.GlobalComponents
                 };
 
                 functions.Add(setRotation.Name, setRotation);
+
+                #endregion
+
+                #region /// ModulateSpeed
+
+                var modulateSpeed = new Types.ProgrammaticallyDefinedFunction
+                {
+                    Name = "ModulateSpeed",
+                    Prefix = "modulateSpeed",
+                    Description = "Modulate the speed of all entity actions by (v)",
+                    Type = Types.Function.FuntionTypes.Regular,
+                    NeedRebuild = true,
+                    Diagram = new Forms.ConstructorDiagram(),
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = true,
+                };
+                modulateSpeed.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._1in0out));
+                modulateSpeed.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
+                {
+                    e.Table.Icon = Properties.Resources.GG_16x;
+                    e.Table.Type = Shapes.ConstructorTable.ConstructorTableTypes.Function;
+                    e.Table.Label = new Crainiate.Diagramming.Label(e.Table.Function.Description);
+                    e.Table.Function = modulateSpeed;
+                    e.Table.Heading = e.Table.Function.Name;
+                    e.Table.SubHeading = e.Table.Function.Description;
+                    e.Table.MinimumSize = new System.Drawing.SizeF(e.Table.Size.Width + 40, 100);
+                    e.Table.Size = e.Table.MinimumSize;
+
+                    e.Table.Groups[0].Rows[0].Text = e.Table.Groups[0].Rows[0].Text.Replace("Argument", "v");
+
+                    e.Table.Groups.Remove(e.Table.Groups[1]);
+                };
+
+                functions.Add(modulateSpeed.Name, modulateSpeed);
+
+                #endregion
+
+                #region /// RotateX
+
+                var rotateX = new Types.ProgrammaticallyDefinedFunction
+                {
+                    Name = "RotateX",
+                    Prefix = "rotateX",
+                    Description = "Rotate the X angle of the entity by (v)",
+                    Type = Types.Function.FuntionTypes.Regular,
+                    NeedRebuild = true,
+                    Diagram = new Forms.ConstructorDiagram(),
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = true,
+                };
+                rotateX.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._1in0out));
+                rotateX.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
+                {
+                    e.Table.Icon = Properties.Resources.GG_16x;
+                    e.Table.Type = Shapes.ConstructorTable.ConstructorTableTypes.Function;
+                    e.Table.Label = new Crainiate.Diagramming.Label(e.Table.Function.Description);
+                    e.Table.Function = rotateX;
+                    e.Table.Heading = e.Table.Function.Name;
+                    e.Table.SubHeading = e.Table.Function.Description;
+                    e.Table.MinimumSize = new System.Drawing.SizeF(e.Table.Size.Width + 40, 100);
+                    e.Table.Size = e.Table.MinimumSize;
+
+                    e.Table.Groups[0].Rows[0].Text = e.Table.Groups[0].Rows[0].Text.Replace("Argument", "v");
+
+                    e.Table.Groups.Remove(e.Table.Groups[1]);
+                };
+
+                functions.Add(rotateX.Name, rotateX);
+
+                #endregion
+
+                #region /// RotateY
+
+                var rotateY = new Types.ProgrammaticallyDefinedFunction
+                {
+                    Name = "RotateY",
+                    Prefix = "rotateY",
+                    Description = "Rotate the Y angle of the entity by (v)",
+                    Type = Types.Function.FuntionTypes.Regular,
+                    NeedRebuild = true,
+                    Diagram = new Forms.ConstructorDiagram(),
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = true,
+                };
+                rotateY.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._1in0out));
+                rotateY.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
+                {
+                    e.Table.Icon = Properties.Resources.GG_16x;
+                    e.Table.Type = Shapes.ConstructorTable.ConstructorTableTypes.Function;
+                    e.Table.Label = new Crainiate.Diagramming.Label(e.Table.Function.Description);
+                    e.Table.Function = rotateY;
+                    e.Table.Heading = e.Table.Function.Name;
+                    e.Table.SubHeading = e.Table.Function.Description;
+                    e.Table.MinimumSize = new System.Drawing.SizeF(e.Table.Size.Width + 40, 100);
+                    e.Table.Size = e.Table.MinimumSize;
+
+                    e.Table.Groups[0].Rows[0].Text = e.Table.Groups[0].Rows[0].Text.Replace("Argument", "v");
+
+                    e.Table.Groups.Remove(e.Table.Groups[1]);
+                };
+
+                functions.Add(rotateY.Name, rotateY);
+
+                #endregion
+
+                #region /// RotateZ
+
+                var rotateZ = new Types.ProgrammaticallyDefinedFunction
+                {
+                    Name = "RotateZ",
+                    Prefix = "rotateZ",
+                    Description = "Rotate the Z angle of the entity by (v)",
+                    Type = Types.Function.FuntionTypes.Regular,
+                    NeedRebuild = true,
+                    Diagram = new Forms.ConstructorDiagram(),
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = true,
+                };
+                rotateZ.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._1in0out));
+                rotateZ.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
+                {
+                    e.Table.Icon = Properties.Resources.GG_16x;
+                    e.Table.Type = Shapes.ConstructorTable.ConstructorTableTypes.Function;
+                    e.Table.Label = new Crainiate.Diagramming.Label(e.Table.Function.Description);
+                    e.Table.Function = rotateZ;
+                    e.Table.Heading = e.Table.Function.Name;
+                    e.Table.SubHeading = e.Table.Function.Description;
+                    e.Table.MinimumSize = new System.Drawing.SizeF(e.Table.Size.Width + 40, 100);
+                    e.Table.Size = e.Table.MinimumSize;
+
+                    e.Table.Groups[0].Rows[0].Text = e.Table.Groups[0].Rows[0].Text.Replace("Argument", "v");
+
+                    e.Table.Groups.Remove(e.Table.Groups[1]);
+                };
+
+                functions.Add(rotateZ.Name, rotateZ);
+
+                #endregion
+
+                #region /// Scale
+
+                var scale = new Types.ProgrammaticallyDefinedFunction
+                {
+                    Name = "Scale",
+                    Prefix = "scale",
+                    Description = "Scales an entity to (v) percentage",
+                    Type = Types.Function.FuntionTypes.Regular,
+                    NeedRebuild = true,
+                    Diagram = new Forms.ConstructorDiagram(),
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = true,
+                };
+                scale.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._1in0out));
+                scale.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
+                {
+                    e.Table.Icon = Properties.Resources.GG_16x;
+                    e.Table.Type = Shapes.ConstructorTable.ConstructorTableTypes.Function;
+                    e.Table.Label = new Crainiate.Diagramming.Label(e.Table.Function.Description);
+                    e.Table.Function = scale;
+                    e.Table.Heading = e.Table.Function.Name;
+                    e.Table.SubHeading = e.Table.Function.Description;
+                    e.Table.MinimumSize = new System.Drawing.SizeF(e.Table.Size.Width + 40, 100);
+                    e.Table.Size = e.Table.MinimumSize;
+
+                    e.Table.Groups[0].Rows[0].Text = e.Table.Groups[0].Rows[0].Text.Replace("Argument", "v");
+
+                    e.Table.Groups.Remove(e.Table.Groups[1]);
+                };
+
+                functions.Add(scale.Name, scale);
+
+                #endregion
+
+                #region /// SetAnimation
+
+                var setAnimation = new Types.ProgrammaticallyDefinedFunction
+                {
+                    Name = "SetAnimation",
+                    Prefix = "setAnimation",
+                    Description = "Set an animation index value for later use",
+                    Type = Types.Function.FuntionTypes.Regular,
+                    NeedRebuild = true,
+                    Diagram = new Forms.ConstructorDiagram(),
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = true,
+                };
+                setAnimation.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._0in0out));
+                setAnimation.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
+                {
+                    e.Table.Icon = Properties.Resources.GG_16x;
+                    e.Table.Type = Shapes.ConstructorTable.ConstructorTableTypes.Function;
+                    e.Table.Label = new Crainiate.Diagramming.Label(e.Table.Function.Description);
+                    e.Table.Function = setAnimation;
+                    e.Table.Heading = e.Table.Function.Name;
+                    e.Table.SubHeading = e.Table.Function.Description;
+                    e.Table.MinimumSize = new System.Drawing.SizeF(e.Table.Size.Width + 40, 40);
+                    e.Table.Size = e.Table.MinimumSize;
+
+                    e.Table.Groups.Remove(e.Table.Groups[0]);
+                    e.Table.Groups.Remove(e.Table.Groups[0]);
+                };
+
+                functions.Add(setAnimation.Name, setAnimation);
+
+                #endregion
+
+                #region /// SetAnimationFrames
+
+                var setAnimationFrames = new Types.ProgrammaticallyDefinedFunction
+                {
+                    Name = "SetAnimationFrames",
+                    Prefix = "setAnimationFrames",
+                    Description = "Set the entity animation frame to the range (a) to (b)",
+                    Type = Types.Function.FuntionTypes.Regular,
+                    NeedRebuild = true,
+                    Diagram = new Forms.ConstructorDiagram(),
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = false,
+                };
+                setAnimationFrames.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._2in0out));
+                setAnimationFrames.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
+                {
+                    e.Table.Icon = Properties.Resources.GG_16x;
+                    e.Table.Type = Shapes.ConstructorTable.ConstructorTableTypes.Function;
+                    e.Table.Label = new Crainiate.Diagramming.Label(e.Table.Function.Description);
+                    e.Table.Function = setAnimationFrames;
+                    e.Table.Heading = e.Table.Function.Name;
+                    e.Table.SubHeading = e.Table.Function.Description;
+                    e.Table.MinimumSize = new System.Drawing.SizeF(e.Table.Size.Width + 40, 100);
+                    e.Table.Size = e.Table.MinimumSize;
+
+                    e.Table.Groups[0].Rows[0].Text = e.Table.Groups[0].Rows[0].Text.Replace("Argument", "a");
+                    e.Table.Groups[0].Rows[1].Text = e.Table.Groups[0].Rows[1].Text.Replace("Argument", "b");
+
+                    e.Table.Groups.Remove(e.Table.Groups[1]);
+                };
+
+                functions.Add(setAnimationFrames.Name, setAnimationFrames);
+
+                #endregion
+
+                #region /// PlayAnimation
+
+                var playAnimation = new Types.ProgrammaticallyDefinedFunction
+                {
+                    Name = "PlayAnimation",
+                    Prefix = "playAnimation",
+                    Description = "Play the current animation range once",
+                    Type = Types.Function.FuntionTypes.Regular,
+                    NeedRebuild = true,
+                    Diagram = new Forms.ConstructorDiagram(),
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = true,
+                };
+                playAnimation.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._0in0out));
+                playAnimation.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
+                {
+                    e.Table.Icon = Properties.Resources.GG_16x;
+                    e.Table.Type = Shapes.ConstructorTable.ConstructorTableTypes.Function;
+                    e.Table.Label = new Crainiate.Diagramming.Label(e.Table.Function.Description);
+                    e.Table.Function = playAnimation;
+                    e.Table.Heading = e.Table.Function.Name;
+                    e.Table.SubHeading = e.Table.Function.Description;
+                    e.Table.MinimumSize = new System.Drawing.SizeF(e.Table.Size.Width + 40, 40);
+                    e.Table.Size = e.Table.MinimumSize;
+
+                    e.Table.Groups.Remove(e.Table.Groups[0]);
+                    e.Table.Groups.Remove(e.Table.Groups[0]);
+                };
+
+                functions.Add(playAnimation.Name, playAnimation);
+
+                #endregion
+
+                #region /// LoopAnimation
+
+                var loopAnimation = new Types.ProgrammaticallyDefinedFunction
+                {
+                    Name = "LoopAnimation",
+                    Prefix = "loopAnimation",
+                    Description = "Loop the current animation range",
+                    Type = Types.Function.FuntionTypes.Regular,
+                    NeedRebuild = true,
+                    Diagram = new Forms.ConstructorDiagram(),
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = true,
+                };
+                loopAnimation.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._0in0out));
+                loopAnimation.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
+                {
+                    e.Table.Icon = Properties.Resources.GG_16x;
+                    e.Table.Type = Shapes.ConstructorTable.ConstructorTableTypes.Function;
+                    e.Table.Label = new Crainiate.Diagramming.Label(e.Table.Function.Description);
+                    e.Table.Function = loopAnimation;
+                    e.Table.Heading = e.Table.Function.Name;
+                    e.Table.SubHeading = e.Table.Function.Description;
+                    e.Table.MinimumSize = new System.Drawing.SizeF(e.Table.Size.Width + 40, 40);
+                    e.Table.Size = e.Table.MinimumSize;
+
+                    e.Table.Groups.Remove(e.Table.Groups[0]);
+                    e.Table.Groups.Remove(e.Table.Groups[0]);
+                };
+
+                functions.Add(loopAnimation.Name, loopAnimation);
+
+                #endregion
+
+                #region /// StopAnimation
+
+                var stopAnimation = new Types.ProgrammaticallyDefinedFunction
+                {
+                    Name = "StopAnimation",
+                    Prefix = "stopAnimation",
+                    Description = "Stop all animations for the current entity",
+                    Type = Types.Function.FuntionTypes.Regular,
+                    NeedRebuild = true,
+                    Diagram = new Forms.ConstructorDiagram(),
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = true,
+                };
+                stopAnimation.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._0in0out));
+                stopAnimation.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
+                {
+                    e.Table.Icon = Properties.Resources.GG_16x;
+                    e.Table.Type = Shapes.ConstructorTable.ConstructorTableTypes.Function;
+                    e.Table.Label = new Crainiate.Diagramming.Label(e.Table.Function.Description);
+                    e.Table.Function = stopAnimation;
+                    e.Table.Heading = e.Table.Function.Name;
+                    e.Table.SubHeading = e.Table.Function.Description;
+                    e.Table.MinimumSize = new System.Drawing.SizeF(e.Table.Size.Width + 40, 40);
+                    e.Table.Size = e.Table.MinimumSize;
+
+                    e.Table.Groups.Remove(e.Table.Groups[0]);
+                    e.Table.Groups.Remove(e.Table.Groups[0]);
+                };
+
+                functions.Add(stopAnimation.Name, stopAnimation);
+
+                #endregion
+
+                #region /// SetAnimationSpeed
+
+                var setAnimationSpeed = new Types.ProgrammaticallyDefinedFunction
+                {
+                    Name = "SetAnimationSpeed",
+                    Prefix = "setAnimationSpeed",
+                    Description = "Set the animation speed of the entity",
+                    Type = Types.Function.FuntionTypes.Regular,
+                    NeedRebuild = true,
+                    Diagram = new Forms.ConstructorDiagram(),
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = true,
+                };
+                setAnimationSpeed.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._1in0out));
+                setAnimationSpeed.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
+                {
+                    e.Table.Icon = Properties.Resources.GG_16x;
+                    e.Table.Type = Shapes.ConstructorTable.ConstructorTableTypes.Function;
+                    e.Table.Label = new Crainiate.Diagramming.Label(e.Table.Function.Description);
+                    e.Table.Function = setAnimationSpeed;
+                    e.Table.Heading = e.Table.Function.Name;
+                    e.Table.SubHeading = e.Table.Function.Description;
+                    e.Table.MinimumSize = new System.Drawing.SizeF(e.Table.Size.Width + 40, 100);
+                    e.Table.Size = e.Table.MinimumSize;
+
+                    e.Table.Groups[0].Rows[0].Text = e.Table.Groups[0].Rows[0].Text.Replace("Argument", "v");
+
+                    e.Table.Groups.Remove(e.Table.Groups[1]);
+                };
+
+                functions.Add(setAnimationSpeed.Name, setAnimationSpeed);
+
+                #endregion
+
+                #region /// SetAnimationFrame
+
+                var setAnimationFrame = new Types.ProgrammaticallyDefinedFunction
+                {
+                    Name = "SetAnimationFrame",
+                    Prefix = "setAnimationFrame",
+                    Description = "Set the entities animation frame to (v)",
+                    Type = Types.Function.FuntionTypes.Regular,
+                    NeedRebuild = true,
+                    Diagram = new Forms.ConstructorDiagram(),
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = true,
+                };
+                setAnimationFrame.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._1in0out));
+                setAnimationFrame.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
+                {
+                    e.Table.Icon = Properties.Resources.GG_16x;
+                    e.Table.Type = Shapes.ConstructorTable.ConstructorTableTypes.Function;
+                    e.Table.Label = new Crainiate.Diagramming.Label(e.Table.Function.Description);
+                    e.Table.Function = setAnimationFrame;
+                    e.Table.Heading = e.Table.Function.Name;
+                    e.Table.SubHeading = e.Table.Function.Description;
+                    e.Table.MinimumSize = new System.Drawing.SizeF(e.Table.Size.Width + 40, 100);
+                    e.Table.Size = e.Table.MinimumSize;
+
+                    e.Table.Groups[0].Rows[0].Text = e.Table.Groups[0].Rows[0].Text.Replace("Argument", "v");
+
+                    e.Table.Groups.Remove(e.Table.Groups[1]);
+                };
+
+                functions.Add(setAnimationFrame.Name, setAnimationFrame);
+
+                #endregion
+
+                #region /// GetAnimationFrame
+
+                var getAnimationFrame = new Types.ProgrammaticallyDefinedFunction
+                {
+                    Name = "GetAnimationFrame",
+                    Prefix = "getAnimationFrame",
+                    Description = "Get the animation frame number from the entity",
+                    Type = Types.Function.FuntionTypes.Regular,
+                    NeedRebuild = true,
+                    Diagram = new Forms.ConstructorDiagram(),
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = true,
+                };
+                getAnimationFrame.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._0in0out));
+                getAnimationFrame.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
+                {
+                    e.Table.Icon = Properties.Resources.GG_16x;
+                    e.Table.Type = Shapes.ConstructorTable.ConstructorTableTypes.Function;
+                    e.Table.Label = new Crainiate.Diagramming.Label(e.Table.Function.Description);
+                    e.Table.Function = getAnimationFrame;
+                    e.Table.Heading = e.Table.Function.Name;
+                    e.Table.SubHeading = e.Table.Function.Description;
+                    e.Table.MinimumSize = new System.Drawing.SizeF(e.Table.Size.Width + 40, 40);
+                    e.Table.Size = e.Table.MinimumSize;
+
+                    e.Table.Groups.Remove(e.Table.Groups[0]);
+                    e.Table.Groups.Remove(e.Table.Groups[0]);
+                };
+
+                functions.Add(getAnimationFrame.Name, getAnimationFrame);
+
+                #endregion
+
+                #region /// SpawnIfUsed
+
+                var spawnIfUsed = new Types.ProgrammaticallyDefinedFunction
+                {
+                    Name = "SpawnIfUsed",
+                    Prefix = "spawnIfUsed",
+                    Description = "Spawns the entity named in the IfUsed field of the current entity",
+                    Type = Types.Function.FuntionTypes.Regular,
+                    NeedRebuild = true,
+                    Diagram = new Forms.ConstructorDiagram(),
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = true,
+                };
+                spawnIfUsed.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._0in0out));
+                spawnIfUsed.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
+                {
+                    e.Table.Icon = Properties.Resources.GG_16x;
+                    e.Table.Type = Shapes.ConstructorTable.ConstructorTableTypes.Function;
+                    e.Table.Label = new Crainiate.Diagramming.Label(e.Table.Function.Description);
+                    e.Table.Function = spawnIfUsed;
+                    e.Table.Heading = e.Table.Function.Name;
+                    e.Table.SubHeading = e.Table.Function.Description;
+                    e.Table.MinimumSize = new System.Drawing.SizeF(e.Table.Size.Width + 40, 40);
+                    e.Table.Size = e.Table.MinimumSize;
+
+                    e.Table.Groups.Remove(e.Table.Groups[0]);
+                    e.Table.Groups.Remove(e.Table.Groups[0]);
+                };
+
+                functions.Add(spawnIfUsed.Name, spawnIfUsed);
 
                 #endregion
 
