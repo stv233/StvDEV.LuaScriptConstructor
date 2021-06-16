@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace LuaScriptConstructor.Components
 {
@@ -48,157 +49,88 @@ namespace LuaScriptConstructor.Components
             }
         }
 
-        static Components()
+        /// <summary>
+        /// Loads all components available in the program.
+        /// </summary>
+        public static void FillComponents()
         {
             #region /// Basic
 
-            foreach (var key in BasicComponents.Constants.Keys)
-            {
-                _constants[key] = BasicComponents.Constants[key];
-            }
+            _constants = _constants.Concat(BasicComponents.Constants).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in BasicComponents.Variables.Keys)
-            {
-                _variables[key] = BasicComponents.Variables[key];
-            }
+            _variables = _variables.Concat(BasicComponents.Variables).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach(var key in BasicComponents.Functions.Keys)
-            {
-                _functions[key] = BasicComponents.Functions[key];
-            }
+            _functions = _functions.Concat(BasicComponents.Functions).ToDictionary(x => x.Key, x => x.Value);
 
             #endregion;
 
             #region /// Comparsion
 
-            foreach (var key in ComparisonComponents.Constants.Keys)
-            {
-                _constants[key] = ComparisonComponents.Constants[key];
-            }
+            _constants = _constants.Concat(ComparisonComponents.Constants).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in ComparisonComponents.Variables.Keys)
-            {
-                _variables[key] = ComparisonComponents.Variables[key];
-            }
+            _variables = _variables.Concat(ComparisonComponents.Variables).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in ComparisonComponents.Functions.Keys)
-            {
-                _functions[key] = ComparisonComponents.Functions[key];
-            }
+            _functions = _functions.Concat(ComparisonComponents.Functions).ToDictionary(x => x.Key, x => x.Value);
 
             #endregion;
 
             #region /// Function
 
-            foreach (var key in FunctionComponents.Constants.Keys)
-            {
-                _constants[key] = FunctionComponents.Constants[key];
-            }
+            _constants = _constants.Concat(FunctionComponents.Constants).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in FunctionComponents.Variables.Keys)
-            {
-                _variables[key] = FunctionComponents.Variables[key];
-            }
+            _variables = _variables.Concat(FunctionComponents.Variables).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in FunctionComponents.Functions.Keys)
-            {
-                _functions[key] = FunctionComponents.Functions[key];
-            }
+            _functions = _functions.Concat(FunctionComponents.Functions).ToDictionary(x => x.Key, x => x.Value);
 
             #endregion;
 
             #region /// Logical
 
-            foreach (var key in LogicalComponents.Constants.Keys)
-            {
-                _constants[key] = LogicalComponents.Constants[key];
-            }
+            _constants = _constants.Concat(LogicalComponents.Constants).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in LogicalComponents.Variables.Keys)
-            {
-                _variables[key] = LogicalComponents.Variables[key];
-            }
+            _variables = _variables.Concat(LogicalComponents.Variables).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in LogicalComponents.Functions.Keys)
-            {
-                _functions[key] = LogicalComponents.Functions[key];
-            }
+            _functions = _functions.Concat(LogicalComponents.Functions).ToDictionary(x => x.Key, x => x.Value);
 
             #endregion;
 
             #region /// Mathematical
 
-            foreach (var key in MathematicalComponents.Constants.Keys)
-            {
-                _constants[key] = MathematicalComponents.Constants[key];
-            }
+            _constants = _constants.Concat(MathematicalComponents.Constants).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in MathematicalComponents.Variables.Keys)
-            {
-                _variables[key] = MathematicalComponents.Variables[key];
-            }
+            _variables = _variables.Concat(MathematicalComponents.Variables).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in MathematicalComponents.Functions.Keys)
-            {
-                _functions[key] = MathematicalComponents.Functions[key];
-            }
+            _functions = _functions.Concat(MathematicalComponents.Functions).ToDictionary(x => x.Key, x => x.Value);
 
             #endregion;
 
             #region /// Script
 
-            foreach (var key in ScriptСomponents.Constants.Keys)
-            {
-                _constants[key] = ScriptСomponents.Constants[key];
-            }
+            _constants = _constants.Concat(ScriptСomponents.Constants).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in ScriptСomponents.Variables.Keys)
-            {
-                _variables[key] = ScriptСomponents.Variables[key];
-            }
+            _variables = _variables.Concat(ScriptСomponents.Variables).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in ScriptСomponents.Functions.Keys)
-            {
-                _functions[key] = ScriptСomponents.Functions[key];
-            }
+            _functions = _functions.Concat(ScriptСomponents.Functions).ToDictionary(x => x.Key, x => x.Value);
 
             #endregion;
 
             #region /// Types
 
-            foreach (var key in TypesComponents.Constants.Keys)
-            {
-                _constants[key] = TypesComponents.Constants[key];
-            }
+            _constants = _constants.Concat(TypesComponents.Constants).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in TypesComponents.Variables.Keys)
-            {
-                _variables[key] = TypesComponents.Variables[key];
-            }
+            _variables = _variables.Concat(TypesComponents.Variables).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in TypesComponents.Functions.Keys)
-            {
-                _functions[key] = TypesComponents.Functions[key];
-            }
+            _functions = _functions.Concat(TypesComponents.Functions).ToDictionary(x => x.Key, x => x.Value);
 
             #endregion;
 
             #region /// Values
 
-            foreach (var key in ValuesComponents.Constants.Keys)
-            {
-                _constants[key] = ValuesComponents.Constants[key];
-            }
+            _constants = _constants.Concat(ValuesComponents.Constants).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in ValuesComponents.Variables.Keys)
-            {
-                _variables[key] = ValuesComponents.Variables[key];
-            }
+            _variables = _variables.Concat(ValuesComponents.Variables).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in ValuesComponents.Functions.Keys)
-            {
-                _functions[key] = ValuesComponents.Functions[key];
-            }
+            _functions = _functions.Concat(ValuesComponents.Functions).ToDictionary(x => x.Key, x => x.Value);
 
             #endregion;
 
@@ -206,145 +138,76 @@ namespace LuaScriptConstructor.Components
 
             #region /// Text
 
-            foreach (var key in GlobalComponents.Text.Constants.Keys)
-            {
-                _constants[key] = GlobalComponents.Text.Constants[key];
-            }
+            _constants = _constants.Concat(GlobalComponents.Text.Constants).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in GlobalComponents.Text.Variables.Keys)
-            {
-                _variables[key] = GlobalComponents.Text.Variables[key];
-            }
+            _variables = _variables.Concat(GlobalComponents.Text.Variables).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in GlobalComponents.Text.Functions.Keys)
-            {
-                _functions[key] = GlobalComponents.Text.Functions[key];
-            }
+            _functions = _functions.Concat(GlobalComponents.Text.Functions).ToDictionary(x => x.Key, x => x.Value);
 
             #endregion;
 
             #region /// Visuals
 
-            foreach (var key in GlobalComponents.Visuals.Constants.Keys)
-            {
-                _constants[key] = GlobalComponents.Visuals.Constants[key];
-            }
+            _constants = _constants.Concat(GlobalComponents.Visuals.Constants).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in GlobalComponents.Visuals.Variables.Keys)
-            {
-                _variables[key] = GlobalComponents.Visuals.Variables[key];
-            }
+            _variables = _variables.Concat(GlobalComponents.Visuals.Variables).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in GlobalComponents.Visuals.Functions.Keys)
-            {
-                _functions[key] = GlobalComponents.Visuals.Functions[key];
-            }
+            _functions = _functions.Concat(GlobalComponents.Visuals.Functions).ToDictionary(x => x.Key, x => x.Value);
 
             #endregion
 
             #region /// LevelControl
 
-            foreach (var key in GlobalComponents.LevelControl.Constants.Keys)
-            {
-                _constants[key] = GlobalComponents.LevelControl.Constants[key];
-            }
+            _constants = _constants.Concat(GlobalComponents.LevelControl.Constants).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in GlobalComponents.LevelControl.Variables.Keys)
-            {
-                _variables[key] = GlobalComponents.LevelControl.Variables[key];
-            }
+            _variables = _variables.Concat(GlobalComponents.LevelControl.Variables).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in GlobalComponents.LevelControl.Functions.Keys)
-            {
-                _functions[key] = GlobalComponents.LevelControl.Functions[key];
-            }
+            _functions = _functions.Concat(GlobalComponents.LevelControl.Functions).ToDictionary(x => x.Key, x => x.Value);
 
             #endregion
 
             #region /// World
 
-            foreach (var key in GlobalComponents.World.Constants.Keys)
-            {
-                _constants[key] = GlobalComponents.World.Constants[key];
-            }
+            _constants = _constants.Concat(GlobalComponents.World.Constants).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in GlobalComponents.World.Variables.Keys)
-            {
-                _variables[key] = GlobalComponents.World.Variables[key];
-            }
+            _variables = _variables.Concat(GlobalComponents.World.Variables).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in GlobalComponents.World.Functions.Keys)
-            {
-                _functions[key] = GlobalComponents.World.Functions[key];
-            }
+            _functions = _functions.Concat(GlobalComponents.World.Functions).ToDictionary(x => x.Key, x => x.Value);
 
             #endregion
 
             #region /// PlayerControl
 
-            foreach (var key in GlobalComponents.PlayerControl.Constants.Keys)
-            {
-                _constants[key] = GlobalComponents.PlayerControl.Constants[key];
-            }
+            _constants = _constants.Concat(GlobalComponents.PlayerControl.Constants).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in GlobalComponents.PlayerControl.Variables.Keys)
-            {
-                _variables[key] = GlobalComponents.PlayerControl.Variables[key];
-            }
+            _variables = _variables.Concat(GlobalComponents.PlayerControl.Variables).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in GlobalComponents.PlayerControl.Functions.Keys)
-            {
-                _functions[key] = GlobalComponents.PlayerControl.Functions[key];
-            }
+            _functions = _functions.Concat(GlobalComponents.PlayerControl.Functions).ToDictionary(x => x.Key, x => x.Value);
 
             #endregion
 
             #region /// Particles
 
-            foreach (var key in GlobalComponents.Particles.Constants.Keys)
-            {
-                _constants[key] = GlobalComponents.Particles.Constants[key];
-            }
+            _constants = _constants.Concat(GlobalComponents.Particles.Constants).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in GlobalComponents.Particles.Variables.Keys)
-            {
-                _variables[key] = GlobalComponents.Particles.Variables[key];
-            }
+            _variables = _variables.Concat(GlobalComponents.Particles.Variables).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in GlobalComponents.Particles.Functions.Keys)
-            {
-                _functions[key] = GlobalComponents.Particles.Functions[key];
-            }
+            _functions = _functions.Concat(GlobalComponents.Particles.Functions).ToDictionary(x => x.Key, x => x.Value);
 
             #endregion
 
             #region /// EntityControl
 
-            foreach (var key in GlobalComponents.EntityControl.Constants.Keys)
-            {
-                _constants[key] = GlobalComponents.EntityControl.Constants[key];
-            }
+            _constants = _constants.Concat(GlobalComponents.EntityControl.Constants).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in GlobalComponents.EntityControl.Variables.Keys)
-            {
-                _variables[key] = GlobalComponents.EntityControl.Variables[key];
-            }
+            _variables = _variables.Concat(GlobalComponents.EntityControl.Variables).ToDictionary(x => x.Key, x => x.Value);
 
-            foreach (var key in GlobalComponents.EntityControl.Functions.Keys)
-            {
-                _functions[key] = GlobalComponents.EntityControl.Functions[key];
-            }
+            _functions = _functions.Concat(GlobalComponents.EntityControl.Functions).ToDictionary(x => x.Key, x => x.Value);
 
             #endregion
 
             #endregion
 
         }
-
-        /// <summary>
-        /// An empty method, designed to activate the constructor in the right place.
-        /// </summary>
-        public static void ManualActivation() { }
-
     }
 }
