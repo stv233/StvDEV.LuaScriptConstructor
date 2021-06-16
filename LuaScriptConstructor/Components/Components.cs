@@ -256,6 +256,16 @@ namespace LuaScriptConstructor.Components
 
             #endregion
 
+            #region /// Images
+
+            _constants = _constants.Concat(GlobalComponents.Images.Constants).ToDictionary(x => x.Key, x => x.Value);
+
+            _variables = _variables.Concat(GlobalComponents.Images.Variables).ToDictionary(x => x.Key, x => x.Value);
+
+            _functions = _functions.Concat(GlobalComponents.Images.Functions).ToDictionary(x => x.Key, x => x.Value);
+
+            #endregion
+
             #endregion
 
         }
