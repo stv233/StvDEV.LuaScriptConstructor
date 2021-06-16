@@ -83,6 +83,7 @@
     <Compile Include="Components\GlobalComponents\Text.cs" />
     <Compile Include="Components\GlobalComponents\Visuals.cs" />
     <Compile Include="Components\GlobalComponents\World.cs" />
+    <Compile Include="Components\GlobalComponents\Zones.cs" />
     <Compile Include="Components\LogicalComponents.cs" />
     <Compile Include="Components\ScriptСomponents.cs" />
     <Compile Include="Components\TypesComponents.cs" />
