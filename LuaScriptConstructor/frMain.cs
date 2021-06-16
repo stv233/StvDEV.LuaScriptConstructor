@@ -963,6 +963,25 @@ namespace LuaScriptConstructor
 
             #endregion
 
+            #region /// SoundAndMusic
+
+            foreach (Types.Variable variable in Components.GlobalComponents.SoundAndMusic.Constants.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Sound and music", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            foreach (Types.Variable variable in Components.GlobalComponents.SoundAndMusic.Variables.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Sound and music", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            foreach (Types.Variable variable in Components.GlobalComponents.SoundAndMusic.Functions.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Sound and music", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            #endregion
+
             #endregion
 
             #endregion

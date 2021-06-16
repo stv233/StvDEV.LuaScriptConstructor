@@ -236,6 +236,16 @@ namespace LuaScriptConstructor.Components
 
             #endregion
 
+            #region /// SoundAndMusic
+
+            _constants = _constants.Concat(GlobalComponents.SoundAndMusic.Constants).ToDictionary(x => x.Key, x => x.Value);
+
+            _variables = _variables.Concat(GlobalComponents.SoundAndMusic.Variables).ToDictionary(x => x.Key, x => x.Value);
+
+            _functions = _functions.Concat(GlobalComponents.SoundAndMusic.Functions).ToDictionary(x => x.Key, x => x.Value);
+
+            #endregion
+
             #endregion
 
         }

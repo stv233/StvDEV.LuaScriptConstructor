@@ -80,6 +80,7 @@
     <Compile Include="Components\GlobalComponents\Particles.cs" />
     <Compile Include="Components\GlobalComponents\PlayerControl.cs" />
     <Compile Include="Components\GlobalComponents\Scripts.cs" />
+    <Compile Include="Components\GlobalComponents\SoundAndMusic.cs" />
     <Compile Include="Components\GlobalComponents\Text.cs" />
     <Compile Include="Components\GlobalComponents\Visuals.cs" />
     <Compile Include="Components\GlobalComponents\World.cs" />
