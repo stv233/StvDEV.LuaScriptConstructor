@@ -247,6 +247,9 @@
   <data name="_4in0out" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\4in0out;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="_5in0out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\5in0out;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="_7in0out" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\7in0out;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

@@ -83,6 +83,7 @@
     <Compile Include="Components\GlobalComponents\PlayerControl.cs" />
     <Compile Include="Components\GlobalComponents\Scripts.cs" />
     <Compile Include="Components\GlobalComponents\SoundAndMusic.cs" />
+    <Compile Include="Components\GlobalComponents\Sprites.cs" />
     <Compile Include="Components\GlobalComponents\Text.cs" />
     <Compile Include="Components\GlobalComponents\Visuals.cs" />
     <Compile Include="Components\GlobalComponents\World.cs" />
@@ -154,6 +155,7 @@
     <None Include="Resources\2in1out" />
     <None Include="Resources\3in0out" />
     <None Include="Resources\4in0out" />
+    <None Include="Resources\5in0out" />
     <None Include="Resources\7in0out" />
     <None Include="Resources\StvDEVScriptConstructor.bin" />
     <None Include="StvDEVScriptConstructor.lua" />

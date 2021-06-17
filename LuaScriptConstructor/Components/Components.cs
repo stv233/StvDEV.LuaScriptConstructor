@@ -266,6 +266,16 @@ namespace LuaScriptConstructor.Components
 
             #endregion
 
+            #region /// Sprites
+
+            _constants = _constants.Concat(GlobalComponents.Sprites.Constants).ToDictionary(x => x.Key, x => x.Value);
+
+            _variables = _variables.Concat(GlobalComponents.Sprites.Variables).ToDictionary(x => x.Key, x => x.Value);
+
+            _functions = _functions.Concat(GlobalComponents.Sprites.Functions).ToDictionary(x => x.Key, x => x.Value);
+
+            #endregion
+
             #endregion
 
         }

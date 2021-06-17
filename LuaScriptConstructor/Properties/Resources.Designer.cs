@@ -143,6 +143,16 @@ namespace LuaScriptConstructor.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Byte[].
         /// </summary>
+        internal static byte[] _5in0out {
+            get {
+                object obj = ResourceManager.GetObject("_5in0out", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
         internal static byte[] _7in0out {
             get {
                 object obj = ResourceManager.GetObject("_7in0out", resourceCulture);
