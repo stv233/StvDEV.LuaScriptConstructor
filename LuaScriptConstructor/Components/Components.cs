@@ -134,6 +134,20 @@ namespace LuaScriptConstructor.Components
 
             #endregion;
 
+            #region /// Trigger
+
+            #region /// Player
+
+            _constants = _constants.Concat(TriggerComponents.Player.Constants).ToDictionary(x => x.Key, x => x.Value);
+
+            _variables = _variables.Concat(TriggerComponents.Player.Variables).ToDictionary(x => x.Key, x => x.Value);
+
+            _functions = _functions.Concat(TriggerComponents.Player.Functions).ToDictionary(x => x.Key, x => x.Value);
+
+            #endregion;
+
+            #endregion
+
             #region /// Global
 
             #region /// Text

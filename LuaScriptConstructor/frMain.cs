@@ -771,6 +771,29 @@ namespace LuaScriptConstructor
 
             #region /// GameGuru
 
+            #region /// Trigger
+
+            #region /// Player
+
+            foreach (Types.Variable variable in Components.TriggerComponents.Player.Constants.Values)
+            {
+                ctvMain.Add("GameGur\\Triggers", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            foreach (Types.Variable variable in Components.TriggerComponents.Player.Variables.Values)
+            {
+                ctvMain.Add("GameGuru\\Triggers", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            foreach (Types.Variable variable in Components.TriggerComponents.Player.Functions.Values)
+            {
+                ctvMain.Add("GameGuru\\Triggers", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            #endregion
+
+            #endregion
+
             #region /// Global
 
             #region /// Text

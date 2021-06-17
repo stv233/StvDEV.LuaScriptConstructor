@@ -91,6 +91,7 @@
     <Compile Include="Components\GlobalComponents\Zones.cs" />
     <Compile Include="Components\LogicalComponents.cs" />
     <Compile Include="Components\ScriptСomponents.cs" />
+    <Compile Include="Components\TriggerComponents\Player.cs" />
     <Compile Include="Components\TypesComponents.cs" />
     <Compile Include="Components\ValuesComponents.cs" />
     <Compile Include="Favorites.cs" />
