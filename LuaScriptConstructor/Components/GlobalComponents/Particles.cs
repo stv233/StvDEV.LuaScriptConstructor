@@ -30,7 +30,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
             {
                 var functions = new Dictionary<string, Types.Function>();
 
-                #region // StartParticleEmitter
+                #region /// StartParticleEmitter
 
                 var startParticleEmitter = new Types.ProgrammaticallyDefinedFunction
                 {
@@ -63,7 +63,7 @@ namespace LuaScriptConstructor.Components.GlobalComponents
 
                 #endregion
 
-                #region // StopParticleEmitter
+                #region /// StopParticleEmitter
 
                 var stopParticleEmitter = new Types.ProgrammaticallyDefinedFunction
                 {

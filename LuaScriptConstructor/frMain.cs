@@ -1039,6 +1039,25 @@ namespace LuaScriptConstructor
 
             #endregion
 
+            #region /// MultiPlayer
+
+            foreach (Types.Variable variable in Components.GlobalComponents.MultiPlayer.Constants.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Multi-player", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            foreach (Types.Variable variable in Components.GlobalComponents.MultiPlayer.Variables.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Multi-player", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            foreach (Types.Variable variable in Components.GlobalComponents.MultiPlayer.Functions.Values)
+            {
+                ctvMain.Add("GameGuru\\Global\\Multi-player", new Forms.ConstructorTreeView.ConstructorTreeNode(variable));
+            }
+
+            #endregion
+
             #endregion
 
             #endregion

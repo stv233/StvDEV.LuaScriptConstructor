@@ -79,6 +79,7 @@
     <Compile Include="Components\GlobalComponents\Images.cs" />
     <Compile Include="Components\GlobalComponents\LevelControl.cs" />
     <Compile Include="Components\GlobalComponents\Lights.cs" />
+    <Compile Include="Components\GlobalComponents\MultiPlayer.cs" />
     <Compile Include="Components\GlobalComponents\Particles.cs" />
     <Compile Include="Components\GlobalComponents\PlayerControl.cs" />
     <Compile Include="Components\GlobalComponents\Scripts.cs" />

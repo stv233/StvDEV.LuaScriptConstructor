@@ -276,6 +276,16 @@ namespace LuaScriptConstructor.Components
 
             #endregion
 
+            #region /// MultiPlayer
+
+            _constants = _constants.Concat(GlobalComponents.MultiPlayer.Constants).ToDictionary(x => x.Key, x => x.Value);
+
+            _variables = _variables.Concat(GlobalComponents.MultiPlayer.Variables).ToDictionary(x => x.Key, x => x.Value);
+
+            _functions = _functions.Concat(GlobalComponents.MultiPlayer.Functions).ToDictionary(x => x.Key, x => x.Value);
+
+            #endregion
+
             #endregion
 
         }
