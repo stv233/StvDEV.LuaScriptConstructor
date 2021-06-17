@@ -37,7 +37,7 @@ namespace LuaScriptConstructor.Components.TriggerComponents
                     Name = "Player inside the trigger",
                     Prefix = "if",
                     Description = "Player inside the trigger",
-                    Identifier = "if (g_Entity[e]['plrinzone'] == 1)",
+                    Identifier = "if (g_Entity[e]['plrinzone'] == 1) ",
                     IdentifierWithArguments = true,
                     Type = Types.Function.FuntionTypes.Regular,
                     NeedRebuild = true,
@@ -61,18 +61,13 @@ namespace LuaScriptConstructor.Components.TriggerComponents
 
                     e.Table.Groups.Clear();
 
-                    var argumentRow = new Crainiate.Diagramming.TableRow("Condition") { Forecolor = e.Table.Forecolor };
-                    e.Table.Rows.Add(argumentRow);
+                    string toRemove = "";
 
                     foreach (string key in e.Table.Ports.Keys)
                     {
                         if (e.Table.Ports[key].Key.Contains("argument"))
                         {
-                            (e.Table.Ports[key] as Crainiate.Diagramming.TablePort).TableItem = argumentRow;
-                            e.Table.Ports[key].BackColor = e.Table.BackColor;
-                            e.Table.Ports[key].GradientColor = e.Table.BackColor;
-                            e.Table.LocatePort(e.Table.Ports[key]);
-                            break;
+                            toRemove = key;
                         }
 
                         if (e.Table.Ports[key].Key.Contains("output"))
@@ -83,6 +78,8 @@ namespace LuaScriptConstructor.Components.TriggerComponents
                             e.Table.Ports[key].X += 25;
                         }
                     }
+
+                    e.Table.Ports.Remove(toRemove);
 
                     var truePort = new Crainiate.Diagramming.Port()
                     {
@@ -110,7 +107,7 @@ namespace LuaScriptConstructor.Components.TriggerComponents
                     Name = "Player out of trigger",
                     Prefix = "if",
                     Description = "Player out of trigger",
-                    Identifier = "if (g_Entity[e]['plrinzone'] == 0)",
+                    Identifier = "if (g_Entity[e]['plrinzone'] == 0) ",
                     IdentifierWithArguments = true,
                     Type = Types.Function.FuntionTypes.Regular,
                     NeedRebuild = true,
@@ -134,18 +131,13 @@ namespace LuaScriptConstructor.Components.TriggerComponents
 
                     e.Table.Groups.Clear();
 
-                    var argumentRow = new Crainiate.Diagramming.TableRow("Condition") { Forecolor = e.Table.Forecolor };
-                    e.Table.Rows.Add(argumentRow);
+                    string toRemove = "";
 
                     foreach (string key in e.Table.Ports.Keys)
                     {
                         if (e.Table.Ports[key].Key.Contains("argument"))
                         {
-                            (e.Table.Ports[key] as Crainiate.Diagramming.TablePort).TableItem = argumentRow;
-                            e.Table.Ports[key].BackColor = e.Table.BackColor;
-                            e.Table.Ports[key].GradientColor = e.Table.BackColor;
-                            e.Table.LocatePort(e.Table.Ports[key]);
-                            break;
+                            toRemove = key;
                         }
 
                         if (e.Table.Ports[key].Key.Contains("output"))
@@ -156,6 +148,8 @@ namespace LuaScriptConstructor.Components.TriggerComponents
                             e.Table.Ports[key].X += 25;
                         }
                     }
+
+                    e.Table.Ports.Remove(toRemove);
 
                     var truePort = new Crainiate.Diagramming.Port()
                     {

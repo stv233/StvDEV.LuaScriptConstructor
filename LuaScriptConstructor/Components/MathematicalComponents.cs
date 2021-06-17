@@ -251,7 +251,8 @@ namespace LuaScriptConstructor.Components
                     NeedRebuild = true,
                     Diagram = new Forms.ConstructorDiagram(),
                     Type = Types.Function.FuntionTypes.Regular,
-                    AccessType = Types.Variable.VariableAccessTypes.InputOutput
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = false
                 };
                 absolute.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._1in1out));
                 absolute.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
@@ -290,7 +291,8 @@ namespace LuaScriptConstructor.Components
                     NeedRebuild = true,
                     Diagram = new Forms.ConstructorDiagram(),
                     Type = Types.Function.FuntionTypes.Regular,
-                    AccessType = Types.Variable.VariableAccessTypes.InputOutput
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = false
                 };
                 ceil.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._1in1out));
                 ceil.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
@@ -329,7 +331,8 @@ namespace LuaScriptConstructor.Components
                     NeedRebuild = true,
                     Diagram = new Forms.ConstructorDiagram(),
                     Type = Types.Function.FuntionTypes.Regular,
-                    AccessType = Types.Variable.VariableAccessTypes.InputOutput
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = false
                 };
                 floor.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._1in1out));
                 floor.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
@@ -368,7 +371,8 @@ namespace LuaScriptConstructor.Components
                     NeedRebuild = true,
                     Diagram = new Forms.ConstructorDiagram(),
                     Type = Types.Function.FuntionTypes.Regular,
-                    AccessType = Types.Variable.VariableAccessTypes.InputOutput
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = false
                 };
                 pow.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._2in1out));
                 pow.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
@@ -408,7 +412,8 @@ namespace LuaScriptConstructor.Components
                     NeedRebuild = true,
                     Diagram = new Forms.ConstructorDiagram(),
                     Type = Types.Function.FuntionTypes.Regular,
-                    AccessType = Types.Variable.VariableAccessTypes.InputOutput
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = false
                 };
                 sqrt.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._1in1out));
                 sqrt.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
@@ -447,7 +452,8 @@ namespace LuaScriptConstructor.Components
                     NeedRebuild = true,
                     Diagram = new Forms.ConstructorDiagram(),
                     Type = Types.Function.FuntionTypes.Regular,
-                    AccessType = Types.Variable.VariableAccessTypes.InputOutput
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = false
                 };
                 log.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._1in1out));
                 log.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
@@ -486,7 +492,8 @@ namespace LuaScriptConstructor.Components
                     NeedRebuild = true,
                     Diagram = new Forms.ConstructorDiagram(),
                     Type = Types.Function.FuntionTypes.Regular,
-                    AccessType = Types.Variable.VariableAccessTypes.InputOutput
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = false
                 };
                 log10.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._1in1out));
                 log10.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
@@ -525,7 +532,8 @@ namespace LuaScriptConstructor.Components
                     NeedRebuild = true,
                     Diagram = new Forms.ConstructorDiagram(),
                     Type = Types.Function.FuntionTypes.Regular,
-                    AccessType = Types.Variable.VariableAccessTypes.InputOutput
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = false
                 };
                 cos.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._1in1out));
                 cos.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
@@ -564,7 +572,8 @@ namespace LuaScriptConstructor.Components
                     NeedRebuild = true,
                     Diagram = new Forms.ConstructorDiagram(),
                     Type = Types.Function.FuntionTypes.Regular,
-                    AccessType = Types.Variable.VariableAccessTypes.InputOutput
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = false
                 };
                 sin.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._1in1out));
                 sin.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
@@ -603,7 +612,8 @@ namespace LuaScriptConstructor.Components
                     NeedRebuild = true,
                     Diagram = new Forms.ConstructorDiagram(),
                     Type = Types.Function.FuntionTypes.Regular,
-                    AccessType = Types.Variable.VariableAccessTypes.InputOutput
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = false
                 };
                 tan.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._1in1out));
                 tan.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
@@ -642,7 +652,8 @@ namespace LuaScriptConstructor.Components
                     NeedRebuild = true,
                     Diagram = new Forms.ConstructorDiagram(),
                     Type = Types.Function.FuntionTypes.Regular,
-                    AccessType = Types.Variable.VariableAccessTypes.InputOutput
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = false
                 };
                 deg.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._1in1out));
                 deg.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
@@ -681,7 +692,8 @@ namespace LuaScriptConstructor.Components
                     NeedRebuild = true,
                     Diagram = new Forms.ConstructorDiagram(),
                     Type = Types.Function.FuntionTypes.Regular,
-                    AccessType = Types.Variable.VariableAccessTypes.InputOutput
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = false
                 };
                 rad.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._1in1out));
                 rad.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>
@@ -720,7 +732,8 @@ namespace LuaScriptConstructor.Components
                     NeedRebuild = true,
                     Diagram = new Forms.ConstructorDiagram(),
                     Type = Types.Function.FuntionTypes.Regular,
-                    AccessType = Types.Variable.VariableAccessTypes.InputOutput
+                    AccessType = Types.Variable.VariableAccessTypes.InputOutput,
+                    NeedEntityId = false
                 };
                 random.Diagram.DeserializeFromString(System.Text.Encoding.UTF8.GetString(Properties.Resources._2in1out));
                 random.TableRebuilding += (object s, Types.ProgrammaticallyDefinedFunction.RebuildEventArgs e) =>

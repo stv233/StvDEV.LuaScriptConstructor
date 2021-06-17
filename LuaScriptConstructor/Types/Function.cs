@@ -445,7 +445,7 @@ namespace LuaScriptConstructor.Types
             // Function header
             if (type == FuntionTypes.Regular)
             {
-                code += "function " + Name + "(e,";
+                code += "function " + Name + "(e" + ((Arguments.Count > 0) ? "," : "");
 
                 foreach (string arg in Arguments)
                 {
@@ -700,11 +700,11 @@ namespace LuaScriptConstructor.Types
                     code += " = ";
                 }
 
-                code += table.Function.Identifier + (NeedEntityId ? "(e" : "(");
+                code += table.Function.Identifier + (table.Function.NeedEntityId ? "(e" : "(");
 
                 if (table.ArgumentsValues.Count > 0)
                 {
-                    bool comma = (NeedEntityId ? true : false);
+                    bool comma = (table.Function.NeedEntityId ? true : false);
                     foreach (string argument in table.ArgumentsValues.Values)
                     {
                         if (comma) { code += ","; }; 
