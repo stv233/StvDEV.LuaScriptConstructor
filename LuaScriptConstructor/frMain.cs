@@ -105,6 +105,7 @@ namespace LuaScriptConstructor
             this.Text = Application.ProductName;
             this.BackColor = UserSettings.ColorScheme.MainColor;
             this.ForeColor = UserSettings.ColorScheme.ForeColor;
+            this.Icon = Properties.Resources.ico;
 
             #endregion
 

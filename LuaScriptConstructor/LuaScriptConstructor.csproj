@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>ico.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ConsoleControl, Version=1.3.0.0, Culture=neutral, PublicKeyToken=7edd23586f5e297f, processorArchitecture=MSIL">
       <HintPath>..\packages\ConsoleControl.1.3.0\lib\net40-client\ConsoleControl.dll</HintPath>
@@ -222,6 +225,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Console.ico" />
+    <Content Include="ico.ico" />
+    <None Include="Resources\ico.ico" />
     <None Include="Resources\ASPWebSite_16x.png" />
     <None Include="Resources\Mail_16x.png" />
     <None Include="Resources\FeedbackSmile_16x.png" />
