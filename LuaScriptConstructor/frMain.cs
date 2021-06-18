@@ -15,6 +15,7 @@ namespace LuaScriptConstructor
         private int functionsCounter = 0;
         private string projectPath = "";
         private static ToolStripLabel tslStatus;
+        private TextEditor.TextEditor userNotebook;
 
         #region /// Console
 
@@ -421,6 +422,48 @@ namespace LuaScriptConstructor
                 Image = Properties.Resources.Library_16x
             };
             tsmiProgram.DropDownItems.Add(tsmiInstallLibrary);
+
+            #endregion
+
+            #region /// Information
+
+            var tsmiInformation = new ToolStripMenuItem
+            {
+                Text = "Information"
+            };
+            msMain.Items.Add(tsmiInformation);
+
+            var tsmiUserNotes = new ToolStripMenuItem
+            {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
+                Text = "User notes...",
+                Image = Properties.Resources.Log_16x
+            };
+            tsmiInformation.DropDownItems.Add(tsmiUserNotes);
+
+            var tsmiGGGlobalVariables = new ToolStripMenuItem
+            {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
+                Text = "GameGuru global variables...",
+                Image = Properties.Resources.InformationSymbol_16x
+            };
+            tsmiInformation.DropDownItems.Add(tsmiGGGlobalVariables);
+
+            var tsmiGGScancodes = new ToolStripMenuItem
+            {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
+                Text = "GameGuru scancodes...",
+                Image = Properties.Resources.InformationSymbol_16x
+            };
+            tsmiInformation.DropDownItems.Add(tsmiGGScancodes);
+
+            var tsmiMenuGuide = new ToolStripMenuItem
+            {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
+                Text = "Menu guide...",
+                Image = Properties.Resources.InformationSymbol_16x
+            };
+            tsmiInformation.DropDownItems.Add(tsmiMenuGuide);
 
             #endregion
 
@@ -1359,6 +1402,60 @@ namespace LuaScriptConstructor
                     ConsoleError("Failed to install library: " + ex.Message);
                 }
 
+            };
+
+            tsmiUserNotes.Click += (s, e) =>
+            {
+
+                foreach (Form fr in Application.OpenForms)
+                {
+                    if (fr == userNotebook)
+                    {
+                        userNotebook.Activate();
+                        return;
+                    }
+                }
+
+                userNotebook = new TextEditor.TextEditor() { Icon = this.Icon, StaticFile = true };
+                if (File.Exists(Program.AppDataPath + "User Notebook.rtf"))
+                {
+                    userNotebook.Open(Program.AppDataPath + "User Notebook.rtf");
+                }
+
+                userNotebook.TextChanged += (se, ev) =>
+                {
+                    userNotebook.Save(Program.AppDataPath + "User Notebook.rtf");
+                };
+
+                userNotebook.Show();
+
+            };
+
+            tsmiGGGlobalVariables.Click += (s, e) =>
+            {
+                var infoEditor = new TextEditor.TextEditor(true) { Icon = System.Drawing.Icon.FromHandle(Properties.Resources.InformationSymbol_16x.GetHicon())};
+                File.WriteAllText(Program.AppDataPath + "GameGuru global variables", Properties.Resources.GameGuru_Global_variables);
+                infoEditor.Open(Program.AppDataPath + "GameGuru global variables");
+                File.Delete(Program.AppDataPath + "GameGuru global variables");
+                infoEditor.Show();
+            };
+
+            tsmiGGScancodes.Click += (s, e) =>
+            {
+                var infoEditor = new TextEditor.TextEditor(true) { Icon = System.Drawing.Icon.FromHandle(Properties.Resources.InformationSymbol_16x.GetHicon()) };
+                File.WriteAllText(Program.AppDataPath + "GameGuru scancodes", Properties.Resources.GameGuru_Scancodes);
+                infoEditor.Open(Program.AppDataPath + "GameGuru scancodes");
+                File.Delete(Program.AppDataPath + "GameGuru scancodes");
+                infoEditor.Show();
+            };
+
+            tsmiMenuGuide.Click += (s, e) =>
+            {
+                var infoEditor = new TextEditor.TextEditor(true) { Icon = System.Drawing.Icon.FromHandle(Properties.Resources.InformationSymbol_16x.GetHicon()) };
+                File.WriteAllText(Program.AppDataPath + "Menu guide", Properties.Resources.Menu_guide);
+                infoEditor.Open(Program.AppDataPath + "Menu guide");
+                File.Delete(Program.AppDataPath + "Menu guide");
+                infoEditor.Show();
             };
 
             htbSearch.TextChanged += (s, e) =>

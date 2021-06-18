@@ -281,6 +281,36 @@ namespace LuaScriptConstructor.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на {\rtf1\ansi\ansicpg1251\deff0\nouicompat\deflang1049{\fonttbl{\f0\fnil\fcharset0 Times New Roman;}{\f1\froman\fcharset0 Times New Roman;}{\f2\fnil\fcharset204 Microsoft Sans Serif;}}
+        ///{\colortbl ;\red64\green0\blue128;\red0\green0\blue255;\red128\green128\blue255;\red128\green0\blue128;}
+        ///{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+        ///\pard\cf1\b\f0\fs56\lang1033 GameGuru Global variables\cf2\par
+        ///\par
+        ///\cf3\b0\fs41 Player Globals\par
+        ///\cf4\b\fs24 g_PlayerPosX \cf0\b0\f1 - Returns the players X position [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string GameGuru_Global_variables {
+            get {
+                return ResourceManager.GetString("GameGuru_Global_variables", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на {\rtf1\ansi\ansicpg1251\deff0\nouicompat\deflang1049{\fonttbl{\f0\fnil\fcharset0 Microsoft Sans Serif;}{\f1\fnil\fcharset204 Microsoft Sans Serif;}}
+        ///{\colortbl ;\red0\green0\blue160;\red0\green0\blue255;}
+        ///{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+        ///\pard\qc\cf1\b\f0\fs96\lang1033 GameGuru Scancodes\par
+        ///\cf0\b0\f1\fs17\lang1049{\pict{\*\picprop{\sp{\sn wzDescription}{\sv Image}}{\sp{\sn posv}{\sv 1}}
+        ///}\pngblip\picw19738\pich9869\picwgoal11190\pichgoal5595 
+        ///89504e470d0a1a0a0000000d4948445200000500 [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string GameGuru_Scancodes {
+            get {
+                return ResourceManager.GetString("GameGuru_Scancodes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap GG_16x {
@@ -313,6 +343,16 @@ namespace LuaScriptConstructor.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap InformationSymbol_16x {
+            get {
+                object obj = ResourceManager.GetObject("InformationSymbol_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Library_16x {
             get {
                 object obj = ResourceManager.GetObject("Library_16x", resourceCulture);
@@ -327,6 +367,34 @@ namespace LuaScriptConstructor.Properties {
             get {
                 object obj = ResourceManager.GetObject("LocalVariable_16x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Log_16x {
+            get {
+                object obj = ResourceManager.GetObject("Log_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на {\rtf1\ansi\ansicpg1251\deff0\nouicompat\deflang1049{\fonttbl{\f0\fnil\fcharset204 Microsoft Sans Serif;}{\f1\fnil\fcharset0 Microsoft Sans Serif;}}
+        ///{\colortbl ;\red128\green0\blue64;\red128\green0\blue0;}
+        ///{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+        ///\pard\cf1\b\f0\fs96 Menu guide\par
+        ///\cf0\b0\fs17\par
+        ///\cf2\f1\fs28\lang1033 File\cf0\fs17\par
+        ///\f0\par
+        ///\f1{\pict{\*\picprop{\sp{\sn wzDescription}{\sv NewFile_16x.png}}{\sp{\sn posv}{\sv 1}}
+        ///}\pngblip\picw423\pich423\picwgoal240\pichgoal240 
+        ///89504e47 [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string Menu_guide {
+            get {
+                return ResourceManager.GetString("Menu_guide", resourceCulture);
             }
         }
         

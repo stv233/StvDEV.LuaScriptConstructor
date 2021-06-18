@@ -154,6 +154,12 @@
   <data name="Favorite_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Favorite_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="GameGuru_Global_variables" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GameGuru Global variables.rtf;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GameGuru_Scancodes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GameGuru Scancodes.rtf;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
   <data name="GG_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GG_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -163,11 +169,20 @@
   <data name="If_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\If_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="InformationSymbol_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\InformationSymbol_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Library_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Library_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="LocalVariable_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LocalVariable_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Log_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Log_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Menu_guide" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Menu guide.rtf;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
   <data name="NewFile_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NewFile_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
