@@ -598,6 +598,19 @@ namespace LuaScriptConstructor.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на {\rtf1\ansi\ansicpg1251\deff0\nouicompat\deflang1049{\fonttbl{\f0\fnil\fcharset204 Microsoft Sans Serif;}{\f1\fnil\fcharset0 Microsoft Sans Serif;}}
+        ///{\colortbl ;\red0\green0\blue160;\red128\green0\blue128;\red128\green0\blue255;\red0\green128\blue255;\red0\green128\blue0;\red255\green128\blue0;\red0\green0\blue0;\red255\green128\blue128;\red0\green128\blue64;\red255\green0\blue0;\red230\green224\blue0;}
+        ///{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+        ///\pard\cf1\b\f0\fs144 Usage guide\cf0\b0\fs17\par
+        ///\p [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string Usage_guide {
+            get {
+                return ResourceManager.GetString("Usage_guide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap UserFunction_16x {

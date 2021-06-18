@@ -166,6 +166,7 @@
     <None Include="Resources\GameGuru Scancodes.rtf" />
     <None Include="Resources\Menu guide.rtf" />
     <None Include="Resources\StvDEVScriptConstructor.bin" />
+    <None Include="Resources\Usage guide.rtf" />
     <None Include="StvDEVScriptConstructor.lua" />
   </ItemGroup>
   <ItemGroup>

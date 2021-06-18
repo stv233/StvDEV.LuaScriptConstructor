@@ -466,6 +466,14 @@ namespace LuaScriptConstructor
             };
             tsmiInformation.DropDownItems.Add(tsmiMenuGuide);
 
+            var tsmiUsageGuide = new ToolStripMenuItem
+            {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
+                Text = "Usage guide...",
+                Image = Properties.Resources.InformationSymbol_16x
+            };
+            tsmiInformation.DropDownItems.Add(tsmiUsageGuide);
+
             #endregion
 
             #region /// Feedback
@@ -1506,6 +1514,15 @@ namespace LuaScriptConstructor
                 File.WriteAllText(Program.AppDataPath + "Menu guide", Properties.Resources.Menu_guide);
                 infoEditor.Open(Program.AppDataPath + "Menu guide");
                 File.Delete(Program.AppDataPath + "Menu guide");
+                infoEditor.Show();
+            };
+
+            tsmiUsageGuide.Click += (s, e) =>
+            {
+                var infoEditor = new TextEditor.TextEditor(true) { Icon = System.Drawing.Icon.FromHandle(Properties.Resources.InformationSymbol_16x.GetHicon()) };
+                File.WriteAllText(Program.AppDataPath + "Usage guide", Properties.Resources.Usage_guide);
+                infoEditor.Open(Program.AppDataPath + "Usage guide");
+                File.Delete(Program.AppDataPath + "Usage guide");
                 infoEditor.Show();
             };
 
