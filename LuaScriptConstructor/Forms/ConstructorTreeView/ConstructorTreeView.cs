@@ -9,7 +9,10 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
     /// </summary>
     class ConstructorTreeView : Kesoft.Windows.Forms.Win7StyleTreeView.Win7StyleTreeView
     {
-        private ToolTip toolTip = new ToolTip(); 
+        private readonly ToolTip toolTip = new ToolTip()
+        {
+            AutoPopDelay = 30000
+        }; 
         private TreeNode mouseCureentNode;
 
         /// <summary>
@@ -316,7 +319,10 @@ namespace LuaScriptConstructor.Forms.ConstructorTreeView
         {
             mouseCureentNode = e.Node;
             toolTip.Hide(this);
-            toolTip.Show(e.Node.ToolTipText, this);
+            if (!String.IsNullOrEmpty(e.Node.ToolTipText))
+            {
+                toolTip.Show(e.Node.ToolTipText, this);
+            }
             base.OnNodeMouseHover(e);
         }
 
