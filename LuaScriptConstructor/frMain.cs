@@ -467,6 +467,56 @@ namespace LuaScriptConstructor
 
             #endregion
 
+            #region /// Feedback
+
+            var tsmiFeedback = new ToolStripMenuItem
+            {
+                Text = "Feedback"
+            };
+            msMain.Items.Add(tsmiFeedback);
+
+            var tsmiReviewSuggestion = new ToolStripMenuItem
+            {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
+                Text = "Review/Suggestion",
+                Image = Properties.Resources.FeedbackSmile_16x
+            };
+            tsmiFeedback.DropDownItems.Add(tsmiReviewSuggestion);
+
+            var tsmiReviewSuggestionMail = new ToolStripMenuItem
+            {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
+                Text = "Mail...",
+                Image = Properties.Resources.Mail_16x
+            };
+            tsmiReviewSuggestion.DropDownItems.Add(tsmiReviewSuggestionMail);
+
+            var tsmiBugsProblems = new ToolStripMenuItem
+            {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
+                Text = "Bugs/Problems",
+                Image = Properties.Resources.FeedbackFrown_16x
+            };
+            tsmiFeedback.DropDownItems.Add(tsmiBugsProblems);
+
+            var tsmiBugsProblemsMail = new ToolStripMenuItem
+            {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
+                Text = "Mail...",
+                Image = Properties.Resources.Mail_16x
+            };
+            tsmiBugsProblems.DropDownItems.Add(tsmiBugsProblemsMail);
+
+            var tsmiBugsProblemsWebsite = new ToolStripMenuItem
+            {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
+                Text = "Website...",
+                Image = Properties.Resources.ASPWebSite_16x
+            };
+            tsmiBugsProblems.DropDownItems.Add(tsmiBugsProblemsWebsite);
+
+            #endregion
+
             #endregion
 
             #region /// MenuToolStrip
@@ -1456,6 +1506,21 @@ namespace LuaScriptConstructor
                 infoEditor.Open(Program.AppDataPath + "Menu guide");
                 File.Delete(Program.AppDataPath + "Menu guide");
                 infoEditor.Show();
+            };
+
+            tsmiReviewSuggestionMail.Click += (s, e) =>
+            {
+                System.Diagnostics.Process.Start("mailto:support@stv233.pro?subject=StvDEV Lua Script Constructor Reviewe/Suggestion");
+            };
+
+            tsmiBugsProblemsMail.Click += (s, e) =>
+            {
+                System.Diagnostics.Process.Start("mailto:support@stv233.pro?subject=StvDEV Lua Script Constructor Bugs/Problems");
+            };
+
+            tsmiBugsProblemsWebsite.Click += (s, e) =>
+            {
+                System.Diagnostics.Process.Start(@"http:\\stv233.pro\en\me");
             };
 
             htbSearch.TextChanged += (s, e) =>

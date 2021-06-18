@@ -173,6 +173,16 @@ namespace LuaScriptConstructor.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ASPWebSite_16x {
+            get {
+                object obj = ResourceManager.GetObject("ASPWebSite_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BuildSelection_16x {
             get {
                 object obj = ResourceManager.GetObject("BuildSelection_16x", resourceCulture);
@@ -281,6 +291,26 @@ namespace LuaScriptConstructor.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FeedbackFrown_16x {
+            get {
+                object obj = ResourceManager.GetObject("FeedbackFrown_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FeedbackSmile_16x {
+            get {
+                object obj = ResourceManager.GetObject("FeedbackSmile_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на {\rtf1\ansi\ansicpg1251\deff0\nouicompat\deflang1049{\fonttbl{\f0\fnil\fcharset0 Times New Roman;}{\f1\froman\fcharset0 Times New Roman;}{\f2\fnil\fcharset204 Microsoft Sans Serif;}}
         ///{\colortbl ;\red64\green0\blue128;\red0\green0\blue255;\red128\green128\blue255;\red128\green0\blue128;}
         ///{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
@@ -376,6 +406,16 @@ namespace LuaScriptConstructor.Properties {
         internal static System.Drawing.Bitmap Log_16x {
             get {
                 object obj = ResourceManager.GetObject("Log_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Mail_16x {
+            get {
+                object obj = ResourceManager.GetObject("Mail_16x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

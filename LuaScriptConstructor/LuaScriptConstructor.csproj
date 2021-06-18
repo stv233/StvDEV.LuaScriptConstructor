@@ -222,6 +222,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Console.ico" />
+    <None Include="Resources\ASPWebSite_16x.png" />
+    <None Include="Resources\Mail_16x.png" />
+    <None Include="Resources\FeedbackSmile_16x.png" />
+    <None Include="Resources\FeedbackFrown_16x.png" />
     <None Include="Resources\InformationSymbol_16x.png" />
     <None Include="Resources\Log_16x.png" />
     <None Include="Resources\GG_16x.png" />
