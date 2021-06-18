@@ -10,7 +10,6 @@ namespace LuaScriptConstructor.Forms
     class DiagramTabPage : TabPage
     {
         private ConstructorDiagram _diagram;
-        private HScrollBar hScrollBar = new HScrollBar();
 
         /// <summary>
         /// Tab diagram.
@@ -122,6 +121,13 @@ namespace LuaScriptConstructor.Forms
 
         }
 
+        /// <summary>
+        /// Diagram tab page.
+        /// </summary>
+        protected override Point ScrollToControl(Control activeControl)
+        {
+            return DisplayRectangle.Location;
+        }
 
     }
 }
