@@ -37,12 +37,32 @@ namespace LuaScriptConstructor
         /// Главная точка входа для приложения.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
-            UserSettings.LoadSettings(AppDataPath + "UserSettings.uset");
+            List<string> argsList = new List<string>(args);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            #region /// Arguments & Settings
+
+            if (argsList.Contains("-reset")) // Reset settings.
+            {
+                System.IO.File.Delete(AppDataPath + "UserSettings.uset");
+                argsList.RemoveAll(new Predicate<string>((delegate (string x) { return x == "-reset"; })));
+            }
+
+            if (!System.IO.File.Exists(AppDataPath + "UserSettings.uset")) { argsList.Add("-greeting"); }
+
+            UserSettings.LoadSettings(AppDataPath + "UserSettings.uset");
+
+            if (argsList.Contains("-greeting")) // Greeting form.
+            {
+                new frGreeting().ShowDialog();
+                argsList.RemoveAll(new Predicate<string>((delegate (string x) { return x == "-greeting"; })));
+            }
+
+            #endregion
 
             Components.Components.FillComponents();
 
