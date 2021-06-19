@@ -1311,6 +1311,8 @@ namespace LuaScriptConstructor
             this.Load += (s, e) =>
             {
                 ConsoleMessage(Application.ProductName + " is loaded and ready to go\n", System.Drawing.Color.Blue);
+                LoadScreen.Close();
+                this.Activate();
             };
 
             tcMain.SelectedIndexChanged += (s, e) =>

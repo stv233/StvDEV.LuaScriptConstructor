@@ -39,10 +39,14 @@ namespace LuaScriptConstructor
         [STAThread]
         static void Main(string[] args)
         {
+            #region /// Program Initialization
+
             List<string> argsList = new List<string>(args);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            #endregion
 
             #region /// Arguments & Settings
 
@@ -64,6 +68,15 @@ namespace LuaScriptConstructor
 
             #endregion
 
+            #region /// Load Screen
+
+            LoadScreen.Icon = Properties.Resources.ico;
+            LoadScreen.Status = "StvDEV Lua Script Constructor";
+            LoadScreen.Image = Properties.Resources.ico.ToBitmap();
+            LoadScreen.Show();
+
+            #endregion
+
             Components.Components.FillComponents();
 
             Application.Run(new frMain());
@@ -71,6 +84,7 @@ namespace LuaScriptConstructor
             while(Restart)
             {
                 Restart = false;
+                LoadScreen.Show();
                 new frMain().ShowDialog();
             }
         }

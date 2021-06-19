@@ -303,5 +303,18 @@ namespace LuaScriptConstructor.Components
             #endregion
 
         }
+
+        /// <summary>
+        /// Loads all components available in the program async.
+        /// </summary>
+        public static void FillComponentsAsync()
+        {
+            var thread = new Thread(() =>
+            {
+                FillComponents();
+            });
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+        }
     }
 }
