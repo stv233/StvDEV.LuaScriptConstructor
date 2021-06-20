@@ -85,7 +85,7 @@ namespace LuaScriptConstructor
         /// </summary>
         private Dictionary<string, Types.Function> projectFunctions { get; set; }
 
-        public frMain()
+        public frMain(string arg)
         {
 
             #region /// Initialization
@@ -1313,6 +1313,7 @@ namespace LuaScriptConstructor
                 ConsoleMessage(Application.ProductName + " is loaded and ready to go\n", System.Drawing.Color.Blue);
                 LoadScreen.Close();
                 this.Activate();
+                this.Text = Application.ProductName + " - " + Path.GetFileName(projectPath);
             };
 
             tcMain.SelectedIndexChanged += (s, e) =>
@@ -1354,9 +1355,7 @@ namespace LuaScriptConstructor
                 {
                     if (sfd.ShowDialog() == DialogResult.OK)
                     {
-                        projectPath = sfd.FileName;
-                        this.Text = Application.ProductName + " - " + Path.GetFileName(projectPath);
-                        Save(projectPath);
+                        Save(sfd.FileName);
                     }
                 }
             };
@@ -1373,9 +1372,7 @@ namespace LuaScriptConstructor
                    
                     if (ofd.ShowDialog() == DialogResult.OK)
                     {
-                        projectPath = ofd.FileName;
-                        this.Text = Application.ProductName + " - " + Path.GetFileName(projectPath);
-                        Open(projectPath);
+                        Open(ofd.FileName);
                     }
                 }
             };
@@ -1566,6 +1563,15 @@ namespace LuaScriptConstructor
                     this.Text += "*";
                 }
             };
+
+            #endregion
+
+            #region /// Argument
+
+            if (!string.IsNullOrEmpty(arg))
+            {
+                Open(arg);
+            }
 
             #endregion
         }
@@ -1796,6 +1802,9 @@ namespace LuaScriptConstructor
                     }
                 }
                 Status = "Save completed";
+                projectPath = path;
+                this.Text = Application.ProductName + " - " + Path.GetFileName(projectPath);
+                Projects.Update(path);
             }
             catch (Exception e)
             {
@@ -1853,7 +1862,10 @@ namespace LuaScriptConstructor
                 Status = "Opening completed";
                 ConstructorConsole.ClearOutput();
                 ConsoleMessage("Project " + path + " loaded and ready to go\n", System.Drawing.Color.Blue);
-        }
+                projectPath = path;
+                this.Text = Application.ProductName + " - " + Path.GetFileName(projectPath);
+                Projects.Update(path);
+            }
             catch (Exception e)
             {
                 MessageBox.Show("Failed to open file.\n" + e.Message, "Failed to open file!",

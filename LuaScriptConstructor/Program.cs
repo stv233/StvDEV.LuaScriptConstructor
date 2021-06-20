@@ -68,6 +68,28 @@ namespace LuaScriptConstructor
 
             #endregion
 
+            #region /// Projects
+
+            if (!(argsList.Count > 0))
+            {
+                Projects.LoadProjects(AppDataPath + "Projects.list");
+                var pdProjects = new ProjectDialog
+                {
+                    Icon = Properties.Resources.ico,
+                    Text = "StvDEV Lua Script Constructor projects",
+                    Projects = Projects.List,
+                    BackColor = UserSettings.ColorScheme.SecondaryColor, 
+                    ForeColor = UserSettings.ColorScheme.ForeColor
+                };
+                pdProjects.RefreshProjects();
+                if (pdProjects.ShowDialog() == DialogResult.OK)
+                {
+                    argsList.Add(pdProjects.Project);
+                }
+            }
+
+            #endregion
+
             #region /// Load Screen
 
             LoadScreen.Icon = Properties.Resources.ico;
@@ -79,13 +101,13 @@ namespace LuaScriptConstructor
 
             Components.Components.FillComponents();
 
-            Application.Run(new frMain());
+            Application.Run(new frMain((argsList.Count > 0) ? argsList[0] : ""));
 
             while(Restart)
             {
                 Restart = false;
                 LoadScreen.Show();
-                new frMain().ShowDialog();
+                new frMain("").ShowDialog();
             }
         }
     }
