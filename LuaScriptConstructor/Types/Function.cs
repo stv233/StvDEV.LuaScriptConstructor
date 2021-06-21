@@ -219,24 +219,24 @@ namespace LuaScriptConstructor.Types
             {
                foreach (string warning in e.Warnings)
                 {
-                    frMain.ConsoleWarning(warning);
+                    ApplicationForms.MainWindow.ConsoleWarning(warning);
                 }
-                frMain.ConsoleMessage("Build successful: ", System.Drawing.Color.LimeGreen);
-                frMain.ConsoleMessage("0 errors ", System.Drawing.Color.Red, false);
-                frMain.ConsoleMessage(e.Warnings.Count.ToString() + " warnings", System.Drawing.Color.Gold, false);
-                frMain.ConsoleMessage("\n", System.Drawing.Color.Black, false);
+                ApplicationForms.MainWindow.ConsoleMessage("Build successful: ", System.Drawing.Color.LimeGreen);
+                ApplicationForms.MainWindow.ConsoleMessage("0 errors ", System.Drawing.Color.Red, false);
+                ApplicationForms.MainWindow.ConsoleMessage(e.Warnings.Count.ToString() + " warnings", System.Drawing.Color.Gold, false);
+                ApplicationForms.MainWindow.ConsoleMessage("\n", System.Drawing.Color.Black, false);
             };
             BuildError += (object s, FunctionBuildEventArgs e) =>
             {
                 foreach (string warning in e.Warnings)
                 {
-                    frMain.ConsoleWarning(warning);
+                    ApplicationForms.MainWindow.ConsoleWarning(warning);
                 }
-                frMain.ConsoleError(e.Error.Message);
-                frMain.ConsoleMessage("Build failed: ", System.Drawing.Color.DarkRed);
-                frMain.ConsoleMessage("1 error ", System.Drawing.Color.Red, false);
-                frMain.ConsoleMessage(e.Warnings.Count.ToString() + " warnings", System.Drawing.Color.Gold, false);
-                frMain.ConsoleMessage("\n", System.Drawing.Color.Black, false);
+                ApplicationForms.MainWindow.ConsoleError(e.Error.Message);
+                ApplicationForms.MainWindow.ConsoleMessage("Build failed: ", System.Drawing.Color.DarkRed);
+                ApplicationForms.MainWindow.ConsoleMessage("1 error ", System.Drawing.Color.Red, false);
+                ApplicationForms.MainWindow.ConsoleMessage(e.Warnings.Count.ToString() + " warnings", System.Drawing.Color.Gold, false);
+                ApplicationForms.MainWindow.ConsoleMessage("\n", System.Drawing.Color.Black, false);
             };
             TableRebuilding += (s, e) => { };
         }
@@ -248,9 +248,9 @@ namespace LuaScriptConstructor.Types
         /// <returns><Build success/returns>
         public bool Build(Forms.ConstructorDiagram diagram)
         {
-            frMain.ConsoleMessage("Building \"", System.Drawing.Color.LimeGreen);
-            frMain.ConsoleMessage(this.Name, System.Drawing.Color.Green, false);
-            frMain.ConsoleMessage("\" function...\n", System.Drawing.Color.LimeGreen, false);
+            ApplicationForms.MainWindow.ConsoleMessage("Building \"", System.Drawing.Color.LimeGreen);
+            ApplicationForms.MainWindow.ConsoleMessage(this.Name, System.Drawing.Color.Green, false);
+            ApplicationForms.MainWindow.ConsoleMessage("\" function...\n", System.Drawing.Color.LimeGreen, false);
 
             List<string> warnings = new List<string>();
 

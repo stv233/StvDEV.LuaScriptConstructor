@@ -62,7 +62,7 @@ namespace LuaScriptConstructor
 
             if (argsList.Contains("-greeting")) // Greeting form.
             {
-                new frGreeting().ShowDialog();
+                new ApplicationForms.GreetingDialog().ShowDialog();
                 argsList.RemoveAll(new Predicate<string>((delegate (string x) { return x == "-greeting"; })));
             }
 
@@ -101,13 +101,13 @@ namespace LuaScriptConstructor
 
             Components.Components.FillComponents();
 
-            Application.Run(new frMain((argsList.Count > 0) ? argsList[0] : ""));
+            Application.Run(new ApplicationForms.MainWindow((argsList.Count > 0) ? argsList[0] : ""));
 
             while(Restart)
             {
                 Restart = false;
                 LoadScreen.Show();
-                new frMain("").ShowDialog();
+                new ApplicationForms.MainWindow("").ShowDialog();
             }
         }
     }

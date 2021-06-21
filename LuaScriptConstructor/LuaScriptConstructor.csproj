@@ -114,19 +114,19 @@
     <Compile Include="Forms\Rendering\ConctructorTableRender.cs" />
     <Compile Include="Forms\Rendering\ConstructorMenuStripRender.cs" />
     <Compile Include="Forms\Rendering\ConstructorToolStripRender.cs" />
-    <Compile Include="frGreeting.cs">
+    <Compile Include="ApplicationForms\GreetingDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frMain.cs">
+    <Compile Include="ApplicationForms\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Components\MathematicalComponents.cs" />
-    <Compile Include="frSettings.cs">
+    <Compile Include="ApplicationForms\SettingsWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LoadScreen.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="ProjectDialog.cs">
+    <Compile Include="ApplicationForms\ProjectDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Projects.cs" />

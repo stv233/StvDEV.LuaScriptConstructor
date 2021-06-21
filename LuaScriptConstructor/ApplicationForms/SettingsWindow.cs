@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace LuaScriptConstructor
+namespace LuaScriptConstructor.ApplicationForms
 {
     /// <summary>
     /// User settings form.
     /// </summary>
-    class frSettings : System.Windows.Forms.Form
+    class SettingsWindow : System.Windows.Forms.Form
     {
-        public frSettings()
+        public SettingsWindow()
         {
             this.Text = "Settings";
             this.AutoScroll = true;

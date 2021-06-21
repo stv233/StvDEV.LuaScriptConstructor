@@ -5,9 +5,9 @@ using System.Windows.Forms;
 using LuaScriptConstructor.Forms;
 using System.IO;
 
-namespace LuaScriptConstructor
+namespace LuaScriptConstructor.ApplicationForms
 {
-    public partial class frMain : Form
+    public partial class MainWindow : Form
     {
         private static string _status = "";
         private Forms.ConstructorTreeView.ConstructorTreeView ctvMain;
@@ -85,7 +85,7 @@ namespace LuaScriptConstructor
         /// </summary>
         private Dictionary<string, Types.Function> projectFunctions { get; set; }
 
-        public frMain(string arg)
+        public MainWindow(string arg)
         {
 
             #region /// Initialization
@@ -1434,7 +1434,7 @@ namespace LuaScriptConstructor
 
             tsmiSettings.Click += (s, e) =>
             {
-                new frSettings().ShowDialog();
+                new SettingsWindow().ShowDialog();
             };
 
             tsmiInstallLibrary.Click += (s, e) =>
@@ -1883,9 +1883,9 @@ namespace LuaScriptConstructor
         {
             string scriptName = Path.GetFileNameWithoutExtension(path);
 
-            frMain.ConsoleMessage("Building \"", System.Drawing.Color.LimeGreen);
-            frMain.ConsoleMessage(scriptName, System.Drawing.Color.Green, false);
-            frMain.ConsoleMessage("\" script...\n", System.Drawing.Color.LimeGreen, false);
+            MainWindow.ConsoleMessage("Building \"", System.Drawing.Color.LimeGreen);
+            MainWindow.ConsoleMessage(scriptName, System.Drawing.Color.Green, false);
+            MainWindow.ConsoleMessage("\" script...\n", System.Drawing.Color.LimeGreen, false);
 
             string file = "Include('StvDEVScriptConstructor.bin')\n";
 
@@ -1893,9 +1893,9 @@ namespace LuaScriptConstructor
             {
                 if (!function.Build(function.Diagram))
                 {
-                    frMain.ConsoleMessage("Build failed: ", System.Drawing.Color.DarkRed);
-                    frMain.ConsoleMessage("script build faild on function ", System.Drawing.Color.Red, false);
-                    frMain.ConsoleMessage(function.Name + "\n", System.Drawing.Color.DarkRed, false);
+                    MainWindow.ConsoleMessage("Build failed: ", System.Drawing.Color.DarkRed);
+                    MainWindow.ConsoleMessage("script build faild on function ", System.Drawing.Color.Red, false);
+                    MainWindow.ConsoleMessage(function.Name + "\n", System.Drawing.Color.DarkRed, false);
                     return;
                 }
                 file += function.Code;
@@ -1912,9 +1912,9 @@ namespace LuaScriptConstructor
 
             File.WriteAllText(path, file);
 
-            frMain.ConsoleMessage("Build successful: ", System.Drawing.Color.LimeGreen);
-            frMain.ConsoleMessage(path, System.Drawing.Color.Green, false);
-            frMain.ConsoleMessage(" was successfully built\n", System.Drawing.Color.LimeGreen, false);
+            MainWindow.ConsoleMessage("Build successful: ", System.Drawing.Color.LimeGreen);
+            MainWindow.ConsoleMessage(path, System.Drawing.Color.Green, false);
+            MainWindow.ConsoleMessage(" was successfully built\n", System.Drawing.Color.LimeGreen, false);
 
         }
 

@@ -7,11 +7,11 @@ using System.Windows.Forms;
 using System.Drawing;
 using Microsoft.Win32;
 
-namespace LuaScriptConstructor
+namespace LuaScriptConstructor.ApplicationForms
 {
-    class frGreeting : Form
+    class GreetingDialog : Form
     {
-        public frGreeting()
+        public GreetingDialog()
         {
             #region /// Initialization
 
