@@ -338,3 +338,7 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+# Setup files
+*.msi
+LuaScriptConstructorInstaller/LuaScriptConstructorInstaller-SetupFiles

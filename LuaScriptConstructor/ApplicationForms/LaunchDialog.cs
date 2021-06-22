@@ -24,7 +24,7 @@ namespace LuaScriptConstructor
         Label lbUpdate;
         Button btInstallUpdate;
         Button btDownloadUpdate;
-        string updateLink = "";
+        string updateLink = "https://github.com/stv233/LuaScriptConstructor/blob/master/LuaScriptConstructor/Version?raw=true";
         string updateContent = "";
         string updaterName = Program.AppDataPath + "LSC.updt";
 
