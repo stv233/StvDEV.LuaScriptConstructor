@@ -726,11 +726,15 @@ namespace LuaScriptConstructor.Forms
                     {
                         table.BackColor = ((Types.Variable)table.Owner).Table.BackColor;
                         table.GradientColor = ((Types.Variable)table.Owner).Table.GradientColor;
+                        table.Forecolor = ((Types.Variable)table.Owner).Table.Forecolor;
+                        table.BorderColor = table.Forecolor;
                     }
                     catch
                     {
                         table.BackColor = new Types.Variable().Table.BackColor;
                         table.GradientColor = new Types.Variable().Table.GradientColor;
+                        table.Forecolor = new Types.Variable().Table.Forecolor;
+                        table.BorderColor = table.Forecolor;
                     }
                 }
                 else
@@ -739,11 +743,15 @@ namespace LuaScriptConstructor.Forms
                     {
                         table.BackColor = table.Owner.Table.BackColor;
                         table.GradientColor = table.Owner.Table.GradientColor;
+                        table.Forecolor = table.Owner.Table.Forecolor;
+                        table.BorderColor = table.Forecolor;
                     }
                     catch
                     {
                         table.BackColor = new Types.Constant().Table.BackColor;
                         table.GradientColor = new Types.Constant().Table.GradientColor;
+                        table.Forecolor = new Types.Constant().Table.Forecolor;
+                        table.BorderColor = table.Forecolor;
                     }
                 }
 

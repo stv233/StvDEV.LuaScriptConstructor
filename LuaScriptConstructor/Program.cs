@@ -151,7 +151,6 @@ namespace LuaScriptConstructor
 
             Application.Run(new ApplicationForms.MainWindow((argsList.Count > 0) ? argsList[0] : ""));
 
-
             while (Restart)
             {
                 Restart = false;

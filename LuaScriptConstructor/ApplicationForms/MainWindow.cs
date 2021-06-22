@@ -1697,7 +1697,7 @@ namespace LuaScriptConstructor.ApplicationForms
                         diagram.Refresh();
                     }
                 }
-                else if (table.Type == Shapes.ConstructorTable.ConstructorTableTypes.Variable)
+                else if ((table.Type == Shapes.ConstructorTable.ConstructorTableTypes.Variable) || (table.Type == Shapes.ConstructorTable.ConstructorTableTypes.Constant))
                 {
                     if ((table.SubHeading.Contains("Argument")) || (table.SubHeading.Contains("Return")))
                     {
@@ -1705,7 +1705,7 @@ namespace LuaScriptConstructor.ApplicationForms
                         {
                             table.Variable = Components.FunctionComponents.Variables["Argument"];
                             table.BackColor = table.GradientColor = table.Variable.Table.BackColor;
-                            table.BackColor = table.GradientColor = table.Variable.Table.BackColor;
+                            //table.BackColor = table.GradientColor = table.Variable.Table.BackColor;
                             table.Forecolor = table.BorderColor = table.Variable.Table.Forecolor;
                         }
                         else
@@ -1714,6 +1714,12 @@ namespace LuaScriptConstructor.ApplicationForms
                             table.BackColor = table.GradientColor = table.Variable.Table.BackColor;
                             table.Forecolor = table.BorderColor = table.Variable.Table.Forecolor;
                         }
+                        diagram.Refresh();
+                    }
+                    else
+                    {
+                        table.Forecolor = new Types.Constant().Table.Forecolor;
+                        table.BorderColor = table.Forecolor;
                         diagram.Refresh();
                     }
 
