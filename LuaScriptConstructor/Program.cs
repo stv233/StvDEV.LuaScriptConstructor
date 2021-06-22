@@ -9,8 +9,12 @@ namespace LuaScriptConstructor
     static class Program
     {
         private static string _appDataPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + "\\StvDEV.PRO\\ScriptConstructor\\";
-        private static bool _readyToStart = false;
+        private static bool _abort = false;
+        private static System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
+        /// <summary>
+        /// Returns the path to the program data folder.
+        /// </summary>
         public static string AppDataPath
         {
             get
@@ -19,26 +23,57 @@ namespace LuaScriptConstructor
             }
         }
 
+        /// <summary>
+        /// Returns the program title.
+        /// </summary>
         public static string Title
         {
             get
             {
-                System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
-                return (assembly.GetCustomAttributes(typeof(System.Reflection.AssemblyTitleAttribute), true).SingleOrDefault() as System.Reflection.AssemblyTitleAttribute)
-                    .Title + " " + assembly.GetName().Version;
+                return Name + " " + Version;
             }
         }
-        public static bool Restart { get; set; }
 
-        public static bool ReadyToStart
+        /// <summary>
+        /// Returns the program name.
+        /// </summary>
+        public static string Name
         {
             get
             {
-                return _readyToStart;
+                return (assembly.GetCustomAttributes(typeof(System.Reflection.AssemblyTitleAttribute), true).SingleOrDefault() as System.Reflection.AssemblyTitleAttribute)
+                    .Title;
+            }
+        }
+
+        /// <summary>
+        /// Returns the program version.
+        /// </summary>
+        public static Version Version
+        {
+            get
+            {
+                return assembly.GetName().Version;
+            }
+        }
+
+        /// <summary>
+        /// Returns or sets whether to restart the main program window.
+        /// </summary>
+        public static bool Restart { get; set; }
+
+        /// <summary>
+        /// Returns or sets whether to abort the program download.
+        /// </summary>
+        public static bool Abort
+        {
+            get
+            {
+                return _abort;
             }
             set
             {
-                _readyToStart = value;
+                _abort = value;
             }
         }
 
@@ -108,11 +143,16 @@ namespace LuaScriptConstructor
 
             #endregion
 
+            if (Abort) { return; }
+
             Components.Components.FillComponents();
+
+            if (Abort) { return; }
 
             Application.Run(new ApplicationForms.MainWindow((argsList.Count > 0) ? argsList[0] : ""));
 
-            while(Restart)
+
+            while (Restart)
             {
                 Restart = false;
                 LoadScreen.Show();
