@@ -377,18 +377,18 @@ namespace LuaScriptConstructor.Forms
             };
             cmsMenu.Items.Add(tsmiDelete);
 
-            var tsmiSave = new ToolStripMenuItem("Save...");
-            tsmiSave.Click += (s, e) =>
-            {
-                using (var sfd = new SaveFileDialog())
-                {
-                    if (sfd.ShowDialog() == DialogResult.OK)
-                    {
-                        System.IO.File.WriteAllText(sfd.FileName, this.SerializeToString());
-                    }
-                }
-            };
-            cmsMenu.Items.Add(tsmiSave);
+            //var tsmiSave = new ToolStripMenuItem("Save...");
+            //tsmiSave.Click += (s, e) =>
+            //{
+            //    using (var sfd = new SaveFileDialog())
+            //    {
+            //        if (sfd.ShowDialog() == DialogResult.OK)
+            //        {
+            //            System.IO.File.WriteAllText(sfd.FileName, this.SerializeToString());
+            //        }
+            //    }
+            //};
+            //cmsMenu.Items.Add(tsmiSave);
 
             this.ContextMenuStrip = cmsMenu;
 
