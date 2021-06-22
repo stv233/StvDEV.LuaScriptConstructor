@@ -102,10 +102,10 @@ namespace LuaScriptConstructor.ApplicationForms
             {
                 UserSettings.Location = this.Location;
             };
-            this.Text = Application.ProductName;
             this.BackColor = UserSettings.ColorScheme.MainColor;
             this.ForeColor = UserSettings.ColorScheme.ForeColor;
             this.Icon = Properties.Resources.ico;
+            UpdateFormTitle();
 
             #endregion
 
@@ -1313,7 +1313,7 @@ namespace LuaScriptConstructor.ApplicationForms
                 ConsoleMessage(Application.ProductName + " is loaded and ready to go\n", System.Drawing.Color.Blue);
                 LoadScreen.Close();
                 this.Activate();
-                this.Text = Application.ProductName + " - " + Path.GetFileName(projectPath);
+                UpdateFormTitle();
             };
 
             tcMain.SelectedIndexChanged += (s, e) =>
@@ -1338,7 +1338,7 @@ namespace LuaScriptConstructor.ApplicationForms
                 }
                 else
                 {
-                    this.Text = Application.ProductName + " - " + Path.GetFileName(projectPath);
+                    UpdateFormTitle();
                     Save(projectPath);
                 }
             };
@@ -1803,7 +1803,7 @@ namespace LuaScriptConstructor.ApplicationForms
                 }
                 Status = "Save completed";
                 projectPath = path;
-                this.Text = Application.ProductName + " - " + Path.GetFileName(projectPath);
+                UpdateFormTitle();
                 Projects.Update(path);
             }
             catch (Exception e)
@@ -1863,7 +1863,7 @@ namespace LuaScriptConstructor.ApplicationForms
                 ConstructorConsole.ClearOutput();
                 ConsoleMessage("Project " + path + " loaded and ready to go\n", System.Drawing.Color.Blue);
                 projectPath = path;
-                this.Text = Application.ProductName + " - " + Path.GetFileName(projectPath);
+                UpdateFormTitle();
                 Projects.Update(path);
             }
             catch (Exception e)
@@ -2077,6 +2077,14 @@ namespace LuaScriptConstructor.ApplicationForms
             }
 
             return value;
+        }
+
+        /// <summary>
+        /// Updates form title.
+        /// </summary>
+        private void UpdateFormTitle()
+        {
+            this.Text = Program.Title + ((!String.IsNullOrEmpty(projectPath)) ? " - " + Path.GetFileName(projectPath) : "");
         }
     }
 }
