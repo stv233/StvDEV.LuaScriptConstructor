@@ -1600,15 +1600,18 @@ namespace LuaScriptConstructor.ApplicationForms
         {
             foreach (DiagramTabPage tabPage in tcMain.TabPages)
             {
-                if (projectFunctions.ContainsKey(tabPage.Text.Replace(" ","_")))
+                if ((projectFunctions.ContainsKey(tabPage.Text.Replace(" ","_"))) || (tabPage.Text == "Main"))
                 {
-                    var function = projectFunctions[tabPage.Text.Replace(" ", "_")];
-                    function.Diagram = tabPage.Diagram;
-                    tabPage.TextChanged += (s, e) =>
+                    if (!(tabPage.Text == "Main"))
                     {
-                        function.Name = tabPage.Text.Replace(" ", "_");
-                        RefreshProjectFunction();
-                    };
+                        var function = projectFunctions[tabPage.Text.Replace(" ", "_")];
+                        function.Diagram = tabPage.Diagram;
+                        tabPage.TextChanged += (s, e) =>
+                        {
+                            function.Name = tabPage.Text.Replace(" ", "_");
+                            RefreshProjectFunction();
+                        };
+                    }  
                     tabPage.Diagram.OnTakeSnapshot += (s, e) =>
                     {
                         ReconnectDiagramTables(tabPage.Diagram);
