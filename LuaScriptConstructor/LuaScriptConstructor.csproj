@@ -235,6 +235,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ico.ico" />
+    <None Include="Version" />
     <None Include="Resources\StatusCriticalError_16x.png" />
     <None Include="Resources\InProgress_128x.gif" />
     <None Include="Resources\Loading.gif" />
