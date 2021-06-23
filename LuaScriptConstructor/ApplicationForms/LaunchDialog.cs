@@ -197,7 +197,11 @@ namespace LuaScriptConstructor
 
             this.Load += async (s, e) =>
             {
-                await CheckForUpdates();
+                try
+                {
+                    await CheckForUpdates();
+                }
+                catch { }
             };
 
             btDownloadUpdate.Click += async (s, e) =>

@@ -1950,7 +1950,7 @@ namespace Crainiate.Diagramming.Forms
             return new PointF(offset.X - (rectangle.Width / 2), offset.Y - (rectangle.Height / 2));
         }
 
-        private void AlignElementLocations(ElementList actions)
+        protected void AlignElementLocations(ElementList actions)
         {
             foreach (Element element in actions)
             {

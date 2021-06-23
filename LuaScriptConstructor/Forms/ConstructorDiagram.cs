@@ -754,7 +754,9 @@ namespace LuaScriptConstructor.Forms
                         table.BorderColor = table.Forecolor;
                     }
                 }
-
+                var elementList = new Crainiate.Diagramming.ElementList(true);
+                elementList.Add(element);
+                AlignElementLocations(elementList);
             }
             base.OnElementInserted(element);
         }

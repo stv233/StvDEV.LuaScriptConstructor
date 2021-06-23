@@ -209,6 +209,9 @@ namespace LuaScriptConstructor.Shapes
             }
         }
 
+        /// <summary>
+        /// Table location.
+        /// </summary>
         public override PointF Location
         {
             get
@@ -304,6 +307,7 @@ namespace LuaScriptConstructor.Shapes
                     clone.BorderStyle = tablePort.BorderStyle;
                     Ports.Add(port.Key, clone);
                     clone.Location = tablePort.Location;
+                    clone.Rotation = tablePort.Rotation;
                     LocatePort(clone);
                 }
                 else
@@ -412,6 +416,17 @@ namespace LuaScriptConstructor.Shapes
                 Function.Diagram.Resume();
             }
 
+        }
+
+        /// <summary>
+        /// Calls the LocatePort of all ports in the table.
+        /// </summary>
+        public void LocatePorts()
+        {
+            foreach(Port port in Ports.Values)
+            {
+                LocatePort(port);
+            }
         }
 
         /// <summary>
