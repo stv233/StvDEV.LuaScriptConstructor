@@ -377,18 +377,27 @@ namespace LuaScriptConstructor.Forms
             };
             cmsMenu.Items.Add(tsmiDelete);
 
-            var tsmiSave = new ToolStripMenuItem("Save...");
-            tsmiSave.Click += (s, e) =>
+            if (Program.DeveloperMode)
             {
-                using (var sfd = new SaveFileDialog())
+                var tsmiSave = new ToolStripMenuItem
                 {
-                    if (sfd.ShowDialog() == DialogResult.OK)
+                    Text = "[Developer mode] Save graph...",
+                    Image = Properties.Resources.Save_16x,
+                    BackColor = UserSettings.ColorScheme.MainColor,
+                    ForeColor = UserSettings.ColorScheme.ForeColor,
+                };
+                tsmiSave.Click += (s, e) =>
+                {
+                    using (var sfd = new SaveFileDialog())
                     {
-                        System.IO.File.WriteAllText(sfd.FileName, this.SerializeToString());
+                        if (sfd.ShowDialog() == DialogResult.OK)
+                        {
+                            System.IO.File.WriteAllText(sfd.FileName, this.SerializeToString());
+                        }
                     }
-                }
-            };
-            cmsMenu.Items.Add(tsmiSave);
+                };
+                cmsMenu.Items.Add(tsmiSave);
+            }
 
             this.ContextMenuStrip = cmsMenu;
 

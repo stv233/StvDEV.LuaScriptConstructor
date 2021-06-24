@@ -10,6 +10,7 @@ namespace LuaScriptConstructor
     {
         private static string _appDataPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + "\\StvDEV.PRO\\ScriptConstructor\\";
         private static bool _abort = false;
+        private static bool _devMode = false;
         private static System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
         /// <summary>
@@ -78,6 +79,17 @@ namespace LuaScriptConstructor
         }
 
         /// <summary>
+        /// Returns whether the program is running in developer mode.
+        /// </summary>
+        public static bool DeveloperMode
+        {
+            get
+            {
+                return _devMode;
+            }
+        }
+
+        /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>
         [STAThread]
@@ -108,6 +120,12 @@ namespace LuaScriptConstructor
             {
                 new ApplicationForms.GreetingDialog().ShowDialog();
                 argsList.RemoveAll(new Predicate<string>((delegate (string x) { return x == "-greeting"; })));
+            }
+
+            if (argsList.Contains("-devmode")) // Developer mode
+            {
+                _devMode = true;
+                argsList.RemoveAll(new Predicate<string>((delegate (string x) { return x == "-devmode"; })));
             }
 
             #endregion
