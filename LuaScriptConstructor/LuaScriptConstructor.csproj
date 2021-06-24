@@ -96,6 +96,7 @@
     <Compile Include="Components\GlobalComponents\Zones.cs" />
     <Compile Include="Components\LogicalComponents.cs" />
     <Compile Include="Components\ScriptСomponents.cs" />
+    <Compile Include="Components\StringComponents.cs" />
     <Compile Include="Components\TriggerComponents\Player.cs" />
     <Compile Include="Components\TypesComponents.cs" />
     <Compile Include="Components\ValuesComponents.cs" />
@@ -168,6 +169,8 @@
     <None Include="Resources\2in0out" />
     <None Include="Resources\2in1out" />
     <None Include="Resources\3in0out" />
+    <None Include="Resources\3in1out" />
+    <None Include="Resources\3in2out" />
     <None Include="Resources\4in0out" />
     <None Include="Resources\5in0out" />
     <None Include="Resources\7in0out" />

@@ -286,6 +286,12 @@
   <data name="_3in0out" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\3in0out;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="_3in1out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\3in1out;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_3in2out" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\3in2out;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="_4in0out" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\4in0out;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

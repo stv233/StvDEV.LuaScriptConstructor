@@ -124,6 +124,16 @@ namespace LuaScriptConstructor.Components
 
             #endregion;
 
+            #region /// String
+
+            _constants = _constants.Concat(StringComponents.Constants).ToDictionary(x => x.Key, x => x.Value);
+
+            _variables = _variables.Concat(StringComponents.Variables).ToDictionary(x => x.Key, x => x.Value);
+
+            _functions = _functions.Concat(StringComponents.Functions).ToDictionary(x => x.Key, x => x.Value);
+
+            #endregion;
+
             #region /// Values
 
             _constants = _constants.Concat(ValuesComponents.Constants).ToDictionary(x => x.Key, x => x.Value);

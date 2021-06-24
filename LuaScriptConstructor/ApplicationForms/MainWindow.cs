@@ -852,6 +852,25 @@ namespace LuaScriptConstructor.ApplicationForms
 
             #endregion
 
+            #region /// String
+
+            foreach (Types.Constant constant in Components.StringComponents.Constants.Values)
+            {
+                ctvMain.Add("Basic\\Types\\String", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
+            }
+
+            foreach (Types.Constant constant in Components.StringComponents.Variables.Values)
+            {
+                ctvMain.Add("Basic\\Types\\String", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
+            }
+
+            foreach (Types.Constant constant in Components.StringComponents.Functions.Values)
+            {
+                ctvMain.Add("Basic\\Types\\String", new Forms.ConstructorTreeView.ConstructorTreeNode(constant));
+            }
+
+            #endregion
+
             #region /// Function components
 
             foreach (Types.Variable variable in Components.FunctionComponents.Constants.Values)
