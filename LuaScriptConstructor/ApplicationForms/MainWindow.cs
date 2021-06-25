@@ -1836,7 +1836,8 @@ namespace LuaScriptConstructor.ApplicationForms
             }
             catch (Exception e)
             {
-                MessageBox.Show("Failed to save.\n" + e.Message, "Filed to save!",
+                MessageBox.Show("An error occurred while trying to save the file.\n" +
+                    "Internal program exception ->\"" + e.Message + "\"", "Filed to save!",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Status = "Failed to save";
             }
@@ -1896,7 +1897,9 @@ namespace LuaScriptConstructor.ApplicationForms
             }
             catch (Exception e)
             {
-                MessageBox.Show("Failed to open file.\n" + e.Message, "Failed to open file!",
+                MessageBox.Show("An error occurred while trying to open the file." +
+                    " It is possible that the file being opened is corrupted.\n" +
+                    "Internal program exception -> \"" + e.Message + "\"", "Failed to open file!",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Status = "Failed to open file";
             }
