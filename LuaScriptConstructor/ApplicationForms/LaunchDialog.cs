@@ -365,7 +365,7 @@ namespace LuaScriptConstructor
                         btInstallUpdate.Visible = true;
                         btInstallUpdate.Visible = true;
                         btInstallUpdate.ForeColor = this.ForeColor;
-                        lbUpdate.Text = "An update is available for installation";
+                        lbUpdate.Text = "Update is available for installation";
                     }));
                     return;
                 }
@@ -377,7 +377,7 @@ namespace LuaScriptConstructor
                         btDownloadUpdate.Visible = true;
                         btDownloadUpdate.Visible = true;
                         btDownloadUpdate.ForeColor = this.ForeColor;
-                        lbUpdate.Text = "Update available for download";
+                        lbUpdate.Text = "Version " + updateVersion.ToString() + " is available for download";
                     }));
                     return;
                 }

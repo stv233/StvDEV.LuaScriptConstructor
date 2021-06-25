@@ -223,10 +223,10 @@
     <ROW Property="ARPPRODUCTICON" Value="ico.exe" Type="8"/>
     <ROW Property="ARPURLINFOABOUT" Value="stvdev.pro"/>
     <ROW Property="Manufacturer" Value="StvDEV.PRO"/>
-    <ROW Property="ProductCode" Value="1033:{33ECBDF2-2F6F-4232-81C7-853CC0D9EBD1} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{88FAD895-3B65-45FA-80A0-05BB2CFA7873} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="StvDEV Lua Script Constructor"/>
-    <ROW Property="ProductVersion" Value="1.5" Type="32"/>
+    <ROW Property="ProductVersion" Value="1.6" Type="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{F4FB2430-3880-4FDD-862D-D83A50B94F75}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
