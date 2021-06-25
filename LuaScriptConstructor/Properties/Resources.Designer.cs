@@ -423,6 +423,16 @@ namespace LuaScriptConstructor.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap InputOutput_16x {
+            get {
+                object obj = ResourceManager.GetObject("InputOutput_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Library_16x {
             get {
                 object obj = ResourceManager.GetObject("Library_16x", resourceCulture);

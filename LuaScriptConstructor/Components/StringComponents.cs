@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace LuaScriptConstructor.Components
 {
-    class StringComponents
+    /// <summary>
+    /// Represent lua string components.
+    /// </summary>
+    static class StringComponents
     {
         /// <summary>
         /// Constants.

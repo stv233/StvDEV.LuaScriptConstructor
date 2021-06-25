@@ -94,6 +94,7 @@
     <Compile Include="Components\GlobalComponents\Visuals.cs" />
     <Compile Include="Components\GlobalComponents\World.cs" />
     <Compile Include="Components\GlobalComponents\Zones.cs" />
+    <Compile Include="Components\InputOutputComponents.cs" />
     <Compile Include="Components\LogicalComponents.cs" />
     <Compile Include="Components\ScriptСomponents.cs" />
     <Compile Include="Components\StringComponents.cs" />
@@ -238,6 +239,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ico.ico" />
+    <None Include="Resources\InputOutput_16x.png" />
     <None Include="Version" />
     <None Include="Resources\StatusCriticalError_16x.png" />
     <None Include="Resources\InProgress_128x.gif" />
