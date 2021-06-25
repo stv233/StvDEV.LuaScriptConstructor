@@ -474,6 +474,14 @@ namespace LuaScriptConstructor.ApplicationForms
             };
             tsmiInformation.DropDownItems.Add(tsmiUsageGuide);
 
+            var tsmiChangeLog = new ToolStripMenuItem
+            {
+                ForeColor = UserSettings.ColorScheme.ForeColor,
+                Text = "Change Log...",
+                Image = Properties.Resources.InformationSymbol_16x
+            };
+            tsmiInformation.DropDownItems.Add(tsmiChangeLog);
+
             #endregion
 
             #region /// Feedback
@@ -1560,6 +1568,15 @@ namespace LuaScriptConstructor.ApplicationForms
                 File.WriteAllText(Program.AppDataPath + "Usage guide", Properties.Resources.Usage_guide);
                 infoEditor.Open(Program.AppDataPath + "Usage guide");
                 File.Delete(Program.AppDataPath + "Usage guide");
+                infoEditor.Show();
+            };
+
+            tsmiChangeLog.Click += (s, e) =>
+            {
+                var infoEditor = new TextEditor.TextEditor(true) { Icon = System.Drawing.Icon.FromHandle(Properties.Resources.InformationSymbol_16x.GetHicon()) };
+                File.WriteAllText(Program.AppDataPath + "Change Log", Properties.Resources.Change_log);
+                infoEditor.Open(Program.AppDataPath + "Change Log");
+                File.Delete(Program.AppDataPath + "Change Log");
                 infoEditor.Show();
             };
 

@@ -175,6 +175,7 @@
     <None Include="Resources\4in0out" />
     <None Include="Resources\5in0out" />
     <None Include="Resources\7in0out" />
+    <None Include="Resources\Change log.rtf" />
     <None Include="Resources\GameGuru Global variables.rtf" />
     <None Include="Resources\GameGuru Scancodes.rtf" />
     <None Include="Resources\Menu guide.rtf" />

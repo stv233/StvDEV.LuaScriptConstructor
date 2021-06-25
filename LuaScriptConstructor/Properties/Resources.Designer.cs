@@ -231,6 +231,22 @@ namespace LuaScriptConstructor.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на {\rtf1\ansi\ansicpg1251\deff0\nouicompat\deflang1049{\fonttbl{\f0\fnil\fcharset0 Microsoft Sans Serif;}{\f1\fnil\fcharset204 Microsoft Sans Serif;}}
+        ///{\colortbl ;\red0\green0\blue160;\red0\green0\blue128;\red0\green0\blue255;}
+        ///{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+        ///\pard\cf1\b\f0\fs84\lang1033 StvDev Lua Script Constructor\cf0\b0\fs17\par
+        ///\cf2\b\fs52 Change log\cf0\b0\fs17\par
+        ///\par
+        ///\cf3\b\i\f1\fs28\lang1049 1.6\cf0\b0\i0\f0\fs17\lang1033\par
+        ///\f1\fs28\lang1049 -Added a library for working wi [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string Change_log {
+            get {
+                return ResourceManager.GetString("Change_log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Close_16x {
