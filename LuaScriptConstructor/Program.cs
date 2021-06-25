@@ -132,9 +132,9 @@ namespace LuaScriptConstructor
 
             #region /// Projects
 
+            Projects.LoadProjects(AppDataPath + "Projects.list");
             if (!(argsList.Count > 0))
-            {
-                Projects.LoadProjects(AppDataPath + "Projects.list");
+            {    
                 var pdProjects = new ProjectDialog
                 {
                     Icon = Properties.Resources.ico,
