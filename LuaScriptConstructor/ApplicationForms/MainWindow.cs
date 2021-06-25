@@ -477,7 +477,7 @@ namespace LuaScriptConstructor.ApplicationForms
             var tsmiChangeLog = new ToolStripMenuItem
             {
                 ForeColor = UserSettings.ColorScheme.ForeColor,
-                Text = "Change Log...",
+                Text = "Change log...",
                 Image = Properties.Resources.InformationSymbol_16x
             };
             tsmiInformation.DropDownItems.Add(tsmiChangeLog);
