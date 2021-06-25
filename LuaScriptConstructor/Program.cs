@@ -133,6 +133,18 @@ namespace LuaScriptConstructor
             #region /// Projects
 
             Projects.LoadProjects(AppDataPath + "Projects.list");
+            List<string> toRemove = new List<string>();
+            foreach(var project in Projects.List)
+            {
+                if (!System.IO.File.Exists(project))
+                {
+                    toRemove.Add(project);
+                }
+            }
+            foreach(var project in toRemove)
+            {
+                Projects.Remove(project);
+            }
             if (!(argsList.Count > 0))
             {    
                 var pdProjects = new ProjectDialog

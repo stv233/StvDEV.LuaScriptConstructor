@@ -83,6 +83,7 @@ namespace LuaScriptConstructor
                 projects = new Stack<string>(tempList);
             }
             SaveProjects(currentPath);
+            LoadProjects(currentPath);
         }
 
         /// <summary>
