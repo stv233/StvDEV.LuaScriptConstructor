@@ -474,6 +474,9 @@ namespace LuaScriptConstructor.Types
             foreach (Shapes.ConstructorConnector connector in diagram.Connectors.Values)
             {
                 var codeConnector = new codeConnector();
+
+                if ((connector.StartPort == null) && (connector.EndPort == null)) { continue; }
+
                 if (connector.StartPort != null)
                 {
                     codeConnector.StartPort = connector.StartPort.ToString();
@@ -507,7 +510,15 @@ namespace LuaScriptConstructor.Types
                     }
                     if (codeConnector.StartPort.Contains(startPort))
                     {
-                        currentTable = diagram.Tables[codeConnector.EndShape];
+                        try
+                        {
+                            currentTable = diagram.Tables[codeConnector.EndShape];
+                        }
+                        catch(System.ArgumentNullException)
+                        {
+                            throw new Exception("Sequence pointer at function start cannot lead to empty value. " +
+                                "Probably the connector attached to the beginning of the function is not attached to the next element.");
+                        }
                         break;
                     }
                 }
@@ -573,12 +584,19 @@ namespace LuaScriptConstructor.Types
             bool comma = false;
             foreach (codeConnector codeConnector in codeConnectors)
             {
-                if (codeConnector.EndPort.Contains("functionreturn"))
+                try
                 {
-                    Shapes.ConstructorTable returnTable = diagram.Tables[codeConnector.EndShape];
-                    if (comma) { code += ","; }
-                    FillTable(diagram, ref warnings, ref returnTable, ref code, codeConnectors, fillTableTypes.Return);
-                    comma = true;
+                    if (codeConnector.EndPort.Contains("functionreturn"))
+                    {
+                        Shapes.ConstructorTable returnTable = diagram.Tables[codeConnector.EndShape];
+                        if (comma) { code += ","; }
+                        FillTable(diagram, ref warnings, ref returnTable, ref code, codeConnectors, fillTableTypes.Return);
+                        comma = true;
+                    }
+                }
+                catch
+                {
+                    throw new Exception("A connector attached to a function cannot lead to an empty value.");
                 }
             }
 
@@ -622,12 +640,20 @@ namespace LuaScriptConstructor.Types
                     {
                         if (codeConnector.EndPort == port.ToString())
                         {
-                            if (!diagram.Tables.ContainsKey(codeConnector.StartShape))
+                            try
                             {
-                                throw new Exception("A connector that does not lead to a value is connected to the argument of the " + table.Heading + " function.");
+                                if (!diagram.Tables.ContainsKey(codeConnector.StartShape))
+                                {
+                                    throw new Exception("A connector that does not lead to a value is connected to the argument of the " + table.Heading + " function.");
+                                }
+                                argumentTable = diagram.Tables[codeConnector.StartShape];
+                                returnConnector = codeConnector.StartPort;
                             }
-                            argumentTable = diagram.Tables[codeConnector.StartShape];
-                            returnConnector = codeConnector.StartPort;
+                            catch
+                            {
+                                throw new Exception("The value passed to the " + table.Heading + " function cannot be empty." +
+                                    "Probably the connector attached to the arguments of the " + table.Heading + " function does not lead to a value.");
+                            }
                             break;
                         }
                     }
@@ -645,7 +671,14 @@ namespace LuaScriptConstructor.Types
                             FillTable(diagram, ref warnings, ref argumentTable, ref code, codeConnectors);
                         }
 
-                        table.ArgumentsValues[port.Key] = argumentTable.RetrurnsValues[returnConnector];
+                        try
+                        {
+                            table.ArgumentsValues[port.Key] = argumentTable.RetrurnsValues[returnConnector];
+                        }
+                        catch
+                        {
+                            throw new Exception("Wrong order of receiving the argument. Probably, the function argument gets its value from the same function.");
+                        }
                     }
                     else
                     {
