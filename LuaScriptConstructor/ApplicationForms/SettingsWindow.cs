@@ -157,7 +157,7 @@ namespace LuaScriptConstructor.ApplicationForms
 
             pnAutoSnapshots.Resize += (s, e) =>
             {
-                cbSnapshots.Width = lbAutoSnapshotsTitle.ClientSize.Width - 20 - lbAutoSnapshotsTitle.Width;
+                //cbSnapshots.Width = lbAutoSnapshotsTitle.ClientSize.Width - 20 - lbAutoSnapshotsTitle.Width;
             };
 
             #endregion
