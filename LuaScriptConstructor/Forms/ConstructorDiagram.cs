@@ -261,10 +261,7 @@ namespace LuaScriptConstructor.Forms
             set
             {
                 _heading = value;
-                if (HeadingChanged != null)
-                {
-                    HeadingChanged(this, new DiagramEventArgs(this));
-                }
+                HeadingChanged?.Invoke(this, new DiagramEventArgs(this));
 
             }
         }

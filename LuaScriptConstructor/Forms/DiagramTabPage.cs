@@ -67,8 +67,8 @@ namespace LuaScriptConstructor.Forms
             _diagram.HeadingChanged += (s, e) =>
             {
                 this.Text = _diagram.Heading;
-            }
-            ;
+                
+            };
             #endregion
 
             #region /// Events

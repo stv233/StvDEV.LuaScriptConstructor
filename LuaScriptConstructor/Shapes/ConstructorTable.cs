@@ -397,6 +397,9 @@ namespace LuaScriptConstructor.Shapes
                             newPort.Orientation = port.Orientation;
                             newPort.Direction = port.Direction;
                             newPort.Style = port.Style;
+                            newPort.BackColor = UserSettings.ColorScheme.MainColor;
+                            newPort.GradientColor = UserSettings.ColorScheme.MainColor;
+                            newPort.BorderColor = UserSettings.ColorScheme.ForeColor;
                             this.Ports.Add(newPort);
                         }
                     }

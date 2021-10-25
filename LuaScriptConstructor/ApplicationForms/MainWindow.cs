@@ -1808,6 +1808,7 @@ namespace LuaScriptConstructor.ApplicationForms
             function.AccessType = Types.Variable.VariableAccessTypes.InputOutput;
             function.Description = "User function";
             function.Diagram = tabPage.Diagram;
+            function.Diagram.HeadingChanged += (s, e) => { function.Name = e.Diagram.Heading.Replace(" ", "_"); };
             projectFunctions[tabPage.Name] = function;
             tcMain.TabPages.Add(tabPage);
             tcMain.SelectedTab = tabPage;
